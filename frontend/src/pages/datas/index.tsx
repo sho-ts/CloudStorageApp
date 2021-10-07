@@ -2,12 +2,12 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Layout } from '@/components/templates';
 
-const Home: NextPage = () => {
+const Datas: NextPage = () => {
   return (
     <Layout>
-      test
+      this is datas page
     </Layout>
   )
 }
 
-export default Home
+export default Datas
