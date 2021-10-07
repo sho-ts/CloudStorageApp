@@ -1,7 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { Provider as ReduxProvider } from 'react-redux';
 import AuthProvider from './AuthProvider';
-import store from '../stores';
+import store from '@/stores';
 
 type Props = {
   children: React.ReactNode
