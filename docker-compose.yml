@@ -1,0 +1,35 @@
+version: "3"
+
+services: 
+  proxy:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./proxy/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./proxy/nginx/log:/var/log/nginx
+    depends_on: 
+      - api
+      - app
+
+  api:
+    image: node:14.17.6-alpine3.11
+    working_dir: /api
+    volumes:
+      - ./backend:/api
+    stdin_open: true
+    tty: true
+    ports:
+      - 3001:3000
+
+  app:
+    image: node:14.17.6-alpine3.11
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    stdin_open: true
+    tty: true
+    ports:
+      - 8800:3000
+    depends_on:
+      - api
