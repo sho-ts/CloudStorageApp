@@ -25,3 +25,6 @@ api:
 
 app:
 	docker-compose exec app sh
+
+dev:
+	cd frontend && yarn dev
