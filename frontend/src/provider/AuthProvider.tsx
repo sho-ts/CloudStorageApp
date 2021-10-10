@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/utils/firebase';
 import { useDispatch } from '@/hooks';
@@ -12,18 +12,25 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   const dispatch = useDispatch();
   const [isChecked, setIsChecked] = useState(false);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      dispatch(setSignInState({
-        uid: user.uid,
-        email: user.email,
-        isSignIn: true
-      }))
-      setIsChecked(true)
-    } else {
-      setIsChecked(true)
+  useEffect(() => {
+    const unsubsucribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(setSignInState({
+          uid: user.uid,
+          email: user.email,
+          isSignIn: true
+        }))
+        setIsChecked(true)
+      } else {
+        setIsChecked(true)
+      }
+    });
+
+    return () => {
+      unsubsucribe();
     }
-  })
+  }, [dispatch]);
+
 
   return (
     <>
