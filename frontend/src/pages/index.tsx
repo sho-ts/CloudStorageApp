@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Layout } from '@/components/templates';
@@ -7,11 +7,28 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useDispatch, useSelector } from '@/hooks';
 import { setSignInState } from '@/stores/user';
 
-const Home: NextPage = () => {
+export async function getServerSideProps() {
+    const res = await fetch('http://api:3000/test');
+    const json = await res.json();
+  return {
+    props: { json }
+  }
+}
+
+type Props = {
+  json: {
+    id: number,
+    message: string,
+  }
+}
+
+const Home: NextPage<Props> = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
+
+  console.log(props.json);
 
   const signUp = async () => {
     if (!email || !password) return;
