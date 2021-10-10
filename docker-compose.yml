@@ -8,7 +8,7 @@ services:
     volumes:
       - ./proxy/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
       - ./proxy/nginx/log:/var/log/nginx
-    depends_on: 
+    depends_on:
       - api
       - app
 
@@ -21,6 +21,8 @@ services:
     tty: true
     ports:
       - 3001:3000
+    depends_on:
+      - mysql
 
   app:
     image: node:14.17.6-alpine3.11
@@ -33,3 +35,17 @@ services:
       - 8800:3000
     depends_on:
       - api
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    volumes:
+      - ./backend/db:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: database
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      TZ: 'Asia/Tokyo'
+    ports:
+      - 3306:3306
