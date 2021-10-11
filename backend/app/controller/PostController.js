@@ -24,7 +24,7 @@ module.exports = {
 
       if (err) throw err;
 
-      res.json(true);
+      res.json(result);
     });
   },
 
@@ -55,11 +55,23 @@ module.exports = {
 
       if (err) throw err;
 
-      res.json(true);
+      res.json(result);
     });
   },
 
   delete: (req, res) => {
+    const { id } = req.query;
 
+    const sql = `
+      update posts set del_flg = 1
+      where id = ${id};
+    `;
+
+    db.query(sql, (err, result, fields) => {
+
+      if (err) throw err;
+
+      res.json(result);
+    });
   }
 }
