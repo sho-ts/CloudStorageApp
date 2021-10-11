@@ -1,6 +1,3 @@
-.PHONY: api
-.PHONY: app
-
 up:
 	docker-compose up -d
 
