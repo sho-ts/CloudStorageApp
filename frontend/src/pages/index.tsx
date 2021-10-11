@@ -9,7 +9,7 @@ import { setSignInState } from '@/stores/user';
 import config from '@/utils/config';
 
 export async function getServerSideProps() {
-  const res = await fetch(`${config.api}/test`);
+  const res = await fetch(`${config.api}/posts`);
   const json = await res.json();
   return {
     props: { json }
