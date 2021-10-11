@@ -2,7 +2,7 @@ const root = require('app-root-path');
 const db = require(`${root}/app/utils/database/db`);
 
 module.exports = {
-  posts: (req, res) => {
+  index: (req, res) => {
     const sql = 'select * from posts;';
     db.query(sql, (err, result, fields) => {
 
@@ -12,10 +12,10 @@ module.exports = {
     });
   },
 
-  post: (req, res) => {
+  show: (req, res) => {
     const sql = `  
     select * from posts
-      where id = ${req.query.id};
+      where id = ${req.params.id};
     `;
 
     db.query(sql, (err, result, fields) => {
@@ -25,4 +25,16 @@ module.exports = {
       res.json(result.length > 0 ? result[0] : {});
     });
   },
+
+  create: (req, res) => {
+
+  },
+
+  update: (req, res) => {
+
+  },
+
+  delete: (req, res) => {
+
+  }
 }
