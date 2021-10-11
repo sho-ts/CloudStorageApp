@@ -1,77 +1,59 @@
 const root = require('app-root-path');
 const db = require(`${root}/app/utils/database/db`);
+const Post = require(`${root}/app/model/Post`);
 
-module.exports = {
-  index: (req, res) => {
-    const sql = 'select * from posts;';
-
-    db.query(sql, (err, result, fields) => {
-
-      if (err) throw err;
-
+class PostController {
+  static index = async (req, res) => {
+    try {
+      const result = await Post.all();
       res.json(result);
-    });
-  },
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
-  create: (req, res) => {
+  static create = async (req, res) => {
     const { content } = req.body;
 
-    const sql = `
-      insert into posts (content) values ('${content}');
-    `;
-
-    db.query(sql, (err, result, fields) => {
-
-      if (err) throw err;
-
+    try {
+      const result = await Post.create(content);
       res.json(result);
-    });
-  },
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
-  read: (req, res) => {
-    const sql = `  
-      select * from posts
-      where id = ${req.params.id};
-    `;
+  static read = async (req, res) => {
+    try {
+      const result = await Post.find(req.params.id);
+      res.json(result);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
-    db.query(sql, (err, result, fields) => {
-
-      if (err) throw err;
-
-      res.json(result.length > 0 ? result[0] : {});
-    });
-  },
-
-  update: (req, res) => {
+  static update = async (req, res) => {
     const { id } = req.query;
     const { content } = req.body;
 
-    const sql = `
-      update posts set content = '${content}'
-      where id = ${id};
-    `;
-
-    db.query(sql, (err, result, fields) => {
-
-      if (err) throw err;
-
+    try {
+      const result = await Post.update(id, content);
       res.json(result);
-    });
-  },
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
-  delete: (req, res) => {
+  static delete = async (req, res) => {
     const { id } = req.query;
 
-    const sql = `
-      update posts set del_flg = 1
-      where id = ${id};
-    `;
-
-    db.query(sql, (err, result, fields) => {
-
-      if (err) throw err;
-
+    try {
+      const result = await Post.delete(id);
       res.json(result);
-    });
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
+
+module.exports = PostController;
