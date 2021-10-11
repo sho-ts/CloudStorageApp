@@ -2,6 +2,13 @@ const root = require('app-root-path');
 const db = require(`${root}/app/utils/database/db`);
 
 class Post {
+  /**
+   * @param {number} id 
+   */
+  constructor(id) {
+    this.id = id;
+  }
+
   static all = () => {
     return new Promise((resolve, reject) => {
       const sql = 'select * from posts;';
