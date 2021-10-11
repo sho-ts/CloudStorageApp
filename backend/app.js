@@ -1,16 +1,11 @@
+const root = require('app-root-path');
 const express = require('express');
 const cors = require('cors');
-
 const app = express();
+const router = require(`${root}/app/routes/routes`);
 
 app.use(cors());
-
-app.get('/api/test', (req, res) => {
-  res.json({
-    id: 1,
-    message: 'hello world'
-  })
-});
+app.use(router);
 
 app.listen(3000, () => {
   console.log('Start');
