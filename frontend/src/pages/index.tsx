@@ -6,10 +6,11 @@ import { auth } from '@/utils/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useDispatch, useSelector } from '@/hooks';
 import { setSignInState } from '@/stores/user';
+import config from '@/utils/config';
 
 export async function getServerSideProps() {
-    const res = await fetch('http://api:3000/test');
-    const json = await res.json();
+  const res = await fetch(`${config.api}/test`);
+  const json = await res.json();
   return {
     props: { json }
   }
