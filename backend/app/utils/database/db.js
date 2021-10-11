@@ -4,5 +4,6 @@ module.exports = mysql.createConnection({
   host: 'mysql',
   user: 'root',
   password: 'root',
-  database: 'express'
+  database: 'express',
+  charset: 'utf8mb4'
 });
