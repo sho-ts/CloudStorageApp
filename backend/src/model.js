@@ -1,28 +1,16 @@
 const root = require('app-root-path');
 const db = require(`${root}/app/utils/database/db`);
+const Query = require(`${root}/src/query`);
 
-class AbstractModel {
+class Model extends Query {
+  /**
+   * @var {string} table
+   */
   static table = '';
 
-  /**
-   * @param {number} id 
-   */
-  constructor(id) {
-    this.id = id;
-  }
-
-  set = (values) => {
-    this.id = values.id;
-    this.content = values.content;
-
-    return this;
-  }
-
-  static all = () => {
+  all = () => {
     return new Promise((resolve, reject) => {
-      const sql = `select * from ${this.table};`;
-
-      console.log(this.constructor)
+      const sql = `select * from ${this.constructor.table};`;
 
       db.query(sql, (err, result) => {
         if (err) {
@@ -34,27 +22,12 @@ class AbstractModel {
     })
   }
 
-  static find = (id) => {
-    return new Promise((resolve, reject) => {
-      const sql = `  
-        select * from ${this.table}
-        where id = ${id};
-      `;
-
-      db.query(sql, (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result.length > 0 ? result[0] : {})
-        }
-      });
-    })
-  }
-
   create = () => {
     return new Promise((resolve, reject) => {
+      const { columns, values } = this.getColumnsAndValuesQuery();
+
       const sql = `
-        insert into ${this.constructor.table} (content) values ('${this.content}');
+        insert into ${this.constructor.table} (${columns}) values (${values});
       `;
 
       db.query(sql, (err, result) => {
@@ -84,10 +57,12 @@ class AbstractModel {
     })
   }
 
-  update = (content) => {
+  update = () => {
     return new Promise((resolve, reject) => {
+      const { columns, values } = this.getColumnsAndValuesQuery();
+
       const sql = `
-        update ${this.constructor.table} set content = '${content}'
+        update ${this.constructor.table} set ${columns} = ${values}
         where id = ${this.id};
       `;
 
@@ -119,4 +94,4 @@ class AbstractModel {
   }
 }
 
-module.exports = AbstractModel;
+module.exports = Model;
