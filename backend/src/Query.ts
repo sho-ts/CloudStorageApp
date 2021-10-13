@@ -1,4 +1,4 @@
-class Query {
+abstract class Query {
   createColmunsQuery = () => {
     return Object.keys(this).filter((key) => {
       if (key !== 'id' && this[key] && typeof this[key] !== 'function') {
@@ -25,4 +25,4 @@ class Query {
   });
 }
 
-module.exports = Query;
+export default Query;

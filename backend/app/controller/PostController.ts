@@ -67,4 +67,4 @@ class PostController {
   }
 }
 
-module.exports = PostController;
+export default PostController;
