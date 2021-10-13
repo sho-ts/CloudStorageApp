@@ -1,11 +1,16 @@
-import { Header } from '@/components/organisms';
-import { Container, Box } from '@chakra-ui/react';
+import { useDisclosure } from '@/hooks';
+import { Header, Modal } from '@/components/organisms';
+import { Container, Box, IconButton } from '@chakra-ui/react';
+import { AiOutlineUpload } from 'react-icons/ai';
+
 
 type Props = {
   children: React.ReactNode
 }
 
 const Layout: React.FC<Props> = ({ children }) => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
   return (
     <>
       <Header />
@@ -14,6 +19,20 @@ const Layout: React.FC<Props> = ({ children }) => {
           {children}
         </Container>
       </Box>
+      <IconButton
+        aria-label='upload'
+        icon={<AiOutlineUpload />}
+        isRound={true}
+        position={"fixed"}
+        bottom={4}
+        right={4}
+        onClick={onOpen}
+      />
+      <Modal
+        isOpen={isOpen} onClose={onClose}
+        title={'test'}
+      >
+      </Modal>
     </>
   )
 }
