@@ -1,8 +1,8 @@
-const root = require('app-root-path');
-const Post = require(`${root}/app/model/Post`);
+import express from 'express';
+import { Post } from '@/app/model';
 
 class PostController {
-  static index = async (req, res) => {
+  static index = async (req: express.Request, res: express.Response) => {
     try {
       const post = new Post();
       const result = await post.all();
@@ -13,7 +13,7 @@ class PostController {
     }
   }
 
-  static create = async (req, res) => {
+  static create = async (req: express.Request, res: express.Response) => {
     try {
       const { content } = req.body;
       const post = new Post({
@@ -27,7 +27,7 @@ class PostController {
     }
   }
 
-  static read = async (req, res) => {
+  static read = async (req: express.Request, res: express.Response) => {
     try {
       const { id } = req.params;
       const post = new Post({
@@ -41,7 +41,7 @@ class PostController {
     }
   }
 
-  static update = async (req, res) => {
+  static update = async (req: express.Request, res: express.Response) => {
     try {
       const { id } = req.query;
       const { content } = req.body;
@@ -54,7 +54,7 @@ class PostController {
     }
   }
 
-  static delete = async (req, res) => {
+  static delete = async (req: express.Request, res: express.Response) => {
     try {
       const { id } = req.query;
       const post = new Post({ id });
@@ -67,4 +67,4 @@ class PostController {
   }
 }
 
-module.exports = PostController;
+export default PostController;
