@@ -1,5 +1,5 @@
 import { useDisclosure } from '@/hooks';
-import { Header, Modal } from '@/components/organisms';
+import { Header, Modal, UploadArea } from '@/components/organisms';
 import { Container, Box, IconButton } from '@chakra-ui/react';
 import { AiOutlineUpload } from 'react-icons/ai';
 
@@ -32,6 +32,7 @@ const Layout: React.FC<Props> = ({ children }) => {
         isOpen={isOpen} onClose={onClose}
         title={'test'}
       >
+        <UploadArea />
       </Modal>
     </>
   )
