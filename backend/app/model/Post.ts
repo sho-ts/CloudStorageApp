@@ -2,7 +2,7 @@ import Model from '@/src/Model';
 
 class Post extends Model {
   static table = 'posts';
-  public id?: number;
+  public id = 0;
   public content?: string;
   public uid?: number;
 

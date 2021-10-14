@@ -1,16 +1,13 @@
-const root = require('app-root-path');
-const db = require(`${root}/app/utils/database/db`);
-const Query = require(`${root}/src/query`);
+import db from '@/app/utils/database/db';
+import Query from '@/src/Query';
 
 class Model extends Query {
-  /**
-   * @var {string} table
-   */
   static table = '';
+  public id = 0;
 
   all = () => {
     return new Promise((resolve, reject) => {
-      const sql = `select * from ${(this.constructor).table};`;
+      const sql = `select * from ${(this.constructor as typeof Model).table};`;
 
       db.query(sql, (err, result) => {
         if (err) {
@@ -27,7 +24,7 @@ class Model extends Query {
       const { columns, values } = this.getColumnsAndValuesQuery();
 
       const sql = `
-        insert into ${this.constructor.table} (${columns}) values (${values});
+        insert into ${(this.constructor as typeof Model).table} (${columns}) values (${values});
       `;
 
       db.query(sql, (err, result) => {
@@ -43,7 +40,7 @@ class Model extends Query {
   get = () => {
     return new Promise((resolve, reject) => {
       const sql = `  
-        select * from ${this.constructor.table}
+        select * from ${(this.constructor as typeof Model).table}
         where id = ${this.id};
       `;
 
@@ -62,7 +59,7 @@ class Model extends Query {
       const { columns, values } = this.getColumnsAndValuesQuery();
 
       const sql = `
-        update ${this.constructor.table} set ${columns} = ${values}
+        update ${(this.constructor as typeof Model).table} set ${columns} = ${values}
         where id = ${this.id};
       `;
 
@@ -79,7 +76,7 @@ class Model extends Query {
   delete = () => {
     return new Promise((resolve, reject) => {
       const sql = `
-        update ${this.constructor.table} set del_flg = 1
+        update ${(this.constructor as typeof Model).table} set del_flg = 1
         where id = ${this.id};
       `;
 

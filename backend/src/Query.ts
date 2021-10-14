@@ -1,7 +1,11 @@
+type QueryInstanceType = {
+  [key: string]: any
+}
+
 abstract class Query {
   createColmunsQuery = () => {
     return Object.keys(this).filter((key) => {
-      if (key !== 'id' && this[key] && typeof this[key] !== 'function') {
+      if (key !== 'id' && (this as QueryInstanceType)[key] && typeof (this as QueryInstanceType)[key] !== 'function') {
         return key;
       }
     }).join(',')
@@ -9,12 +13,12 @@ abstract class Query {
 
   createValuesQuery = () => {
     return Object.keys(this).map((key) => {
-      if (key !== 'id' && this[key] && typeof this[key] !== 'function') {
-        if (typeof this[key] === 'string') {
-          return `'${this[key]}'`
+      if (key !== 'id' && (this as QueryInstanceType)[key] && typeof (this as QueryInstanceType)[key] !== 'function') {
+        if (typeof (this as QueryInstanceType)[key] === 'string') {
+          return `'${(this as QueryInstanceType)[key]}'`
         }
 
-        return this[key]
+        return (this as QueryInstanceType)[key]
       }
     }).filter(key => key ? true : false).join(',');
   }
