@@ -21,7 +21,7 @@ const Modal: React.FC<Props> = ({
     <>
       <ChakraModal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent py={8}>
           <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
