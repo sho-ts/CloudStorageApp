@@ -6,7 +6,7 @@ class Post extends Model {
   public content?: string;
   public uid?: number;
 
-  constructor(params: {
+  constructor(params?: {
     [key: string]: any
   }) {
     super();

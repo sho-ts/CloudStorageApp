@@ -1,6 +1,5 @@
 import express from 'express';
-const root = require('app-root-path');
-const Post = require(`${root}/app/model/Post`);
+import Post from '@/app/model/Post';
 
 class PostController {
   static index = async (req: express.Request, res: express.Response) => {
