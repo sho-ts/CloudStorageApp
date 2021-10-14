@@ -1,5 +1,5 @@
 import express from 'express';
-import Post from '@/app/model/Post';
+import { Post } from '@/app/model';
 
 class PostController {
   static index = async (req: express.Request, res: express.Response) => {

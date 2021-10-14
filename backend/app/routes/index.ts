@@ -1,5 +1,5 @@
 import express from 'express';
-import PostController from '@/app/controller/PostController';
+import { PostController } from '@/app/controller';
 const router = express.Router();
 
 router.get('/posts', PostController.index);
