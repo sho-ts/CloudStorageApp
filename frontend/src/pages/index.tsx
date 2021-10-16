@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import { Layout } from '@/components/templates';
 import { auth } from '@/utils/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -29,8 +28,6 @@ const Home: NextPage<Props> = (props) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
 
-  console.log(props.json);
-
   const signUp = async () => {
     if (!email || !password) return;
 
@@ -45,7 +42,6 @@ const Home: NextPage<Props> = (props) => {
           isSignIn: true
         }))
       }
-
     } catch (e) {
       console.error(e);
     }
@@ -56,7 +52,6 @@ const Home: NextPage<Props> = (props) => {
       <div>
         <p>{user.email}</p>
         <p>{user.isSignIn ? 'sign in' : 'sign out'}</p>
-
         <input
           placeholder="email"
           type="text" value={email}
@@ -70,12 +65,7 @@ const Home: NextPage<Props> = (props) => {
           onChange={e => { setPassword(e.target.value) }}
         />
       </div>
-      <button
-        type="button"
-        onClick={signUp}
-      >
-        submit
-      </button>
+      <button type="button" onClick={signUp}>submit</button>
     </Layout>
   )
 }
