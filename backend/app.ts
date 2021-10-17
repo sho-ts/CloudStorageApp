@@ -9,6 +9,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(router);
 
-app.listen(3001, () => {
+app.listen(3000, () => {
   console.log('Start');
 });
