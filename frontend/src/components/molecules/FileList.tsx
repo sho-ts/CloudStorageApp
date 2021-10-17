@@ -3,6 +3,7 @@ import {
   Tr, Th, Td,
 } from "@chakra-ui/react"
 import { PostType } from '@/types/PostType';
+import Link from 'next/link';
 
 type Props = {
   posts: PostType[]
@@ -22,7 +23,7 @@ const FileList: React.FC<Props> = ({ posts }) => {
         {posts && posts.map((post, index) => (
           <Tr key={index}>
             <Td>2020/1/1</Td>
-            <Td>{post.content}</Td>
+            <Td><Link href={`posts/${post.id}`}><a style={{ display: 'block', minHeight: '1em' }}>{post.content}</a></Link></Td>
             <Td>0kb</Td>
           </Tr>
         ))}
