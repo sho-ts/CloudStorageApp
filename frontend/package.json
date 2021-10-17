@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "story": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-story": "build-storybook"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.9",
