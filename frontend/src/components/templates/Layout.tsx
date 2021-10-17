@@ -1,3 +1,4 @@
+import { useSelector } from '@/hooks';
 import { useDisclosure } from '@/hooks';
 import { Header, UploadModal } from '@/components/organisms';
 import { UploadArea } from '@/components/molecules'
@@ -11,6 +12,7 @@ type Props = {
 
 const Layout: React.FC<Props> = ({ children }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const user = useSelector(state => state.user);
 
   return (
     <>
@@ -29,7 +31,7 @@ const Layout: React.FC<Props> = ({ children }) => {
         right={4}
         onClick={onOpen}
       />
-      <UploadModal isOpen={isOpen} onClose={onClose} />
+      {user.isSignIn && <UploadModal isOpen={isOpen} onClose={onClose} />}
     </>
   )
 }
