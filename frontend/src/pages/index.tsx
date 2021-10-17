@@ -1,11 +1,15 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from '@/hooks';
 import type { NextPage } from 'next'
-import { Layout } from '@/components/templates';
 import { auth } from '@/utils/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { useDispatch, useSelector } from '@/hooks';
 import { setSignInState } from '@/stores/user';
 import config from '@/utils/config';
+
+import Link from 'next/link';
+import { Layout } from '@/components/templates';
+import { PageTitle } from '@/components/atoms';
+import { Button, Input, Box } from '@chakra-ui/react';
 
 export async function getServerSideProps() {
   const res = await fetch(`${config.api}/posts`);
@@ -49,23 +53,37 @@ const Home: NextPage<Props> = (props) => {
 
   return (
     <Layout>
-      <div>
-        <p>{user.email}</p>
+      <PageTitle>仮ページ</PageTitle>
+      <Box mb={5}>
+        <h1>ログイン状態</h1>
+        {user.email && <p>{user.email}</p>}
         <p>{user.isSignIn ? 'sign in' : 'sign out'}</p>
-        <input
-          placeholder="email"
-          type="text" value={email}
-          onChange={e => { setEmail(e.target.value) }}
-        />
-      </div>
-      <div>
-        <input
-          placeholder="password"
-          type="text" value={password}
-          onChange={e => { setPassword(e.target.value) }}
-        />
-      </div>
-      <button type="button" onClick={signUp}>submit</button>
+      </Box>
+      <Box maxW="500px" mb={5}>
+        <Box mb={2}>
+          <Input
+            placeholder="email"
+            type="text" value={email}
+            onChange={e => { setEmail(e.target.value) }}
+          />
+        </Box>
+        <Box mb={2}>
+          <Input
+            placeholder="password"
+            type="text" value={password}
+            onChange={e => { setPassword(e.target.value) }}
+          />
+        </Box>
+        <Button type="button" onClick={signUp}>サインアップ</Button>
+      </Box>
+      <Box>
+        <h2>各ページリンク</h2>
+        <Box>
+          <Button>
+            <Link href="mypage">マイページ</Link>
+          </Button>
+        </Box>
+      </Box>
     </Layout>
   )
 }
