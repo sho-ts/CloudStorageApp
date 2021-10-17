@@ -1,6 +1,7 @@
 import config from '@/utils/config';
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { PageTitle } from '@/components/atoms';
 import { FileList } from '@/components/molecules';
 import { Layout } from '@/components/templates';
 import { PostType } from '@/types/PostType';
@@ -24,6 +25,7 @@ const MyPage: NextPage<Props> = ({ posts }) => {
         <title>マイページ</title>
       </Head>
       <Layout>
+        <PageTitle>マイページ</PageTitle>
         <FileList posts={posts} />
       </Layout>
     </>
