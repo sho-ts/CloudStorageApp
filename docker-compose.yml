@@ -12,8 +12,21 @@ services:
       - api
       - app
 
+  # nestJSに置き換え完了後削除する
+  # express:
+  #   image: node:14.17.6-alpine3.11
+  #   working_dir: /api
+  #   volumes:
+  #     - ./backend-old:/api
+  #   stdin_open: true
+  #   tty: true
+  #   ports:
+  #     - 3002:3000
+  #   depends_on:
+  #     - mysql
+
   api:
-    image: node:14.17.6-alpine3.11
+    build: ./backend
     working_dir: /api
     volumes:
       - ./backend:/api

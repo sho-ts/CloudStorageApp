@@ -17,6 +17,9 @@ logs:
 build:
 	docker-compose build --no-cache
 
+express:
+	docker-compose exec express sh
+
 api:
 	docker-compose exec api sh
 
