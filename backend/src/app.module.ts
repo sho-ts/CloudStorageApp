@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       password: 'root',
       database: 'nest',
       entities: [
-        'dist/model/**/*.js'
+        'dist/entites/**/*.entity.js'
       ],
       migrations: [
         "dist/migration/**/*.js"
@@ -20,6 +21,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       /** ↓本番環境では使用しない(https://docs.nestjs.com/techniques/database) */
       synchronize: true,
     }),
+    PostModule,
   ],
   controllers: [AppController],
   providers: [AppService],
