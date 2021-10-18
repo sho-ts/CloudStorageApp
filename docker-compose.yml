@@ -27,6 +27,7 @@ services:
 
   api:
     build: ./backend
+    working_dir: /api
     volumes:
       - ./backend:/api
     stdin_open: true
