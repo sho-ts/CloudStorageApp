@@ -13,7 +13,7 @@ import { PostModule } from './post/post.module';
       password: 'root',
       database: 'nest',
       entities: [
-        'dist/entites/**/*.entity.js'
+        'dist/entities/**/*.entity.js'
       ],
       migrations: [
         "dist/migration/**/*.js"
