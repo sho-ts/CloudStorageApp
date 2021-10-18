@@ -8,5 +8,16 @@ export class PostService {
   constructor(
     @InjectRepository(Post)
     private readonly postRepository: Repository<Post>
-  ){}
+  ) { }
+
+  create(description: string) {
+    const post = new Post();
+    post.description = description;
+
+    return this.postRepository.insert(post);
+  }
+
+  read(id: number) {
+    return this.postRepository.findOne({ id });
+  }
 }
