@@ -3,9 +3,9 @@ import { PostController } from '@/app/controller';
 const router = express.Router();
 
 router.get('/posts', PostController.index);
-router.post('/post/create', PostController.create);
+router.post('/post', PostController.create);
 router.get('/post/:id([0-9]+)', PostController.read);
-router.post('/post/update', PostController.update);
-router.get('/post/delete', PostController.delete);
+router.put('/post', PostController.update);
+router.delete('/post', PostController.delete);
 
 export default router;
