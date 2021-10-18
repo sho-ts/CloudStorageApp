@@ -16,7 +16,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       ],
       migrations: [
         "dist/migration/**/*.js"
-    ],
+      ],
       /** ↓本番環境では使用しない(https://docs.nestjs.com/techniques/database) */
       synchronize: true,
     }),
