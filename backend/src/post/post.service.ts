@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Post } from './..//entities/post.entity';
+import { Post } from './../entities/post.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -7,6 +7,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class PostService {
   constructor(
     @InjectRepository(Post)
-    private readonly memoRepository: Repository<Post>
+    private readonly postRepository: Repository<Post>
   ){}
 }
