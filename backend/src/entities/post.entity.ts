@@ -14,6 +14,6 @@ export class Post {
     @UpdateDateColumn()
     readonly updated_at?: Date;
 
-    @Column('tinyint', { width: 1, default: 1 })
+    @Column('tinyint', { width: 1, default: 0 })
     del_flg: number;
 }
