@@ -24,4 +24,13 @@ export class PostService {
   readAll() {
     return this.postRepository.find();
   }
+
+  update(description: string, id: number) {
+    return this.postRepository
+      .createQueryBuilder()
+      .update(Post)
+      .set({ description })
+      .where('id = :id', { id })
+      .execute();
+    }
 }
