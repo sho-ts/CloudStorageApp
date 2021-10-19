@@ -20,4 +20,8 @@ export class PostService {
   read(id: number) {
     return this.postRepository.findOne({ id });
   }
+
+  readAll() {
+    return this.postRepository.find();
+  }
 }

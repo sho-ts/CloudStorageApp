@@ -9,4 +9,9 @@ export class PostController {
   read(@Query() query: { id: number }) {
     return this.service.read(query.id);
   }
+
+  @Get('all')
+  readAll() {
+    return this.service.readAll();
+  }
 }
