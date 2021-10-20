@@ -17,15 +17,24 @@ export class PostService {
     return this.postRepository.insert(post);
   }
 
-  read(id: number) {
-    return this.postRepository.findOne({ id });
+  async read(id: number) {
+    const post = await this.postRepository.findOne({ id });
+
+    return post.del_flg !== 1 ? post : null;
   }
 
-  readAll() {
-    return this.postRepository.find();
+  async readAll() {
+    const posts = await this.postRepository.find();
+
+    return posts.filter(post => post.del_flg !== 1);
   }
 
-  update(description: string, id: number) {
+  async update(description: string, id: number) {
+    const post = await this.postRepository.findOne({ id });
+
+    /** del_flgが1のものは処理しない */
+    if (this.isDeleted(post)) return;
+
     return this.postRepository
       .createQueryBuilder()
       .update(Post)
@@ -42,4 +51,6 @@ export class PostService {
       .where('id = :id', { id })
       .execute();
   }
+
+  isDeleted = (post: Post) => post.del_flg === 1;
 }
