@@ -17,20 +17,40 @@ export class PostService {
     return this.postRepository.insert(post);
   }
 
-  read(id: number) {
-    return this.postRepository.findOne({ id });
+  async read(id: number) {
+    const post = await this.postRepository.findOne({ id });
+
+    return !this.isDeleted(post) ? post : null;
   }
 
-  readAll() {
-    return this.postRepository.find();
+  async readAll() {
+    const posts = await this.postRepository.find();
+
+    return posts.filter(post => !this.isDeleted(post));
   }
 
-  update(description: string, id: number) {
+  async update(description: string, id: number) {
+    const post = await this.postRepository.findOne({ id });
+
+    /** del_flgが1のものは処理しない */
+    if (this.isDeleted(post)) return;
+
     return this.postRepository
       .createQueryBuilder()
       .update(Post)
       .set({ description })
       .where('id = :id', { id })
       .execute();
-    }
+  }
+
+  delete(id: number) {
+    return this.postRepository
+      .createQueryBuilder()
+      .update(Post)
+      .set({ del_flg: 1 })
+      .where('id = :id', { id })
+      .execute();
+  }
+
+  isDeleted = (post: Post) => post.del_flg === 1;
 }
