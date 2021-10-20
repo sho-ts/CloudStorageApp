@@ -20,13 +20,13 @@ export class PostService {
   async read(id: number) {
     const post = await this.postRepository.findOne({ id });
 
-    return post.del_flg !== 1 ? post : null;
+    return this.isDeleted(post) ? post : null;
   }
 
   async readAll() {
     const posts = await this.postRepository.find();
 
-    return posts.filter(post => post.del_flg !== 1);
+    return posts.filter(post => this.isDeleted(post));
   }
 
   async update(description: string, id: number) {
