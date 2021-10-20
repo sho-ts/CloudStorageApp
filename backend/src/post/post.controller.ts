@@ -1,6 +1,6 @@
 import {
   Controller, Query, Req,
-  Get, Post, Put,
+  Get, Post, Put, Delete,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { PostService } from './post.service';
@@ -12,12 +12,13 @@ export class PostController {
   @Post()
   create(@Req() req: Request) {
     const { description } = req.body;
+    
     return this.service.create(description);
   }
 
   @Get()
-  read(@Query() query: { id: number }) {
-    return this.service.read(query.id);
+  read(@Query() { id }: { id: number }) {
+    return this.service.read(id);
   }
 
   @Get('all')
@@ -26,10 +27,14 @@ export class PostController {
   }
 
   @Put()
-  update(@Req() req: Request, @Query() query: { id: number }) {
+  update(@Req() req: Request, @Query() { id }: { id: number }) {
     const { description } = req.body;
-    const { id } = query;
 
     return this.service.update(description, id);
+  }
+
+  @Delete()
+  delete(@Query() { id }: { id: number }) {
+    return this.service.delete(id);
   }
 }

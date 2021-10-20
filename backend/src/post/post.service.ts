@@ -32,5 +32,14 @@ export class PostService {
       .set({ description })
       .where('id = :id', { id })
       .execute();
-    }
+  }
+
+  delete(id: number) {
+    return this.postRepository
+      .createQueryBuilder()
+      .update(Post)
+      .set({ del_flg: 1 })
+      .where('id = :id', { id })
+      .execute();
+  }
 }
