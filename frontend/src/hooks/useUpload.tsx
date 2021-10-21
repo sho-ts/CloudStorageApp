@@ -22,10 +22,10 @@ const useUpload = () => {
     const [file] = acceptedFiles;
 
     try {
-      const res = await fetch(`${config.api}/post/create`, {
+      const res = await fetch(`${config.api}/post`, {
         method: 'POST',
         body: JSON.stringify({
-          'content': `テスト投稿です, ${file.name}`,
+          'description': `テスト投稿です, ${file.name}`,
           'filePath': `${file.name}`
         }),
         headers: {

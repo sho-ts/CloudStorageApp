@@ -7,7 +7,7 @@ import { Layout } from '@/components/templates';
 import { PostType } from '@/types/PostType';
 
 export async function getServerSideProps() {
-  const res = await fetch(`${config.api}/posts`);
+  const res = await fetch(`${config.api}/post/all`);
   const posts = await res.json();
   return {
     props: { posts }
