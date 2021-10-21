@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Post } from './../entities/post.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { isDeleted } from '../utils';
 
 @Injectable()
 export class PostService {
@@ -20,20 +21,20 @@ export class PostService {
   async read(id: number) {
     const post = await this.postRepository.findOne({ id });
 
-    return !this.isDeleted(post) ? post : null;
+    return !isDeleted(post) ? post : null;
   }
 
   async readAll() {
     const posts = await this.postRepository.find();
 
-    return posts.filter(post => !this.isDeleted(post));
+    return posts.filter(post => !isDeleted(post));
   }
 
   async update(description: string, id: number) {
     const post = await this.postRepository.findOne({ id });
 
     /** del_flgが1のものは処理しない */
-    if (this.isDeleted(post)) return;
+    if (isDeleted(post)) return;
 
     return this.postRepository
       .createQueryBuilder()
@@ -51,6 +52,4 @@ export class PostService {
       .where('id = :id', { id })
       .execute();
   }
-
-  isDeleted = (post: Post) => post.del_flg === 1;
 }
