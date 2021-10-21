@@ -5,10 +5,11 @@ import { PageTitle } from '@/components/atoms';
 import { FileList } from '@/components/molecules';
 import { Layout } from '@/components/templates';
 import { PostType } from '@/types/PostType';
+import fetchPosts from '@/utils/fetchPosts';
 
 export async function getServerSideProps() {
-  const res = await fetch(`${config.api}/post/all`);
-  const posts = await res.json();
+  const posts = await fetchPosts<PostType[]>('all');
+
   return {
     props: { posts }
   }
