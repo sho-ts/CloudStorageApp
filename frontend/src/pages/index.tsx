@@ -12,7 +12,7 @@ import { PageTitle } from '@/components/atoms';
 import { Button, Input, Box } from '@chakra-ui/react';
 
 export async function getServerSideProps() {
-  const res = await fetch(`${config.api}/posts`);
+  const res = await fetch(`${config.api}/post/all`);
   const json = await res.json();
   return {
     props: { json }

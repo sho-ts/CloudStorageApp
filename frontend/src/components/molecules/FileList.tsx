@@ -22,8 +22,8 @@ const FileList: React.FC<Props> = ({ posts }) => {
       <Tbody>
         {posts && posts.map((post, index) => (
           <Tr key={index}>
-            <Td>2020/1/1</Td>
-            <Td><Link href={`posts/${post.id}`}><a style={{ display: 'block', minHeight: '1em' }}>{post.content}</a></Link></Td>
+            <Td>{post.created_at}</Td>
+            <Td><Link href={`posts/${post.id}`}><a style={{ display: 'block', minHeight: '1em' }}>{post.description}</a></Link></Td>
             <Td>0kb</Td>
           </Tr>
         ))}

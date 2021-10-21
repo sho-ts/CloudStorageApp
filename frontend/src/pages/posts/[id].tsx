@@ -1,31 +1,26 @@
 import { Layout } from '@/components/templates';
 import type { NextPage, GetServerSideProps } from 'next'
-import config from '@/utils/config';
-
-type PageProps = {
-  id: string,
-  content: string,
-}
+import { PostType } from '@/types/PostType';
+import fetchPosts from '@/utils/fetchPosts';
 
 type PathParams = {
   id: string;
 }
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async context => {
+export const getServerSideProps: GetServerSideProps = async context => {
   const { id } = context.params as PathParams;
-  const res = await fetch(`${config.api}/post/${id}`);
-  const props = await res.json() as PageProps;
+  const post = await fetchPosts<PostType>(Number(id))
 
   return {
-    props
+    props: { post }
   }
 }
 
-const Post: NextPage<PageProps> = ({ id, content }) => {
+const Post: NextPage<{ post: PostType }> = ({ post }) => {
 
   return (
     <Layout>
-      {content}
+      {post.description}
     </Layout>
   )
 }

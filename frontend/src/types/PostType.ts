@@ -1,4 +1,7 @@
 export type PostType = {
   id: number,
-  content: string,
+  description: string,
+  created_at: Date,
+  updated_at: Date,
+  del_flg: number,
 }
