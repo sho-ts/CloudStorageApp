@@ -26,7 +26,8 @@ const useUpload = () => {
         method: 'POST',
         body: JSON.stringify({
           'description': `テスト投稿です, ${file.name}`,
-          'filePath': `${file.name}`
+          'filePath': file.name,
+          'fileSize': file.size
         }),
         headers: {
           'Accept': 'application/json',
