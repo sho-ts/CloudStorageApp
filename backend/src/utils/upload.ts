@@ -1,12 +1,13 @@
 import fs from 'fs';
-import aws from 'aws-sdk';
+import aws = require('aws-sdk');
+import S3 from 'aws-sdk/clients/s3'
 
 const s3 = new aws.S3({
   accessKeyId: process.env.S3_ACCESS_KEY,
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
 });
 
-const s3Upload = (file: File): Promise<string | Error> => {
+const s3Upload = (file: FormData): Promise<string | Error> => {
   return new Promise((resolve, reject) => {
     s3.upload({
       Bucket: process.env.S3_BUCKET_NAME,
@@ -25,8 +26,10 @@ const s3Upload = (file: File): Promise<string | Error> => {
   })
 }
 
-const nestUpload = async (file: File) => {
+const nestUpload = async (file: FormData) => {
   
-  const res = await s3Upload(file);
 
+  const res = await s3Upload(FormData);
 }
+
+export default nestUpload;

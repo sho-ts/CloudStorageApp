@@ -9,6 +9,13 @@ import { PostService } from './post.service';
 export class PostController {
   constructor(private readonly service: PostService) { }
 
+  @Post('upload')
+  fileUpload(@Req() req: Request) {
+    const { file } = req.body;
+
+    return this.service.fileUpload(file);
+  }
+
   @Post()
   create(@Req() req: Request) {
     const { description, fileSize } = req.body;

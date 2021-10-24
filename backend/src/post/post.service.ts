@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Post } from './../entities/post.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { isDeleted } from '../utils';
+import { isDeleted, upload } from '../utils';
 
 @Injectable()
 export class PostService {
@@ -10,6 +10,10 @@ export class PostService {
     @InjectRepository(Post)
     private readonly postRepository: Repository<Post>
   ) { }
+
+  fileUpload(file: File) {
+    upload(file);
+  }
 
   create(postData: {
     description: string,
