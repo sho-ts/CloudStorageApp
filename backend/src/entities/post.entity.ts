@@ -8,6 +8,9 @@ export class Post {
     @Column('text')
     description: string;
 
+    @Column('text')
+    file_size: string;
+
     @CreateDateColumn()
     readonly created_at?: Date;
 

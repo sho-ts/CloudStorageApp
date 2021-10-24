@@ -11,9 +11,13 @@ export class PostService {
     private readonly postRepository: Repository<Post>
   ) { }
 
-  create(description: string) {
+  create(postData: {
+    description: string,
+    fileSize: string,
+  }) {
     const post = new Post();
-    post.description = description;
+    post.description = postData.description;
+    post.file_size = postData.fileSize;
 
     return this.postRepository.insert(post);
   }
