@@ -1,21 +1,9 @@
+import { useState } from 'react';
 import { useDropzone } from 'react-dropzone'
-import styled from 'styled-components';
 import config from '@/utils/config';
-
-const FileName = styled.p`
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 16px;
-`;
 
 const useUpload = () => {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone()
-
-  const files = acceptedFiles.map((file, index) => (
-    <div key={index} style={{ display: 'flex' }}>
-      <FileName>{file.name}</FileName>
-    </div>
-  ))
 
   const upload = async () => {
     if (acceptedFiles.length < 1) return;
@@ -38,13 +26,16 @@ const useUpload = () => {
       if (!res.ok) throw new Error('アップロードに失敗')
 
       console.log('アップロード成功');
+
+      acceptedFiles.splice(1);
     } catch (e) {
       console.error(e);
     }
   }
 
   return {
-    getRootProps, getInputProps, upload, files
+    getRootProps, getInputProps, upload,
+    file: acceptedFiles[0]
   }
 }
 

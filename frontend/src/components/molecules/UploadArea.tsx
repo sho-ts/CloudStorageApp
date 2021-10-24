@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useUpload } from '@/hooks';
-import { Button } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
 
 const Body = styled.div`
   padding-top: 100%;
@@ -25,13 +25,16 @@ const Text = styled.p`
 `
 
 const UploadArea: React.FC = () => {
-  const { getRootProps, getInputProps, upload, files } = useUpload();
+  const { getRootProps, getInputProps, upload, file } = useUpload();
 
   return (
     <>
-      {files.length > 0 ? (
+      {file ? (
         <>
-          {files}
+          <Flex mb={2}>
+            <Text style={{marginRight: 16}}>{file.name}</Text>
+            <Text>{Math.ceil(file.size / 1024)}KB</Text>
+          </Flex>
           <Button onClick={() => upload()}>このファイルをアップロード</Button>
         </>
       ) : (
