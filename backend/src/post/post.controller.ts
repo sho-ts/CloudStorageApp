@@ -1,7 +1,10 @@
 import {
-  Controller, Query, Req,
-  Get, Post, Put, Delete,
+  Controller, Query, Req, UploadedFile,
+  Get, Post, Put, Delete, UseInterceptors,
 } from '@nestjs/common';
+import {
+  FileInterceptor
+} from '@nestjs/platform-express'
 import { Request } from 'express';
 import { PostService } from './post.service';
 
@@ -10,10 +13,9 @@ export class PostController {
   constructor(private readonly service: PostService) { }
 
   @Post('upload')
-  fileUpload(@Req() req: Request) {
-    const { file } = req.body;
-
-    return this.service.fileUpload(file);
+  @UseInterceptors(FileInterceptor('file'))
+  fileUpload(@UploadedFile() file: Express.Multer.File) {
+    console.log(file)
   }
 
   @Post()
