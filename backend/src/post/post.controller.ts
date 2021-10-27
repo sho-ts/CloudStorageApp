@@ -14,16 +14,16 @@ export class PostController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  fileUpload(@UploadedFile() file: Express.Multer.File, @Body() body) {
-    this.service.s3upload(file).then(res => {
-      console.log(res)
-    }).catch((e: Error) => {
-      console.log(e.name);
-      console.log(e.message);
-    })
+  async fileUpload(@UploadedFile() file: Express.Multer.File) {
+    try {
+      const res = await this.service.s3upload(file);
 
+      if (res instanceof Error) throw new Error;
 
-    return JSON.stringify(file.buffer);
+      return JSON.stringify(res);
+    } catch (e) {
+      return e.message;
+    }
   }
 
   @Post()
