@@ -58,7 +58,7 @@ export class PostService {
       .execute();
   }
 
-  s3upload(file: Express.Multer.File): Promise<string | Error> {
+  s3upload(file: Express.Multer.File): Promise<aws.S3.ManagedUpload.SendData | Error> {
     aws.config.update({
       region: 'ap-northeast-1',
       credentials: {
@@ -75,10 +75,9 @@ export class PostService {
         Body: file.buffer,
         ContentType: file.mimetype
       }, (err, data) => {
-        if (err) {
-          reject(err)
-        }
-        resolve(JSON.stringify(data));
+        err && reject(err);
+
+        resolve(data);
       })
     })
   }
