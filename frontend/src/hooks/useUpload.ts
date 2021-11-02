@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone'
-import config from '@/utils/config';
+import { fetcher, config } from '@/utils';
+import { S3ReponseType } from '@/types/S3ResponseType';
 
 const useUpload = () => {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone()
@@ -8,13 +9,20 @@ const useUpload = () => {
   const upload = async () => {
     if (acceptedFiles.length < 1) return;
     const [file] = acceptedFiles;
+    const formData = new FormData();
+    formData.append('file', file);
 
     try {
-      const res = await fetch(`${config.api}/post`, {
+      const s3json = await fetcher<S3ReponseType>(`${config.api}/post/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const dbres = await fetch(`${config.api}/post`, {
         method: 'POST',
         body: JSON.stringify({
           'description': `テスト投稿です, ${file.name}`,
-          'filePath': file.name,
+          'filePath': s3json.Location,
           'fileSize': file.size
         }),
         headers: {
@@ -23,11 +31,7 @@ const useUpload = () => {
         }
       });
 
-      if (!res.ok) throw new Error('アップロードに失敗')
-
-      console.log('アップロード成功');
-
-      acceptedFiles.splice(1);
+      if (!dbres.ok) throw new Error('アップロードに失敗')
     } catch (e) {
       console.error(e);
     }
