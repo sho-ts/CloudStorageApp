@@ -1,15 +1,13 @@
 const config = {
   api: (() => {
-    let api = '';
     switch (process.env.NEXT_PUBLIC_MODE) {
       case 'docker':
-        api = 'http://api:3000';
-        break;
+        return 'http://api:3000';
       case 'local':
-        api = 'http://localhost:3001'
-        break;
+        return 'http://localhost:3001'
+      default:
+        return 'http://localhost:3001'
     }
-    return api;
   })()
 }
 
