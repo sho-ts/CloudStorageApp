@@ -21,7 +21,7 @@ const useUpload = () => {
       const dbres = await fetch(`${config.api}/post`, {
         method: 'POST',
         body: JSON.stringify({
-          'description': `テスト投稿です, ${file.name}`,
+          'description': `${file.name}`,
           'filePath': s3json.Location,
           'fileSize': file.size
         }),

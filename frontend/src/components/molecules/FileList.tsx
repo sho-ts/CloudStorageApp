@@ -25,7 +25,7 @@ const FileList: React.FC<Props> = ({ posts }) => {
             <Tr key={index}>
               <Td>{post.created_at}</Td>
               <Td><Link href={`posts/${post.id}`}><a style={{ display: 'block', minHeight: '1em' }}>{post.description}</a></Link></Td>
-              <Td>0kb</Td>
+              <Td>{Math.floor(Number(post.file_size ?? 0) / 1024)}KB</Td>
             </Tr>
           ))}
         </Tbody>
