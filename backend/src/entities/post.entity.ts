@@ -11,6 +11,9 @@ export class Post {
     @Column('text')
     file_size: string;
 
+    @Column('text')
+    file_path: string
+
     @CreateDateColumn()
     readonly created_at?: Date;
 
