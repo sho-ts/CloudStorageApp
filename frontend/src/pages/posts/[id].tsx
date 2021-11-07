@@ -21,6 +21,7 @@ const Post: NextPage<{ post: PostType }> = ({ post }) => {
   return (
     <Layout>
       {post.description}
+      <a href={post.file_path} download={post.description}>ダウンロード</a>
     </Layout>
   )
 }
