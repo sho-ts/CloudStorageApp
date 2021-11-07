@@ -28,11 +28,12 @@ export class PostController {
 
   @Post()
   create(@Req() req: Request) {
-    const { description, fileSize } = req.body;
+    const { description, fileSize, filePath } = req.body;
 
     return this.service.create({
       description,
-      fileSize
+      fileSize,
+      filePath,
     });
   }
 
