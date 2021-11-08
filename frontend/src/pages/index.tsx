@@ -27,29 +27,7 @@ type Props = {
 }
 
 const Home: NextPage<Props> = (props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
   const user = useSelector(state => state.user);
-
-  const signUp = async () => {
-    if (!email || !password) return;
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-      const user = userCredential.user;
-
-      if (user) {
-        dispatch(setSignInState({
-          uid: user.uid,
-          email,
-          isSignIn: true
-        }))
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
 
   return (
     <Layout>
@@ -59,28 +37,16 @@ const Home: NextPage<Props> = (props) => {
         {user.email && <p>{user.email}</p>}
         <p>{user.isSignIn ? 'sign in' : 'sign out'}</p>
       </Box>
-      <Box maxW="500px" mb={5}>
-        <Box mb={2}>
-          <Input
-            placeholder="email"
-            type="text" value={email}
-            onChange={e => { setEmail(e.target.value) }}
-          />
-        </Box>
-        <Box mb={2}>
-          <Input
-            placeholder="password"
-            type="text" value={password}
-            onChange={e => { setPassword(e.target.value) }}
-          />
-        </Box>
-        <Button type="button" onClick={signUp}>サインアップ</Button>
-      </Box>
       <Box>
         <h2>各ページリンク</h2>
-        <Box>
-          <Button>
+        <Box mb={4}>
+          <Button w={40}>
             <Link href="mypage">マイページ</Link>
+          </Button>
+        </Box>
+        <Box>
+          <Button w={40}>
+            <Link href="signup">サインアップ</Link>
           </Button>
         </Box>
       </Box>

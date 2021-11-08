@@ -5,4 +5,5 @@ export type PostType = {
   updated_at: Date,
   del_flg: number,
   file_size: string,
+  file_path: string,
 }

@@ -18,6 +18,8 @@ const useUpload = () => {
         body: formData,
       });
 
+      console.log(s3json);
+
       const dbres = await fetch(`${config.api}/post`, {
         method: 'POST',
         body: JSON.stringify({
