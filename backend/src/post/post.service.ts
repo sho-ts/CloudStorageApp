@@ -73,7 +73,7 @@ export class PostService {
     return new Promise((resolve, reject) => {
       s3.upload({
         Bucket: process.env.S3_BUCKET_NAME,
-        Key: `${process.env.S3_BUCKET_KEY_PREFIX}-${file.originalname}-${new Date().getTime()}`,
+        Key: `${new Date().getTime()}-${process.env.S3_BUCKET_KEY_PREFIX}-${file.originalname}`,
         Body: file.buffer,
         ContentType: file.mimetype
       }, (err, data) => {
