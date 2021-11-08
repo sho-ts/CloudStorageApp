@@ -1,5 +1,5 @@
 import {
-  Controller, Query, Req, UploadedFile, Body,
+  Controller, Query, Res, Req, UploadedFile, StreamableFile,
   Get, Post, Put, Delete, UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -23,6 +23,27 @@ export class PostController {
       return JSON.stringify(res);
     } catch (e) {
       return e.message;
+    }
+  }
+
+  @Get('download')
+  async fileDownload(@Query() { key }: { key: string }, @Res({ passthrough: true }) res) {
+    try {
+      const file = await this.service.s3download(key);
+
+      if (file instanceof Error) throw new Error;
+
+      const body = file.Body as Buffer;
+
+      res.set({
+        'Content-Type': file.ContentType,
+        'Content-Disposition': 'attachment; filename="' + key +'"',
+      });
+
+      return new StreamableFile(body);
+    } catch (e) {
+      console.log('error');
+      return e;
     }
   }
 
