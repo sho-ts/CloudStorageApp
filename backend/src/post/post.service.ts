@@ -83,4 +83,28 @@ export class PostService {
       })
     })
   }
+
+  s3download(Key: string): Promise<aws.S3.GetObjectOutput | Error> {
+    aws.config.update({
+      region: 'ap-northeast-1',
+      credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+      },
+    })
+    const s3 = new aws.S3();
+
+    const s3downloadParams = {
+      Bucket: process.env.S3_BUCKET_NAME,
+      Key,
+    }
+
+    return new Promise((resolve, reject) => {
+      s3.getObject(s3downloadParams,(err, data) => {
+        err && reject(err);
+
+        resolve(data);
+      })
+    });
+  }
 }
