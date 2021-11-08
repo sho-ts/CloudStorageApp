@@ -1,7 +1,9 @@
 import { Layout } from '@/components/templates';
+import { Button, Box } from '@chakra-ui/react';
 import type { NextPage, GetServerSideProps } from 'next'
 import { PostType } from '@/types/PostType';
 import fetchPosts from '@/utils/fetchPosts';
+import config from '@/utils/config';
 
 type PathParams = {
   id: string;
@@ -21,7 +23,11 @@ const Post: NextPage<{ post: PostType }> = ({ post }) => {
   return (
     <Layout>
       {post.description}
-      <a href={post.file_path} download={post.description}>ダウンロード</a>
+      <Box mt={5}>
+        <Button as="a" href={`${config.api}/post/download/?key=${post.file_path}`}>
+          ダウンロード
+      </Button>
+      </Box>
     </Layout>
   )
 }
