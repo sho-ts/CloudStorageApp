@@ -10,10 +10,7 @@ export class UserController {
   signup(@Req() req: Request) {
     const { email, password } = req.body;
 
-    return JSON.stringify({
-      email,
-      password
-    });
+    return this.service.cognitoSignup(email,password);
   }
 
   @Post('signin')

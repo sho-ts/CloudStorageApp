@@ -1,31 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import aws = require('aws-sdk');
+import AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 
 @Injectable()
 export class UserService {
   cognitoIdentity: aws.CognitoIdentityServiceProvider;
 
   constructor() {
-    this.cognitoIdentity = new aws.CognitoIdentityServiceProvider({
-      region: ''
-    })
   }
 
-  async signup(username: string, password: string): Promise<boolean> {
-    const params = {
-      ClientId: '',
-      Password: password,
-      Username: username,
-    }
+  cognitoSignup(username: string, password: string): Promise<AmazonCognitoIdentity.ISignUpResult | Error> {
+    const poolData = {
+      UserPoolId: process.env.COGNITO_USER_POOL_ID,
+      ClientId: process.env.COGNITO_CLIENT_ID
+    };
+    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
-    try {
-      const data = await this.cognitoIdentity.signUp(params).promise();
-      console.log(data);
-      return true;
-    } catch(e) {
-      console.log(e);
-      return false;
-    }
+    aws.config.region = process.env.COGNITO_REGION;
+    aws.config.credentials = new aws.CognitoIdentityCredentials({
+      IdentityPoolId: process.env.COGNITO_IDENTITY_POOL_ID
+    });
+
+    return new Promise((resolve, reject) => {
+      userPool.signUp(username, password, [], null, (err, result) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(result)
+        }
+      });
+    })
   }
 
   signin(email: string, password: string) {
