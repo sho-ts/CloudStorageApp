@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { cognitoSignUp } from '@/utils'
+import { cognitoSignIn } from '@/utils'
 
-const useSignUp = () => {
+const useSignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const signUp = async () => {
+  const signIn = async () => {
     try {
-      const res = await cognitoSignUp(email, password);
+      const res = await cognitoSignIn(email, password);
       console.log(res);
     } catch (e) {
       console.error(e);
@@ -19,8 +19,8 @@ const useSignUp = () => {
     password,
     setEmail,
     setPassword,
-    signUp,
+    signIn,
   }
 }
 
-export default useSignUp
+export default useSignIn

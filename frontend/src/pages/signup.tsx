@@ -15,7 +15,7 @@ const SignIn: NextPage<Props> = (props) => {
   return (
     <Layout>
       <Head>
-        <title>サインイン</title>
+        <title>サインアップ</title>
       </Head>
       <PageTitle>サインアップ</PageTitle>
       <Box maxW="500px" mb={5}>
