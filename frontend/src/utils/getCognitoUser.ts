@@ -17,7 +17,7 @@ const getCognitoUser = (): Promise<CognitoUserAttribute[] | Error> => {
   return new Promise((resolve, reject) => {
     if (!cognitoUser) reject(new Error('データが存在しません'));
 
-    cognitoUser?.getSession((error: Error) => {
+    cognitoUser?.getSession((error?: Error) => {
       if (error) reject(error);
 
       cognitoUser.getUserAttributes((error, result) => {
