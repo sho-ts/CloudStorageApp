@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { cognitoSignIn } from '@/utils'
+import { auth } from '@/utils/aws';
 
 const useSignIn = () => {
   const [email, setEmail] = useState('');
@@ -7,7 +7,7 @@ const useSignIn = () => {
 
   const signIn = async () => {
     try {
-      const res = await cognitoSignIn(email, password);
+      const res = await auth.signin(email, password);
       console.log(res);
     } catch (e) {
       console.error(e);
