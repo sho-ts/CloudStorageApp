@@ -20,7 +20,7 @@ class AWSCognito {
     return new Promise<ISignUpResult | Error>((resolve, reject) => {
       this.userPool.signUp(username, password, [], [], (error, result) => {
         error ? reject(error) :
-          !result ? reject(new Error('result is falty')) :
+          !result ? reject(new Error('result is undefined: signUp')) :
             resolve(result);
       });
     })
@@ -64,14 +64,14 @@ class AWSCognito {
     const cognitoUser = this.userPool.getCurrentUser();
 
     return new Promise<CognitoUserAttribute[] | Error>((resolve, reject) => {
-      cognitoUser || reject(new Error('cognitoUser is falty'));
+      cognitoUser || reject(new Error('cognitoUser is undefined: getCurrentUser'));
 
       cognitoUser?.getSession((error?: Error) => {
         error && reject(error);
 
         cognitoUser.getUserAttributes((error, result) => {
           error ? reject(error) :
-            !result ? reject(new Error('result is falty')) :
+            !result ? reject(new Error('result is undefined: getUserAttributes')) :
               resolve(result);
         });
       })
