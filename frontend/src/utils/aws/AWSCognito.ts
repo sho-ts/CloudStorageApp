@@ -64,7 +64,7 @@ class AWSCognito {
     const cognitoUser = this.userPool.getCurrentUser();
 
     return new Promise<CognitoUserAttribute[] | Error>((resolve, reject) => {
-      cognitoUser || reject(new Error('ユーザーデータが存在しません'));
+      cognitoUser || reject(new Error('cognitoUser is falty'));
 
       cognitoUser?.getSession((error?: Error) => {
         error && reject(error);
