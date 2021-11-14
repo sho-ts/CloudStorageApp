@@ -1,7 +1,6 @@
 import { useSelector } from '@/hooks';
 import { useDisclosure } from '@/hooks';
 import { Header, UploadModal } from '@/components/organisms';
-import { UploadArea } from '@/components/molecules'
 import { Container, Box, IconButton } from '@chakra-ui/react';
 import { AiOutlineUpload } from 'react-icons/ai';
 
@@ -22,16 +21,20 @@ const Layout: React.FC<Props> = ({ children }) => {
           {children}
         </Container>
       </Box>
-      <IconButton
-        aria-label='upload'
-        icon={<AiOutlineUpload />}
-        isRound={true}
-        position={"fixed"}
-        bottom={4}
-        right={4}
-        onClick={onOpen}
-      />
-      {user.isSignIn && <UploadModal isOpen={isOpen} onClose={onClose} />}
+      {user.isSignIn && (
+        <>
+          <IconButton
+            aria-label='upload'
+            icon={<AiOutlineUpload />}
+            isRound={true}
+            position={"fixed"}
+            bottom={4}
+            right={4}
+            onClick={onOpen}
+          />
+          <UploadModal isOpen={isOpen} onClose={onClose} />
+        </>
+      )}
     </>
   )
 }

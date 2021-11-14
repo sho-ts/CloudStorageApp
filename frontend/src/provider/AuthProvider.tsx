@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router'
 import { auth } from '@/utils/aws';
 import { useDispatch } from '@/hooks';
 import { setSignInState } from '@/stores/user';
@@ -10,12 +11,13 @@ type Props = {
 const AuthProvider: React.FC<Props> = ({ children }) => {
   const dispatch = useDispatch();
   const [isChecked, setIsChecked] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
       const user = await auth.getUser();
 
-      if (user instanceof Error) {
+      if (user) {
         dispatch(setSignInState({
           isSignIn: true
         }))
@@ -24,11 +26,11 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         dispatch(setSignInState({
           isSignIn: false
         }))
-        setIsChecked(true);
+        router.replace('/');
       }
 
     })();
-  }, [dispatch]);
+  }, [dispatch, router]);
 
 
   return (
