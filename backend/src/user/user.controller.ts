@@ -6,20 +6,15 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly service: UserService) { }
 
-  @Post('signup')
-  signup(@Req() req: Request) {
-    const { email, password } = req.body;
+  @Post('test')
+  async auth(@Req() req: Request) {
+    const res = await this.service.verify(req.body.token);
+    console.log(res)
 
-    return this.service.cognitoSignup(email,password);
-  }
-
-  @Post('signin')
-  signin(@Req() req: Request) {
-    const { email, password } = req.body;
-
-    return JSON.stringify({
-      email,
-      password
-    });
+    if(!(res instanceof Error)) {
+      return 'ok'
+    } else {
+      return 'ng';
+    }
   }
 }
