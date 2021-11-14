@@ -15,7 +15,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     (async () => {
       const user = await auth.getUser();
 
-      if (user instanceof Error) {
+      if (user) {
         dispatch(setSignInState({
           isSignIn: true
         }))

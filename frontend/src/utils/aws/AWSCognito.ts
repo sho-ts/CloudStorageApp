@@ -73,15 +73,15 @@ class AWSCognito {
   getUser = () => {
     const cognitoUser = this.userPool.getCurrentUser();
 
-    return new Promise<CognitoUserAttribute[] | Error>((resolve, reject) => {
-      // cognitoUser || reject(new Error('cognitoUser is undefined: getCurrentUser'));
+    return new Promise<CognitoUserAttribute[] | void>((resolve) => {
+      cognitoUser || resolve();
 
       cognitoUser?.getSession((error?: Error) => {
-        error && reject(error);
+        error && resolve();
 
         cognitoUser.getUserAttributes((error, result) => {
-          error ? reject(error) :
-            !result ? reject(new Error('result is undefined: getUserAttributes')) :
+          error ? resolve() :
+            !result ? resolve() :
               resolve(result);
         });
       })
