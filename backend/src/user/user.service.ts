@@ -1,38 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import aws = require('aws-sdk');
-import AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+import jwt, { JwtHeader, SigningKeyCallback } from "jsonwebtoken";
+import jwksClient from "jwks-rsa";
 
 @Injectable()
 export class UserService {
-  cognitoIdentity: aws.CognitoIdentityServiceProvider;
+  private client: jwksClient.JwksClient
 
   constructor() {
+    this.client = jwksClient({
+      jwksUri:
+        `https://cognito-idp.${process.env.COGNITO_REGION}.amazonaws.com/${process.env.COGNITO_USER_POOL_ID}/.well-known/jwks.json`,
+    });
   }
 
-  cognitoSignup(username: string, password: string): Promise<AmazonCognitoIdentity.ISignUpResult | Error> {
-    const poolData = {
-      UserPoolId: process.env.COGNITO_USER_POOL_ID,
-      ClientId: process.env.COGNITO_CLIENT_ID
-    };
-    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-
-    aws.config.region = process.env.COGNITO_REGION;
-    aws.config.credentials = new aws.CognitoIdentityCredentials({
-      IdentityPoolId: process.env.COGNITO_IDENTITY_POOL_ID
+  getKey(header: JwtHeader, callback: SigningKeyCallback) {
+    if (!header.kid) throw new Error("not found kid!");
+    this.client.getSigningKey(header.kid, (err, key) => {
+      if (err) throw err;
+      callback(null, key.getPublicKey());
     });
+  }
 
+  verify(token: string) {
     return new Promise((resolve, reject) => {
-      userPool.signUp(username, password, [], null, (err, result) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(result)
-        }
+      jwt.verify(token, this.getKey.bind(this), (err, decoded) => {
+        err ? reject(err) : resolve(decoded);
       });
     })
-  }
-
-  signin(email: string, password: string) {
-
   }
 }
