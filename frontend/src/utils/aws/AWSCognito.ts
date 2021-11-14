@@ -60,11 +60,21 @@ class AWSCognito {
     });
   }
 
+  signout = () => {
+    const cognitoUser = this.userPool.getCurrentUser();
+
+    return new Promise<boolean | Error>((resolve, reject) => {
+      cognitoUser ?
+        cognitoUser.signOut(resolve.bind(null, true)) :
+        reject(new Error('cognitoUser is undefined: signout'));
+    });
+  }
+
   getUser = () => {
     const cognitoUser = this.userPool.getCurrentUser();
 
     return new Promise<CognitoUserAttribute[] | Error>((resolve, reject) => {
-      cognitoUser || reject(new Error('cognitoUser is undefined: getCurrentUser'));
+      // cognitoUser || reject(new Error('cognitoUser is undefined: getCurrentUser'));
 
       cognitoUser?.getSession((error?: Error) => {
         error && reject(error);
