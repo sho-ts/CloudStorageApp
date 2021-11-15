@@ -4,7 +4,7 @@ import jwt, { JwtHeader, SigningKeyCallback } from "jsonwebtoken";
 import jwksClient from "jwks-rsa";
 
 @Injectable()
-export class UserService {
+export class AuthService {
   private client: jwksClient.JwksClient
 
   constructor() {
