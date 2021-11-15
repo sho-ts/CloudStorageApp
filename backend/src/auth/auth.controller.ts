@@ -9,7 +9,8 @@ export class AuthController {
   @Post('test')
   async auth(@Req() req: Request) {
     try {
-      const res = await this.service.verify(req.body.token);
+      console.log(req.headers.authorization);
+      const res = await this.service.verify(req.headers.authorization.split(' ')[1]);
       console.log(res);
       return 'ok';
     } catch (e) {
