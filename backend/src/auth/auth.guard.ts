@@ -17,9 +17,9 @@ export class AuthGuard implements CanActivate {
       try {
         const res = await this.service.verify(req.headers.authorization.split(' ')[1]);
 
-        if (res) return true;
+        if (res) return resolve(true);
       } catch (e) {
-        return false;
+        resolve(false);
       }
     });
   }

@@ -1,11 +1,13 @@
 import {
   Controller, Query, Req,
-  Get, Post, Put, Delete
+  Get, Post, Put, Delete, UseGuards
 } from '@nestjs/common';
 import { Request } from 'express';
 import { PostService } from './post.service';
+import { AuthGuard } from './../auth/auth.guard'; 
 
 @Controller('post')
+@UseGuards(AuthGuard)
 export class PostController {
   constructor(private readonly service: PostService) { }
 
