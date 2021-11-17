@@ -70,6 +70,19 @@ class AWSCognito {
     });
   }
 
+  getToken = () => {
+    const keys = Object.keys(localStorage).map(key => {
+      if (key.includes('accessToken') && key.includes('Cognito')) return key;
+    }).filter(v => v);
+
+    if (keys[0]) {
+      const key = keys[0];
+      return localStorage[key];
+    }
+
+    return;
+  }
+
   getUser = () => {
     const cognitoUser = this.userPool.getCurrentUser();
 
