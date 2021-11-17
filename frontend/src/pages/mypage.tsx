@@ -6,20 +6,20 @@ import { Layout } from '@/components/templates';
 import { PostType } from '@/types/PostType';
 import fetchPosts from '@/utils/fetchPosts';
 import Auth from '@/provider/AuthProvider';
+import { useState, useEffect } from 'react';
 
-export async function getServerSideProps() {
-  const posts = await fetchPosts<PostType[]>('all');
+const MyPage: NextPage = () => {
+  const [posts, setPosts] = useState<PostType[]>([]);
 
-  return {
-    props: { posts }
-  }
-}
+  useEffect(() => {
+    
+    (async () => {
+      const newPosts = await fetchPosts<PostType[]>();
+      newPosts && setPosts(newPosts);
+    })();
 
-type Props = {
-  posts: PostType[]
-}
+  }, [])
 
-const MyPage: NextPage<Props> = ({ posts }) => {
   return (
     <Auth>
       <Head>
