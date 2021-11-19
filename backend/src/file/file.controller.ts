@@ -26,20 +26,13 @@ export class FileController {
   }
 
   @Get('download')
-  async fileDownload(@Query() { key }: { key: string }, @Res({ passthrough: true }) res) {
+  async fileDownload(@Query() { key }: { key: string }) {
     try {
-      const file = await this.service.s3download(key);
+      const url = await this.service.s3download(key);
 
-      if (file instanceof Error) throw new Error;
+      if (url instanceof Error) throw new Error;
 
-      const body = file.Body as Buffer;
-
-      res.set({
-        'Content-Type': file.ContentType,
-        'Content-Disposition': 'attachment; filename="' + key + '"',
-      });
-
-      return new StreamableFile(body);
+      return url;
     } catch (e) {
       console.log('error');
       return e;
