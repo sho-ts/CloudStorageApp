@@ -8,7 +8,7 @@ const fetchPosts = async <T>(target?: fetchPostsTargetType) => {
 
   try {
     const user = await auth.getUser();
-    const token = auth.getToken();
+    const token = auth.getIdToken();
 
     if(!user || !token) return;
 
