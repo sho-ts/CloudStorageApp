@@ -70,9 +70,9 @@ class AWSCognito {
     });
   }
 
-  getToken = () => {
+  getToken = (token: string) => {
     const keys = Object.keys(localStorage).map(key => {
-      if (key.includes('accessToken') && key.includes('Cognito')) return key;
+      if (key.includes(token) && key.includes('Cognito')) return key;
     }).filter(v => v);
 
     if (keys[0]) {
@@ -82,6 +82,12 @@ class AWSCognito {
 
     return;
   }
+
+  getAccessToken = () => this.getToken('accessToken');
+
+  getIdToken = () => this.getToken('idToken');
+
+  getRefreshToken = () => this.getToken('refreshToken');
 
   getUser = () => {
     const cognitoUser = this.userPool.getCurrentUser();
