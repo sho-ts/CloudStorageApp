@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDropzone } from 'react-dropzone'
 import { fetcher, config } from '@/utils';
 import { S3ReponseType } from '@/types/S3ResponseType';
+import { auth } from '@/utils/aws';
 
 const useUpload = () => {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone()
@@ -11,11 +12,18 @@ const useUpload = () => {
     const [file] = acceptedFiles;
     const formData = new FormData();
     formData.append('file', file);
-
     try {
-      const s3json = await fetcher<S3ReponseType>(`${config.api}/post/upload`, {
+      const user = await auth.getUser();
+      const token = auth.getIdToken();
+
+      if(!user || !token) throw new Error('不正なユーザー');
+
+      const s3json = await fetcher<S3ReponseType>(`${config.api}/file/upload`, {
         method: 'POST',
         body: formData,
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       const dbres = await fetch(`${config.api}/post`, {
@@ -27,7 +35,8 @@ const useUpload = () => {
         }),
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         }
       });
 
