@@ -27,7 +27,7 @@ export class FileService {
     })
   }
 
-  s3download(Key: string): Promise<aws.S3.GetObjectOutput | Error> {
+  s3download(Key: string) {
     aws.config.update({
       region: 'ap-northeast-1',
       credentials: {
@@ -42,12 +42,12 @@ export class FileService {
       Key,
     }
 
-    return new Promise((resolve, reject) => {
-      s3.getObject(s3downloadParams,(err, data) => {
+    return new Promise<string | Error>((resolve, reject) => {
+      s3.getSignedUrl('getObject', s3downloadParams, (err, url) => {
         err && reject(err);
 
-        resolve(data);
-      })
+        resolve(url);
+      });
     });
   }
 }
