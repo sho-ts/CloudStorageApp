@@ -18,6 +18,10 @@ const useUpload = () => {
 
       if(!user || !token) throw new Error('不正なユーザー');
 
+      const sub = user.getCognitoUserAttribute('sub');
+      
+      if(!sub) throw new Error('ユーザーIDが存在しません');
+
       const s3json = await fetcher<S3ReponseType>(`${config.api}/file/upload`, {
         method: 'POST',
         body: formData,
@@ -32,7 +36,7 @@ const useUpload = () => {
           'description': `${file.name}`,
           'filePath': s3json.Key,
           'fileSize': file.size,
-          'uid': user.getCognitoUserAttribute('sub')
+          'uid': sub.getValue()
         }),
         headers: {
           'Accept': 'application/json',

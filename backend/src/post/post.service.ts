@@ -15,11 +15,13 @@ export class PostService {
     description: string,
     fileSize: string,
     filePath: string,
+    uid: string,
   }) {
     const post = new Post();
     post.description = postData.description;
     post.file_size = postData.fileSize;
     post.file_path = postData.filePath;
+    post.uid = postData.uid;
 
     return this.postRepository.insert(post);
   }
