@@ -57,7 +57,7 @@ export class PostService {
     return {
       posts: posts,
       pages,
-      current: page,
+      current: Number(page),
     };
   }
 
