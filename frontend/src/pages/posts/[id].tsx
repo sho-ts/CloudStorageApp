@@ -3,7 +3,7 @@ import { Button, Box } from '@chakra-ui/react';
 import type { NextPage } from 'next'
 import { useRouter } from "next/router";
 import { PostType } from '@/types/PostType';
-import fetchPosts from '@/utils/fetchPosts';
+import fetchPost from '@/utils/fetchPost';
 import config from '@/utils/config';
 import { useState, useEffect } from 'react';
 import { auth } from '@/utils/aws';
@@ -44,7 +44,7 @@ const Post: NextPage = () => {
   useEffect(() => {
     (async () => {
       if (router.query.id) {
-        const newPost = await fetchPosts<PostType>(Number(router.query.id));
+        const newPost = await fetchPost<PostType>(Number(router.query.id));
         newPost && setPost(newPost);
       }
     })();
