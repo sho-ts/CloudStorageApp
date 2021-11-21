@@ -6,6 +6,9 @@ export class Post {
     id: number;
 
     @Column('text')
+    uid: string;
+
+    @Column('text')
     description: string;
 
     @Column('text')
