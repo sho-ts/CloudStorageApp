@@ -1,27 +1,28 @@
 import config from '@/utils/config'
 import { auth } from '@/utils/aws';
+import { PostType } from '@/types/PostType';
 
-type fetchPostsTargetType = 'all' | number;
-
-const fetchPosts = async <T>(target?: fetchPostsTargetType) => {
-  const fetchPath = typeof target === 'number' ? `?id=${target}` : `all`;
-
+const fetchPosts = async (page = 1) => {
   try {
     const user = await auth.getUser();
     const token = auth.getIdToken();
 
-    if(!user || !token) return;
+    if (!user || !token) return;
 
-    const res = await fetch(`${config.api}/post/${fetchPath}`, {
+    const res = await fetch(`${config.api}/post/all/?page=${page}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
 
-    if (!res.ok) throw new Error('投稿の取得に失敗しました');
+  if (!res.ok) throw new Error('投稿の取得に失敗しました');
 
-    const posts = await res.json() as T;
+  const posts = await res.json() as {
+    posts: PostType[],
+    pages: number,
+    current: number,
+  };
 
     return posts;
   } catch (e) {
