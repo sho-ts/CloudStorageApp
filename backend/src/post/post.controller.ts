@@ -4,10 +4,10 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { PostService } from './post.service';
-import { AuthGuard } from './../auth/auth.guard'; 
+import { AuthGuard } from './../auth/auth.guard';
 
 @Controller('post')
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class PostController {
   constructor(private readonly service: PostService) { }
 
@@ -28,8 +28,8 @@ export class PostController {
   }
 
   @Get('all')
-  readAll() {
-    return this.service.readAll();
+  readAll(@Query() { page }: { page: number }) {
+    return this.service.readAll(page);
   }
 
   @Put()
