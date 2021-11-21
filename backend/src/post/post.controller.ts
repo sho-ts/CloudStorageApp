@@ -7,7 +7,7 @@ import { PostService } from './post.service';
 import { AuthGuard } from './../auth/auth.guard';
 
 @Controller('post')
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class PostController {
   constructor(private readonly service: PostService) { }
 
