@@ -31,7 +31,8 @@ const useUpload = () => {
         body: JSON.stringify({
           'description': `${file.name}`,
           'filePath': s3json.Key,
-          'fileSize': file.size
+          'fileSize': file.size,
+          'uid': user.getCognitoUserAttribute('sub')
         }),
         headers: {
           'Accept': 'application/json',
