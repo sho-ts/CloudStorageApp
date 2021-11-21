@@ -5,6 +5,7 @@ import {
 import { Request } from 'express';
 import { PostService } from './post.service';
 import { AuthGuard } from './../auth/auth.guard';
+import { GuardResponse } from './../utils';
 
 @Controller('post')
 @UseGuards(AuthGuard)
@@ -24,13 +25,13 @@ export class PostController {
   }
 
   @Get()
-  read(@Query() { id }: { id: number }) {
-    return this.service.read(id);
+  read(@GuardResponse() user, @Query() { id }: { id: number }) {
+    return this.service.read(user.sub, id);
   }
 
   @Get('all')
-  readAll(@Query() { page }: { page: number }) {
-    return this.service.readAll(page);
+  readAll(@GuardResponse() user, @Query() { page }: { page: number }) {
+    return this.service.readAll(user.sub, page);
   }
 
   @Put()

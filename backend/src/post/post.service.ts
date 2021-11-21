@@ -26,18 +26,30 @@ export class PostService {
     return this.postRepository.insert(post);
   }
 
-  async read(id: number) {
-    const post = await this.postRepository.findOne({ id });
+  async read(uid: string, id: number) {
+    const posts = await this.postRepository.
+      createQueryBuilder()
+      .select('*')
+      .where('del_flg = :del_flg', { del_flg: 0 })
+      .andWhere('id = :id', { id })
+      .execute();
 
-    return !isDeleted(post) ? post : null;
+    const post = posts[0] ?? null;
+    
+    if(!post) return;
+
+    return post;
   }
 
-  async readAll(page = 1) {
+  async readAll(uid: string, page = 1) {
+    if (!uid) return;
+
     // 投稿件数の合計を取得
     const count = await this.postRepository
       .createQueryBuilder()
       .select('COUNT(id)', 'count')
       .where('del_flg = :del_flg', { del_flg: 0 })
+      .andWhere('uid = :uid', { uid })
       .execute()
 
     // 投稿件数からページ数を計算
@@ -49,9 +61,8 @@ export class PostService {
     const posts = await this.postRepository
       .createQueryBuilder()
       .select('*')
-      .where('del_flg = :del_flg', {
-        del_flg: 0
-      })
+      .where('del_flg = :del_flg', { del_flg: 0 })
+      .andWhere('uid = :uid', { uid })
       .limit(10)
       .offset(offset)
       .execute()
@@ -64,8 +75,6 @@ export class PostService {
   }
 
   async update(description: string, id: number) {
-    const post = await this.postRepository.findOne({ id });
-
     return await this.postRepository
       .createQueryBuilder()
       .update(Post)
