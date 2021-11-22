@@ -13,14 +13,14 @@ export class PostController {
   constructor(private readonly service: PostService) { }
 
   @Post()
-  create(@Req() req: Request) {
-    const { description, fileSize, filePath, uid } = req.body;
+  create(@GuardResponse() user, @Req() req: Request) {
+    const { description, fileSize, filePath } = req.body;
 
     return this.service.create({
       description,
       fileSize,
       filePath,
-      uid
+      uid: user.sub
     });
   }
 
@@ -35,14 +35,14 @@ export class PostController {
   }
 
   @Put()
-  update(@Req() req: Request, @Query() { id }: { id: number }) {
+  update(@GuardResponse() user, @Req() req: Request, @Query() { id }: { id: number }) {
     const { description } = req.body;
 
-    return this.service.update(description, id);
+    return this.service.update(user.sub, description, id);
   }
 
   @Delete()
-  delete(@Query() { id }: { id: number }) {
-    return this.service.delete(id);
+  delete(@GuardResponse() user, @Query() { id }: { id: number }) {
+    return this.service.delete(user.sub, id);
   }
 }

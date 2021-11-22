@@ -35,15 +35,13 @@ export class PostService {
       .execute();
 
     const post = posts[0] ?? null;
-    
-    if(!post) return;
+
+    if (!post) return;
 
     return post;
   }
 
   async readAll(uid: string, page = 1) {
-    if (!uid) return;
-
     // 投稿件数の合計を取得
     const count = await this.postRepository
       .createQueryBuilder()
@@ -74,22 +72,24 @@ export class PostService {
     };
   }
 
-  async update(description: string, id: number) {
+  async update(uid: string, description: string, id: number) {
     return await this.postRepository
       .createQueryBuilder()
       .update(Post)
       .set({ description })
       .where('id = :id', { id })
+      .andWhere('uid = :uid', { uid })
       .andWhere('del_flg = :del_flg', { del_flg: 0 })
       .execute();
   }
 
-  async delete(id: number) {
+  async delete(uid: string, id: number) {
     return await this.postRepository
       .createQueryBuilder()
       .update(Post)
       .set({ del_flg: 1 })
       .where('id = :id', { id })
+      .andWhere('uid = :uid', { uid })
       .execute();
   }
 }
