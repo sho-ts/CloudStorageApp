@@ -1,17 +1,18 @@
 import Link from 'next/link';
-import { Box, Container, Text, Flex } from '@chakra-ui/react';
+import { Container, Text, Flex } from '@chakra-ui/react';
 
 const Header = () => {
   return (
-    <Box as="header" bgGradient="linear(to-r, blue.500, purple.200)" py={2}>
-      <Container as="nav" maxW="container.xl">
-        <Flex>
-          <Text as="h1" color="white" fontSize="xl">
-            <Link href="/">CloudStorage</Link>
-          </Text>
-        </Flex>
-      </Container>
-    </Box>
+    <header>
+      <nav>
+        <Container maxW={'container.xl'}>
+          <Flex px={4} h={'60px'} alignItems={'center'} justify={'flex-end'}>
+            <Text mr={4}><Link href="/signin">ログイン</Link></Text>
+            <Text><Link href="/signup">新規登録</Link></Text>
+          </Flex>
+        </Container>
+      </nav>
+    </header>
   )
 }
 
