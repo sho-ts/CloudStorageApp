@@ -6,6 +6,8 @@ import dbIcon from '@/assets/imgs/db-icon.svg';
 import cloudIcon from '@/assets/imgs/cloud-icon.svg';
 import dlIcon from '@/assets/imgs/dl-icon.svg';
 import freeIcon from '@/assets/imgs/free-icon.svg';
+import Head from 'next/head';
+import { CONSTANT_VARIABLES } from '@/utils';
 
 const features = [
   { description: '簡単にファイルをアップロード', icon: cloudIcon, mb: { base: 8, md: 0 } },
@@ -16,6 +18,9 @@ const features = [
 const Home = () => {
   return (
     <>
+      <Head>
+        <title>{CONSTANT_VARIABLES.siteName}</title>
+      </Head>
       <Header />
       <main>
         <Box bgColor="blue.500" >

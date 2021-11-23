@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { CONSTANT_VARIABLES } from '@/utils';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Container, Text, Flex, Box, IconButton } from '@chakra-ui/react';
+import { Container, Box, IconButton } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 const Header = () => {
@@ -13,16 +13,19 @@ const Header = () => {
   return (
     <header>
       <Box as="nav" h={"60px"} position="relative">
-        <Container maxW={'container.xl'}>
-          <IconButton
-            onClick={handleModalOpen}
-            aria-label="menuOpen"
-            position={"absolute"} top={"50%"} right={"8px"}
-            transform={"translateY(-50%)"}
-          >
-            <HamburgerIcon w={6} h={6} />
-          </IconButton>
-        </Container>
+        <AppTitle>
+          <Link href="/">
+            <a>{CONSTANT_VARIABLES.siteName}</a>
+          </Link>
+        </AppTitle>
+        <IconButton
+          onClick={handleModalOpen}
+          aria-label="menuOpen"
+          position={"absolute"} top={"50%"} right={"8px"}
+          transform={"translateY(-50%)"}
+        >
+          <HamburgerIcon w={6} h={6} />
+        </IconButton>
       </Box>
       <Menu open={open}>
         <IconButton
@@ -42,6 +45,14 @@ const Header = () => {
     </header>
   )
 }
+
+const AppTitle = styled.h1`
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+`;
 
 const Menu = styled.div.attrs((props: { open: boolean }) => ({
   transform: props.open ? 'translate(-50%, -50%)' : 'translate(-50%, -50%) scale(0)',
