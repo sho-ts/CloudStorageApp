@@ -1,12 +1,6 @@
+import { CONSTANT_VARIABLES } from '@/utils';
 import { Box, Flex, Text, Container } from '@chakra-ui/react';
 import Link from 'next/link';
-
-const footerItems = [
-  { href: '/signup', innerText: '新規登録' },
-  { href: '/signin', innerText: 'ログイン' },
-  { href: '/', innerText: 'よくある質問' },
-  { href: '/', innerText: 'お問い合わせ' },
-]
 
 const Footer = () => {
   return (
@@ -22,7 +16,7 @@ const Footer = () => {
             fontSize={"14px"}
             display={["none", "flex"]}
           >
-            {footerItems.map((item, index) => (
+            {CONSTANT_VARIABLES.navItems.map((item, index) => (
               <Text key={index} mr={4}>
                 <Link href={item.href}>
                   <a>{item.innerText}</a>
