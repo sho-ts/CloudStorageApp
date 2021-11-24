@@ -5,6 +5,8 @@ import {
 import { Header, Footer } from '@/components/organisms';
 import Image from 'next/image'
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { auth } from '@/utils/aws';
 import styled from 'styled-components';
 import { CONSTANT_VARIABLES } from '@/utils';
 import { mq } from '@mixin';
@@ -35,6 +37,13 @@ const architects = [
 ];
 
 const Home = () => {
+  const router = useRouter();
+
+  const onClickStart = async () => {
+    const user = await auth.getUser();
+    router.push(user ? '/mypage' : '/signup');
+  }
+
   return (
     <>
       <Head>
@@ -48,11 +57,7 @@ const Home = () => {
               <Catch>大切なデータをバックアップしよう</Catch>
               <Read>CloudStorageAppはデータを<br />クラウド上に保存することができるアプリケーションです</Read>
               <Box textAlign={"center"}>
-                <Link href="/signup">
-                  <a>
-                    <Button size={"lg"} color={"black"}>始める</Button>
-                  </a>
-                </Link>
+                <Button onClick={onClickStart} size={"lg"} color={"black"}>始める</Button>
               </Box>
             </MVInner>
             <Box
@@ -97,11 +102,7 @@ const Home = () => {
           <Container maxW="container.lg">
             <SectionHeading color="white">さぁ、今すぐ始めよう</SectionHeading>
             <Box textAlign={"center"}>
-              <Link href="/signup">
-                <a>
-                  <Button>始める</Button>
-                </a>
-              </Link>
+              <Button onClick={onClickStart}>始める</Button>
             </Box>
           </Container>
         </Box>
