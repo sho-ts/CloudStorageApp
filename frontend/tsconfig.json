@@ -19,7 +19,9 @@
         "jsx": "preserve",
         "baseUrl": "./src",
         "paths": {
-            "@/*": ["./*"]
+            "@/*": ["./*"],
+            "@imgs/*": ["./assets/imgs/*"],
+            "@mixin": ["./utils/style/mixin"]
         }
     },
     "include": [

@@ -2,8 +2,9 @@ import { useSignIn } from '@/hooks';
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { PageTitle } from '@/components/atoms';
-import { Button, Input, Box } from '@chakra-ui/react';
+import { Button, Input, Box, Container, Text } from '@chakra-ui/react';
 import { Layout } from '@/components/templates';
+import Link from 'next/link';
 
 type Props = {
 
@@ -15,26 +16,37 @@ const SignIn: NextPage<Props> = (props) => {
   return (
     <Layout>
       <Head>
-        <title>サインイン</title>
+        <title>ログイン</title>
       </Head>
-      <PageTitle>サインイン</PageTitle>
-      <Box maxW="500px" mb={5}>
-        <Box mb={2}>
-          <Input
-            placeholder="email"
-            type="text" value={email}
-            onChange={e => { setEmail(e.target.value) }}
-          />
+      <Container maxW="container.sm">
+        <PageTitle>ログイン</PageTitle>
+        <Box mb={8}>
+          <Box mb={6}>
+            <Input
+              placeholder="メールアドレス"
+              type="text" value={email}
+              onChange={e => { setEmail(e.target.value) }}
+            />
+          </Box>
+          <Box mb={6}>
+            <Input
+              placeholder="パスワード"
+              type="text" value={password}
+              onChange={e => { setPassword(e.target.value) }}
+            />
+          </Box>
+          <Box textAlign="center">
+            <Button type="button" onClick={signIn} px="8">確認</Button>
+          </Box>
         </Box>
-        <Box mb={2}>
-          <Input
-            placeholder="password"
-            type="text" value={password}
-            onChange={e => { setPassword(e.target.value) }}
-          />
-        </Box>
-        <Button type="button" onClick={signIn}>サインイン</Button>
-      </Box>
+        <Text align="right" color="blue.700">
+          <Link href="/signup">
+            <a>
+              新規登録はこちら
+            </a>
+          </Link>
+        </Text>
+      </Container>
     </Layout>
   )
 }

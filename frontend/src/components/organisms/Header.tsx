@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CONSTANT_VARIABLES } from '@/utils';
+import { mq } from '@mixin';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Container, Box, IconButton } from '@chakra-ui/react';
@@ -12,7 +13,10 @@ const Header = () => {
 
   return (
     <header>
-      <Box as="nav" h={"60px"} position="relative">
+      <Box as="nav"
+        h={"60px"} position="relative"
+        shadow={"2px 2px 4px rgba(150,150,150,0.2)"}
+      >
         <AppTitle>
           <Link href="/">
             <a>{CONSTANT_VARIABLES.siteName}</a>
@@ -78,14 +82,11 @@ const MenuItem = styled.div`
   font-size: 24px;
   font-weight: bold;
   color: #fff;
-  @media screen and (min-width: 768px) {
+  ${mq()} {
     font-size: 32px;
   }
   &:not(:last-child) {
     margin-bottom: 16px;
-    @media screen and (min-width: 768px) {
-      margin-bottom: 16px;
-    }
   }
 `;
 
