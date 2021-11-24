@@ -13,7 +13,10 @@ const Header = () => {
 
   return (
     <header>
-      <Box as="nav" h={"60px"} position="relative">
+      <Box as="nav"
+        h={"60px"} position="relative"
+        shadow={"2px 2px 4px rgba(150,150,150,0.2)"}
+      >
         <AppTitle>
           <Link href="/">
             <a>{CONSTANT_VARIABLES.siteName}</a>
