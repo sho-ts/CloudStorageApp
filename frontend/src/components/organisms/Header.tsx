@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { CONSTANT_VARIABLES } from '@/utils';
 import { mq } from '@mixin';
 import Link from 'next/link';
-import styled from 'styled-components';
-import { Container, Box, IconButton } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import styled, { css } from 'styled-components';
+import { SiteLogo } from '@/components/atoms';
 
 const Header = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -12,83 +11,54 @@ const Header = () => {
   const handleModalClose = () => setOpen(false);
 
   return (
-    <header>
-      <Box as="nav"
-        h={"60px"} position="relative"
-        shadow={"2px 2px 4px rgba(150,150,150,0.2)"}
-      >
-        <AppTitle>
-          <Link href="/">
-            <a>{CONSTANT_VARIABLES.siteName}</a>
-          </Link>
-        </AppTitle>
-        <IconButton
-          onClick={handleModalOpen}
-          aria-label="menuOpen"
-          position={"absolute"} top={"50%"} right={"8px"}
-          transform={"translateY(-50%)"}
-        >
-          <HamburgerIcon w={6} h={6} />
-        </IconButton>
-      </Box>
-      <Menu open={open}>
-        <IconButton
-          onClick={handleModalClose}
-          aria-label="menuClose"
-          position={"absolute"} top={"16px"} right={"8px"}
-        >
-          <CloseIcon w={6} h={6} />
-        </IconButton>
-        {CONSTANT_VARIABLES.navItems.map((item, index) => (
-          <MenuItem key={index}>
-            <Link href={item.href}><a>{item.innerText}</a></Link>
-          </MenuItem>
-        ))}
-        <MenuItem><a href="https://github.com/frontTSend" target="_blank" rel="noreferrer">Github</a></MenuItem>
-      </Menu>
-    </header>
+    <>
+      <Wrapper>
+        <SiteLogo />
+        <ToggleButton alia-label="menu"><span /></ToggleButton>
+      </Wrapper>
+    </>
   )
 }
 
-const AppTitle = styled.h1`
-  font-size: 20px;
-  position: absolute;
-  top: 50%;
-  left: 16px;
-  transform: translateY(-50%);
-`;
-
-const Menu = styled.div.attrs((props: { open: boolean }) => ({
-  transform: props.open ? 'translate(-50%, -50%)' : 'translate(-50%, -50%) scale(0)',
-  pointerEvents: props.open ? 'auto' : 'none',
-}))`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: ${props => props.transform};
-  height: 100%;
-  width: 100%;
+const Wrapper = styled.header`
+  position: relative;
+  height: 60px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  padding: 0 24px;
+`;
+
+const ButtonBorderStyle = css`
+  position: absolute;
+  width: 34px;
+  height: 2px;
   background-color: #000;
-  transition: all 0.3s;
-  pointer-events: ${props => props.pointerEvents};
-  z-index: 9999999;
 `;
 
-const MenuItem = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  color: #fff;
-  ${mq()} {
-    font-size: 32px;
-  }
-  &:not(:last-child) {
-    margin-bottom: 16px;
+const ToggleButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 60px;
+  width: 60px;
+  span {
+    ${ButtonBorderStyle}
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    &::before {
+      content: '';
+      ${ButtonBorderStyle}
+      top: -10px;
+      left: 0;
+    }
+    &::after {
+      content: '';
+      ${ButtonBorderStyle};
+      top: 10px;
+      left: 0;
+    }
   }
 `;
-
 
 export default Header;

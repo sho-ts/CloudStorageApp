@@ -5629,6 +5629,11 @@ destroy@~1.0.4:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
+destyle.css@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/destyle.css/-/destyle.css-3.0.0.tgz#0d151e33dc3b7e4d6488114d96a8fa0ad4bc50e7"
+  integrity sha512-NLkxtcN2M4F9kxzqgtam4/5dXLOqrGG2JrOhOBiO0tM3kzJlkeM5ZVEn6G9YSRWLet7vMCCdCVdM6a0YC7sHcg==
+
 detab@2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/detab/-/detab-2.0.4.tgz#b927892069aff405fbb9a186fe97a44a92a94b43"
