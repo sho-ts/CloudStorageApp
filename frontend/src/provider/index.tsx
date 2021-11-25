@@ -1,4 +1,3 @@
-import { ChakraProvider } from '@chakra-ui/react';
 import { Provider as ReduxProvider } from 'react-redux';
 import store from '@/stores';
 
@@ -9,9 +8,7 @@ type Props = {
 const Provider: React.FC<Props> = ({ children }) => {
   return (
     <ReduxProvider store={store}>
-      <ChakraProvider>
-          {children}
-      </ChakraProvider>
+      {children}
     </ReduxProvider>
   )
 }
