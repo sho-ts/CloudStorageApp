@@ -11,10 +11,12 @@ const Header = () => {
   const handleModalClose = () => setOpen(false);
 
   return (
-    <Wrapper>
-      <SiteLogo />
-      <ToggleButton alia-label="menu"><span /></ToggleButton>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <SiteLogo />
+        <ToggleButton alia-label="menu"><span /></ToggleButton>
+      </Wrapper>
+    </>
   )
 }
 
