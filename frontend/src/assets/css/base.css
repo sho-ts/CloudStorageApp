@@ -6,9 +6,3 @@ img {
 body {
   font-family: 'Noto Sans JP', sans-serif;
 }
-
-@media screen and (min-width: 1024px) {
-  body {
-    font-size: 18px;
-  }
-}

@@ -115,7 +115,7 @@ const Header = styled.header`
 `;
 
 const DirHeading = styled.h2`
-  font-size: 32px;
+  font-size: 20px;
 `;
 
 const FileList = styled.div`
@@ -139,7 +139,7 @@ const Tr = styled.div`
 `;
 
 const Th = styled.div`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   border-bottom: 1px solid #a3a3a3;
   padding: 24px;
@@ -147,6 +147,7 @@ const Th = styled.div`
 `;
 
 const Td = styled.div`
+  font-size: 14px;
   width: 100%;
   display:flex;
   flex-direction: column;
@@ -156,7 +157,7 @@ const Td = styled.div`
 `;
 
 const Sidebar = styled.aside`
-  width: 324px;
+  width: 280px;
   flex-shrink: 0;
   margin-right: 48px;
 `;

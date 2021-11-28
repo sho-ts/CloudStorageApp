@@ -51,7 +51,7 @@ const Wrapper = styled.div`
 `
 
 const Placeholder = styled.label.attrs((props: { isActive?: boolean | string }) => ({
-  transform: props.isActive ? 'scale(0.6) translate(28px, 10px)' : 'translate(16px, 18px)',
+  transform: props.isActive ? 'scale(0.6) translate(28px, 10px)' : 'translate(16px, 14px)',
 })) <{ isActive?: boolean | string }>`
   position: absolute;
   top: 0;
@@ -67,7 +67,7 @@ const TextFieldBodyStyle = css`
   display: block;
   width: 100%;
   height: 100%;
-  padding: 18px 16px 10px;
+  padding: 18px 16px 4px;
   transition: all ${transitionDuration};
   border: 1px solid #a3a3a3;
   background-color: #fff;
