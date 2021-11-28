@@ -1,14 +1,15 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { PageTitle } from '@/components/atoms';
-import { FileList } from '@/components/molecules';
-import { Layout } from '@/components/templates';
 import { PostType } from '@/types/PostType';
 import fetchPosts from '@/utils/fetchPosts';
 import Auth from '@/provider/AuthProvider';
 import { auth } from '@/utils/aws';
 import { useState, useEffect } from 'react';
-import { Button, Flex } from '@chakra-ui/react';
+import { Layout } from '@/components/templates';
+import styled from 'styled-components';
+import { mq } from '@mixin';
+import { Button, TextField } from '@/components/atoms';
+import Link from 'next/link';
 
 const MyPage: NextPage = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
@@ -45,10 +46,6 @@ const MyPage: NextPage = () => {
 
   useEffect(() => {
     (async () => {
-      const user = await auth.getUser();
-      const idToken = auth.getIdToken();
-      console.log(idToken);
-
       const newPosts = await fetchPosts();
 
       if (newPosts) {
@@ -65,15 +62,111 @@ const MyPage: NextPage = () => {
         <title>マイページ</title>
       </Head>
       <Layout>
-        <PageTitle>マイページ</PageTitle>
-        <FileList posts={posts} />
-        <Flex mt={4} justify="center">
-          {1 > current - 1 || <Button mr={4} onClick={getPrevPosts}>前</Button>}
-          {pages < current + 1 || <Button onClick={getNextPosts}>次</Button>}
-        </Flex>
+        <Inner>
+          <Main>
+            <Header>
+              <DirHeading>開いているディレクトリの名前</DirHeading>
+            </Header>
+            <FileList>
+              <Table>
+                <Tr>
+                  <Th>ファイル名</Th>
+                  <Th style={{ width: 250, flexShrink: 0 }}>アップロード日</Th>
+                </Tr>
+                {posts.map((post, index) => (
+                  <Tr key={index}>
+                    <Link href={`/posts/${post.id}`}>
+                      <a>
+                        <Td>{post.description}</Td>
+                        <Td style={{ width: 250, flexShrink: 0 }}>{post.created_at}</Td>
+                      </a>
+                    </Link>
+                  </Tr>
+                ))}
+              </Table>
+            </FileList>
+          </Main>
+          <Sidebar>
+            <FileUpload>
+              <Button>アップロード</Button>
+            </FileUpload>
+            <Search>
+              <TextField placeholder="検索" />
+            </Search>
+          </Sidebar>
+        </Inner>
       </Layout>
-    </Auth>
+    </Auth >
   )
 }
+
+const Inner = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 0 24px;
+`;
+
+const Main = styled.main`
+  width: 100%;
+`;
+
+const Header = styled.header`
+  margin-bottom: 16px;
+`;
+
+const DirHeading = styled.h2`
+  font-size: 32px;
+`;
+
+const FileList = styled.div`
+`;
+
+const Table = styled.div`
+  width: 100%;
+`;
+
+const Tr = styled.div`
+  display: flex;
+  width: 100%;
+  a {
+    width: 100%;
+    display: flex;
+    transition: all 0.3s;
+    &:hover {
+      background-color: #ededed;
+    }
+  }
+`;
+
+const Th = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid #a3a3a3;
+  padding: 24px;
+  width: 100%;
+`;
+
+const Td = styled.div`
+  width: 100%;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid #d9d9d9;
+  padding: 16px 24px;
+`;
+
+const Sidebar = styled.aside`
+  width: 324px;
+  flex-shrink: 0;
+  margin-right: 48px;
+`;
+
+const FileUpload = styled.section`
+  margin-bottom: 24px;
+`;
+
+const Search = styled.div`
+
+`;
 
 export default MyPage;
