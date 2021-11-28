@@ -1,19 +1,17 @@
-import Link from 'next/link';
-import Image from 'next/image'
 import Head from 'next/head';
+import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { auth } from '@/utils/aws';
-import styled, { css } from 'styled-components';
 import { CONSTANT_VARIABLES } from '@/utils';
 import { MainVisual, Feature, Architect, GetStarted, Header, Footer } from '@/components/organisms';
 
 const Home = () => {
   const router = useRouter();
 
-  const onClickStart = async () => {
+  const onClickStart = useCallback(async () => {
     const user = await auth.getUser();
     router.push(user ? '/mypage' : '/signup');
-  }
+  }, [router])
 
   return (
     <>
@@ -22,10 +20,10 @@ const Home = () => {
       </Head>
       <Header />
       <main>
-        <MainVisual />
+        <MainVisual onClick={onClickStart} />
         <Feature />
         <Architect />
-        <GetStarted />
+        <GetStarted onClick={onClickStart} />
       </main>
       <Footer />
     </>

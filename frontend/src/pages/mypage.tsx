@@ -6,6 +6,7 @@ import { Layout } from '@/components/templates';
 import { PostType } from '@/types/PostType';
 import fetchPosts from '@/utils/fetchPosts';
 import Auth from '@/provider/AuthProvider';
+import { auth } from '@/utils/aws';
 import { useState, useEffect } from 'react';
 import { Button, Flex } from '@chakra-ui/react';
 
@@ -44,6 +45,10 @@ const MyPage: NextPage = () => {
 
   useEffect(() => {
     (async () => {
+      const user = await auth.getUser();
+      const idToken = auth.getIdToken();
+      console.log(idToken);
+
       const newPosts = await fetchPosts();
 
       if (newPosts) {
