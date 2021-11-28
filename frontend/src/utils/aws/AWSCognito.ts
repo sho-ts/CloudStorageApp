@@ -70,18 +70,7 @@ class AWSCognito {
     });
   }
 
-  getToken = (token: string) => {
-    const keys = Object.keys(localStorage).map(key => {
-      if (key.includes(token) && key.includes('Cognito')) return key;
-    }).filter(v => v);
-
-    if (keys[0]) {
-      const key = keys[0];
-      return localStorage[key];
-    }
-
-    return;
-  }
+  getToken = (token: string) => Object.keys(localStorage).find(storage => storage.includes(token) && storage.includes('Cognito'));
 
   /** cognitoUserのAttributeを取得する */
   getCognitoUserAttribute = (cognitoUserAttribute: CognitoUserAttribute[], attributeName: string) => cognitoUserAttribute.find(attribute => attribute.Name === attributeName);
