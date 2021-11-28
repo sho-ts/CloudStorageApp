@@ -4,7 +4,11 @@ import figure from '@imgs/top/mv__figure.png';
 import Image from 'next/image'
 import { Button } from '@/components/atoms';
 
-const MainVisual = () => {
+type Props = {
+  onClick: any,
+}
+
+const MainVisual: React.FC<Props> = ({ onClick }) => {
   return (
     <Wrapper>
       <Inner>
@@ -13,7 +17,7 @@ const MainVisual = () => {
           <Read>
             CSAは、クラウド上に<br />あなたのファイルを簡単に保存、共有<br />することができるサービスです。
           </Read>
-          <Button>使ってみる</Button>
+          <Button onClick={onClick}>使ってみる</Button>
         </Catch>
         <Figure>
           <Image src={figure} alt="" />
@@ -77,11 +81,11 @@ const Figure = styled.figure`
     margin-top: 32px;
   }
   ${mq()} {
-    width: ${perce(400,1000)};
+    width: ${perce(400, 1000)};
   }
   ${mq('lg')} {
     position: static;
-    width: ${perce(454,1000)};
+    width: ${perce(454, 1000)};
   }
 `;
 
