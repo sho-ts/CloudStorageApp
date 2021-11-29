@@ -5,24 +5,37 @@ import { S3ReponseType } from '@/types/S3ResponseType';
 import { auth } from '@/utils/aws';
 
 const useUpload = () => {
-  const { getRootProps, getInputProps, acceptedFiles } = useDropzone()
+  const [files, setFiles] = useState<File[]>([]);
+  const [complete, setComplete] = useState<boolean>(false);
+  const [wait, setWait] = useState<boolean>(false);
+
+  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+    onDrop: (acceptedFiles: File[]) => {
+      setFiles([...files, ...acceptedFiles]);
+    },
+  })
 
   const upload = async () => {
-    if (acceptedFiles.length < 1) return;
-    const [file] = acceptedFiles;
+    setComplete(false);
+    setWait(true);
+
+    if (acceptedFiles.length < 1 || wait) return;
+
+    const [file] = files;
     const formData = new FormData();
     formData.append('file', file);
+
     try {
       const user = await auth.getUser();
       const token = auth.getIdToken();
 
-      if(!user || !token) throw new Error('不正なユーザー');
+      if (!user || !token) throw new Error('不正なユーザー');
 
       const sub = user.getCognitoUserAttribute('sub');
-      
-      if(!sub) throw new Error('ユーザーIDが存在しません');
 
-      const s3json = await fetcher<S3ReponseType>(`${config.api}/file/upload`, {
+      if (!sub) throw new Error('ユーザーIDが存在しません');
+
+      const s3res = await fetcher<S3ReponseType>(`${config.api}/file/upload`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -34,7 +47,7 @@ const useUpload = () => {
         method: 'POST',
         body: JSON.stringify({
           'description': `${file.name}`,
-          'filePath': s3json.Key,
+          'filePath': s3res.Key,
           'fileSize': file.size,
           'uid': sub.getValue()
         }),
@@ -45,15 +58,20 @@ const useUpload = () => {
         }
       });
 
-      if (!dbres.ok) throw new Error('アップロードに失敗')
+      if (!dbres.ok) throw new Error('アップロードに失敗');
+
+      setComplete(true);
+      setFiles([]);
     } catch (e) {
       console.error(e);
+    } finally {
+      setWait(false);
     }
   }
 
   return {
     getRootProps, getInputProps, upload,
-    file: acceptedFiles[0]
+    file: files[0], complete
   }
 }
 

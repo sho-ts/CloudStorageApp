@@ -26,6 +26,7 @@ const Wrapper = styled.header`
   display: flex;
   align-items: center;
   padding: 0 24px;
+  box-shadow: 2px 2px 4px rgba(50,50,50,0.3);
 `;
 
 const ButtonBorderStyle = css`
