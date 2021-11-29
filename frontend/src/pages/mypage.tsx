@@ -9,12 +9,15 @@ import { Layout } from '@/components/templates';
 import styled from 'styled-components';
 import { mq } from '@mixin';
 import { Button, TextField } from '@/components/atoms';
+import { UploadModal } from '@/components/organisms';
 import Link from 'next/link';
+import { useModal } from '@/hooks';
 
 const MyPage: NextPage = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [pages, setPages] = useState<number>(0);
   const [current, setCurrent] = useState<number>(0);
+  const [modalOpen, handleModalOpen, handleModalClose] = useModal();
 
   const getNextPosts = async () => {
     const next = current + 1
@@ -88,13 +91,14 @@ const MyPage: NextPage = () => {
           </Main>
           <Sidebar>
             <FileUpload>
-              <Button>アップロード</Button>
+              <Button onClick={handleModalOpen}>アップロード</Button>
             </FileUpload>
             <Search>
               <TextField placeholder="検索" />
             </Search>
           </Sidebar>
         </Inner>
+        <UploadModal isOpen={modalOpen} onClose={handleModalClose} />
       </Layout>
     </Auth >
   )

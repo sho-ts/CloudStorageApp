@@ -1,8 +1,6 @@
 import { useSelector } from '@/hooks';
 import { useDisclosure } from '@/hooks';
-import { Header, Footer, UploadModal } from '@/components/organisms';
-import { Container, Box, IconButton } from '@chakra-ui/react';
-import { AiOutlineUpload } from 'react-icons/ai';
+import { Header, Footer } from '@/components/organisms';
 import styled from 'styled-components';
 import { mq } from '@mixin';
 
@@ -19,24 +17,8 @@ const Layout: React.FC<Props> = ({ children }) => {
     <>
       <Header />
       <Inner>
-        <Container maxW="container.xl" py={6}>
           {children}
-        </Container>
       </Inner>
-      {user.isSignIn && (
-        <>
-          <IconButton
-            aria-label='upload'
-            icon={<AiOutlineUpload />}
-            isRound={true}
-            position={"fixed"}
-            bottom={4}
-            right={4}
-            onClick={onOpen}
-          />
-          <UploadModal isOpen={isOpen} onClose={onClose} />
-        </>
-      )}
       <Footer />
     </>
   )
@@ -44,8 +26,10 @@ const Layout: React.FC<Props> = ({ children }) => {
 
 const Inner = styled.main`
   min-height: calc(100vh - 60px - 37px);
+  padding: 24px 16px;
   ${mq()} {
     min-height: calc(100vh - 60px - 68px);
+    padding: 32px 24px;
   }
 `;
 
