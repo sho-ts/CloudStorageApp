@@ -1,8 +1,8 @@
 up:
-	docker-compose up -d
+	docker-compose -f docker-compose.local.yml up -d
 
 down: 
-	docker-compose down
+	docker-compose -f docker-compose.local.yml down
 
 restart:
 	@make down
@@ -15,7 +15,7 @@ logs:
 	docker-compose logs
 
 build:
-	docker-compose build --no-cache
+	docker-compose build -f docker-compose.local.yml --no-cache
 
 express:
 	docker-compose exec express sh
