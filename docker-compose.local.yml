@@ -21,6 +21,8 @@ services:
     tty: true
     ports:
       - 3001:3000
+    depends_on:
+      - mysql
 
   app:
     image: node:14.17.6-alpine3.11
@@ -33,3 +35,18 @@ services:
       - 8800:3000
     depends_on:
       - api
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    volumes:
+      - ./backend/db:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: database
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    ports:
+      - 3306:3306
