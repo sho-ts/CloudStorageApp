@@ -1,5 +1,4 @@
 import { useSelector } from '@/hooks';
-import { useDisclosure } from '@/hooks';
 import { Header, Footer } from '@/components/organisms';
 import styled from 'styled-components';
 import { mq } from '@mixin';
@@ -10,7 +9,6 @@ type Props = {
 }
 
 const Layout: React.FC<Props> = ({ children }) => {
-  const { isOpen, onClose, onOpen } = useDisclosure();
   const user = useSelector(state => state.user);
 
   return (
