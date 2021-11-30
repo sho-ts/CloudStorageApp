@@ -2,53 +2,51 @@ import { useSignIn } from '@/hooks';
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { PageTitle } from '@/components/atoms';
-import { Button, Input, Box, Container, Text } from '@chakra-ui/react';
+import { TextField, TextLink, Button } from '@/components/atoms';
 import { Layout } from '@/components/templates';
 import Link from 'next/link';
+import styled from 'styled-components';
 
-type Props = {
-
-}
-
-const SignIn: NextPage<Props> = (props) => {
+const SignIn: NextPage = () => {
   const { email, password, setEmail, setPassword, signIn } = useSignIn();
 
   return (
-    <Layout>
+    <Layout isGuest={true}>
       <Head>
         <title>ログイン</title>
       </Head>
-      <Container maxW="container.sm">
+      <Inner>
         <PageTitle>ログイン</PageTitle>
-        <Box mb={8}>
-          <Box mb={6}>
-            <Input
-              placeholder="メールアドレス"
-              type="text" value={email}
-              onChange={e => { setEmail(e.target.value) }}
-            />
-          </Box>
-          <Box mb={6}>
-            <Input
-              placeholder="パスワード"
-              type="text" value={password}
-              onChange={e => { setPassword(e.target.value) }}
-            />
-          </Box>
-          <Box textAlign="center">
-            <Button type="button" onClick={signIn} px="8">確認</Button>
-          </Box>
-        </Box>
-        <Text align="right" color="blue.700">
-          <Link href="/signup">
-            <a>
-              新規登録はこちら
-            </a>
+        <div style={{ marginBottom: 16 }}>
+          <TextField
+            placeholder="メールアドレス"
+            type="text" value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEmail(e.target.value) }}
+          />
+        </div>
+        <div style={{ marginBottom: 16 }}>
+          <TextField
+            placeholder="パスワード"
+            type="text" value={password}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
+          />
+        </div>
+        <div style={{ marginBottom: 16, textAlign: 'center' }}>
+          <Button onClick={signIn}>確認</Button>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <Link href="/signup" passHref>
+            <TextLink>新規登録はこちら</TextLink>
           </Link>
-        </Text>
-      </Container>
+        </div>
+      </Inner>
     </Layout>
   )
 }
+
+const Inner = styled.div`
+  max-width: 500px;
+  margin: 0 auto;
+`;
 
 export default SignIn;
