@@ -27,7 +27,7 @@ const Home = () => {
         <Architect />
         <GetStarted onClick={onClickStart} />
       </LP>
-      <Footer />
+      <Footer isGuest={true} />
     </>
   )
 }

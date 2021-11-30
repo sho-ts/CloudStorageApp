@@ -11,7 +11,7 @@ const SignIn: NextPage = () => {
   const { email, password, setEmail, setPassword, signIn } = useSignIn();
 
   return (
-    <Layout>
+    <Layout isGuest={true}>
       <Head>
         <title>ログイン</title>
       </Head>

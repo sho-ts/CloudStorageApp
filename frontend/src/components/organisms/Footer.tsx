@@ -1,38 +1,48 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import React from 'react';
 import { mq } from '@mixin';
 import { SiteLogo } from '@/components/atoms';
+import { CONSTANT_VARIABLES } from '@/utils'
+import { USER_TYPE } from '@/utils/const';
 
-const Footer = () => {
+type Props = {
+  isGuest?: boolean
+}
+
+const Footer: React.FC<Props> = ({ isGuest }) => {
   return (
     <Wrapper>
       <Inner>
         <SiteLogo />
         <Menu>
+          {CONSTANT_VARIABLES.navItems.map((item, key) => (
+            <React.Fragment key={key}>
+              {isGuest && item.user === USER_TYPE.GUEST && (
+                <Item>
+                  <Link href={item.href}>
+                    <a>{item.innerText}</a>
+                  </Link>
+                </Item>
+              )}
+              {isGuest || item.user === USER_TYPE.MEMBER && (
+                <Item>
+                  <Link href={item.href}>
+                    <a>{item.innerText}</a>
+                  </Link>
+                </Item>
+              )}
+              {item.user === USER_TYPE.COMMON && (
+                <Item>
+                  <Link href={item.href}>
+                    <a>{item.innerText}</a>
+                  </Link>
+                </Item>
+              )}
+            </React.Fragment>
+          ))}
           <Item>
-            <Link href="/">
-              <a>新規登録</a>
-            </Link>
-          </Item>
-          <Item>
-            <Link href="/">
-              <a>ログイン</a>
-            </Link>
-          </Item>
-          <Item>
-            <Link href="/">
-              <a>よくある質問</a>
-            </Link>
-          </Item>
-          <Item>
-            <Link href="/">
-              <a>お問い合わせ</a>
-            </Link>
-          </Item>
-          <Item>
-            <Link href="/">
-              <a>GitHub</a>
-            </Link>
+            <a href="https://github.com/frontTSend/CloudStorageApp" target="_blank" rel="noreferrer">GitHub</a>
           </Item>
         </Menu>
       </Inner>

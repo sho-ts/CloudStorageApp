@@ -3,21 +3,20 @@ import { Header, Footer } from '@/components/organisms';
 import styled from 'styled-components';
 import { mq } from '@mixin';
 
-
 type Props = {
-  children: React.ReactNode
+  isGuest?: boolean
 }
 
-const Layout: React.FC<Props> = ({ children }) => {
+const Layout: React.FC<Props> = ({ children, isGuest }) => {
   const user = useSelector(state => state.user);
 
   return (
     <>
       <Header />
       <Inner>
-          {children}
+        {children}
       </Inner>
-      <Footer />
+      <Footer isGuest={isGuest} />
     </>
   )
 }

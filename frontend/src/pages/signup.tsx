@@ -12,7 +12,7 @@ const SignIn: NextPage = () => {
   const { email, password, setEmail, setPassword, signUp } = useSignUp();
 
   return (
-    <Layout>
+    <Layout isGuest={true}>
       <Head>
         <title>新規登録</title>
       </Head>
