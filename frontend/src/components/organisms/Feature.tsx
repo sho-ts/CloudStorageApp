@@ -96,7 +96,10 @@ const Figure = styled.figure.attrs((props: {
   left: props.position === 'left' ? 0 : 'auto',
   right: props.position === 'right' ? 0 : 'auto',
   circle: props.circle,
-}))`
+}))<{
+  position: 'left' | 'right',
+  circle: string,
+}>`
   position: relative;
   display: flex;
   align-items: center;

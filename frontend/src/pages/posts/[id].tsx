@@ -37,7 +37,7 @@ const Post: NextPage = () => {
       target.href = url;
       target.click();
     } catch (e) {
-      alert(e.message);
+      console.error(e);
     }
   }
 
