@@ -6,12 +6,13 @@ type Props = {
   href?: string,
   onClick?: any,
   style?: CSSProperties,
+  download?: boolean,
 }
 
-const Button: React.FC<Props> = ({ as, href, children, style, onClick }) => {
+const Button: React.FC<Props> = ({ as, href, children, style, onClick, download }) => {
   switch (as) {
     case 'a':
-      return <A href={href} style={style} onClick={onClick}><Inner>{children}</Inner></A>
+      return <A download={download} href={href} style={style} onClick={onClick}><Inner>{children}</Inner></A>
     case 'div':
       return <Div style={style} onClick={onClick}><Inner>{children}</Inner></Div>
     default:

@@ -3,16 +3,12 @@ import styled from 'styled-components';
 type Props = {
   isOpen?: boolean,
   onClose: any,
-  w?: string,
-  maxW?: string
 }
 
-const ModalWrapper: React.FC<Props> = ({ isOpen, onClose, children, w, maxW }) => {
+const ModalWrapper: React.FC<Props> = ({ isOpen, onClose, children }) => {
   return (
     <Wrapper isOpen={isOpen}>
-      <ModalChildren style={{ width: w, maxWidth: maxW }}>
-        {children}
-      </ModalChildren>
+      {children}
       <CloseWrapper onClick={onClose} />
     </Wrapper>
   )
@@ -38,6 +34,7 @@ const Wrapper = styled.div.attrs((props: { isOpen?: boolean }) => ({
   padding: 16px;
   transition: all 0.3s;
   z-index: 9999999999999;
+  overflow: hidden;
 `;
 
 const CloseWrapper = styled.div`
@@ -47,11 +44,6 @@ const CloseWrapper = styled.div`
   width: 100%;
   height: 100%;
   z-index: 5000000;
-`;
-
-const ModalChildren = styled.div`
-  position: relative;
-  z-index: 5000100;
 `;
 
 export default ModalWrapper;

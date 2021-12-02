@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ModalWrapper } from '@/components/organisms';
+import { ModalWrapper } from '@/components/molecules';
 
 type Props = {
   isOpen: boolean,
@@ -12,7 +12,7 @@ const Modal: React.FC<Props> = ({
   isOpen, onClose, title, children
 }) => {
   return (
-    <ModalWrapper isOpen={isOpen} onClose={onClose} w="70%" maxW="500px">
+    <ModalWrapper isOpen={isOpen} onClose={onClose}>
       <Inner>
         {children}
       </Inner>
@@ -22,6 +22,8 @@ const Modal: React.FC<Props> = ({
 
 const Inner = styled.div`
   background-color: #fff;
+  width: 70%;
+  max-width: 700px;
 `;
 
 export default Modal;

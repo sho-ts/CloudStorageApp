@@ -20,7 +20,7 @@ const Home = () => {
       <Head>
         <title>{CONSTANT_VARIABLES.siteName}</title>
       </Head>
-      <Header />
+      <Header isGuest={true} />
       <LP>
         <MainVisual onClick={onClickStart} />
         <Feature />
