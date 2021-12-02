@@ -5,5 +5,6 @@ export { default as UploadModal } from './UploadModal';
 
 export { default as Architect } from './Architect'
 export { default as MainVisual } from './MainVisual';
+export { default as ModalWrapper } from './ModalWrapper';
 export { default as Feature } from './Feature';
 export { default as GetStarted } from './GetStarted';

@@ -5,6 +5,8 @@ const config = {
         return 'http://api:3000';
       case 'local':
         return 'http://localhost:3001'
+      case 'production':
+        return process.env.NEXT_PUBLIC_API_URL;
       default:
         return 'http://localhost:3001'
     }
