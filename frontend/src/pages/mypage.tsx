@@ -3,7 +3,6 @@ import Head from 'next/head'
 import { PostType } from '@/types/PostType';
 import fetchPosts from '@/utils/fetchPosts';
 import Auth from '@/provider/AuthProvider';
-import { auth } from '@/utils/aws';
 import { useState, useEffect } from 'react';
 import { Layout } from '@/components/templates';
 import styled from 'styled-components';
@@ -72,16 +71,16 @@ const MyPage: NextPage = () => {
             </Header>
             <FileList>
               <Table>
-                <Tr>
+                <Tr className="head">
                   <Th>ファイル名</Th>
-                  <Th style={{ width: 250, flexShrink: 0 }}>アップロード日</Th>
+                  <Th className="creted-at">アップロード日</Th>
                 </Tr>
                 {posts.map((post, index) => (
                   <Tr key={index}>
                     <Link href={`/posts/${post.id}`}>
                       <a>
                         <Td>{post.description}</Td>
-                        <Td style={{ width: 250, flexShrink: 0 }}>{post.created_at}</Td>
+                        <Td className="created-at">{post.created_at}</Td>
                       </a>
                     </Link>
                   </Tr>
@@ -105,13 +104,18 @@ const MyPage: NextPage = () => {
 }
 
 const Inner = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  padding: 0 24px;
+  ${mq()} {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 0 24px;
+  }
 `;
 
 const Main = styled.main`
   width: 100%;
+  ${mq('md', 'down')} {
+    margin-bottom: 32px;
+  }
 `;
 
 const Header = styled.header`
@@ -130,12 +134,26 @@ const Table = styled.div`
 `;
 
 const Tr = styled.div`
-  display: flex;
-  width: 100%;
+  ${mq()} {
+    display: flex;
+    width: 100%;
+  }
+  &.head {
+    ${mq('md', 'down')} {
+      display: none; // ソート機能追加後変更
+    }
+  }
   a {
     width: 100%;
-    display: flex;
     transition: all 0.3s;
+    display: flex;
+    ${mq('md', 'down')} {
+      border-bottom: 1px solid #d9d9d9;
+      flex-direction: column-reverse;
+    }
+    ${mq()} {
+      width: 100%;
+    }
     &:hover {
       background-color: #ededed;
     }
@@ -148,6 +166,12 @@ const Th = styled.div`
   border-bottom: 1px solid #a3a3a3;
   padding: 24px;
   width: 100%;
+  &.created-at {
+    ${mq()} {
+      width: 250px;
+      flex-shrink: 0;
+    }
+  }
 `;
 
 const Td = styled.div`
@@ -156,12 +180,26 @@ const Td = styled.div`
   display:flex;
   flex-direction: column;
   justify-content: center;
-  border-bottom: 1px solid #d9d9d9;
-  padding: 16px 24px;
+  padding: 12px 16px;
+  ${mq()} {
+    padding: 16px 24px;
+    border-bottom: 1px solid #d9d9d9;
+  };
+  &.created-at {
+    ${mq('md', 'down')} {
+      font-size: 12px;
+      padding-bottom: 0;
+      opacity: 0.5;
+    }
+    ${mq()} {
+      width: 250px;
+      flex-shrink: 0;
+    }
+  }
 `;
 
 const Sidebar = styled.aside`
-  width: 280px;
+  max-width: 280px;
   flex-shrink: 0;
   margin-right: 48px;
 `;
