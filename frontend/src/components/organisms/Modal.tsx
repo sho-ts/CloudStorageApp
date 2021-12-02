@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ModalWrapper } from '@/components/organisms';
+import { ModalWrapper } from '@/components/molecules';
 
 type Props = {
   isOpen: boolean,

@@ -34,6 +34,7 @@ const Wrapper = styled.div.attrs((props: { isOpen?: boolean }) => ({
   padding: 16px;
   transition: all 0.3s;
   z-index: 9999999999999;
+  overflow: hidden;
 `;
 
 const CloseWrapper = styled.div`
