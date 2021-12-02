@@ -12,7 +12,7 @@ const Layout: React.FC<Props> = ({ children, isGuest }) => {
 
   return (
     <>
-      <Header />
+      <Header isGuest={isGuest} />
       <Inner>
         {children}
       </Inner>

@@ -1,21 +1,22 @@
-import { useState } from 'react';
-import { CONSTANT_VARIABLES } from '@/utils';
-import { mq } from '@mixin';
-import Link from 'next/link';
 import styled, { css } from 'styled-components';
 import { SiteLogo } from '@/components/atoms';
+import { HeaderNav } from '@/components/molecules'
+import { useModal } from '@/hooks';
 
-const Header = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const handleModalOpen = () => setOpen(true);
-  const handleModalClose = () => setOpen(false);
+type Props = {
+  isGuest?: boolean
+}
+
+const Header: React.FC<Props> = ({ isGuest }) => {
+  const [isOpen, handleModalOpen, handleModalClose] = useModal();
 
   return (
     <>
       <Wrapper>
         <SiteLogo />
-        <ToggleButton alia-label="menu"><span /></ToggleButton>
+        <ToggleButton alia-label="menu" onClick={handleModalOpen}><span /></ToggleButton>
       </Wrapper>
+      <HeaderNav isGuest={isGuest} isOpen={isOpen} onClose={handleModalClose} />
     </>
   )
 }
