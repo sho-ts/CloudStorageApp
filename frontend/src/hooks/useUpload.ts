@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone'
-import { fetcher, config } from '@/utils';
+import { config } from '@/utils';
 import { S3ReponseType } from '@/types/S3ResponseType';
 import { auth } from '@/utils/aws';
+import axios from 'axios';
 
 const useUpload = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -35,30 +36,22 @@ const useUpload = () => {
 
       if (!sub) throw new Error('ユーザーIDが存在しません');
 
-      const s3res = await fetcher<S3ReponseType>(`${config.api}/file/upload`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+      const s3res = await axios.post<S3ReponseType>(`${config.api}/file/upload`, formData, {
+        headers: { 'Authorization': `Bearer ${token}` }
       });
 
-      const dbres = await fetch(`${config.api}/post`, {
-        method: 'POST',
-        body: JSON.stringify({
-          'description': `${file.name}`,
-          'filePath': s3res.Key,
-          'fileSize': file.size,
-          'uid': sub.getValue()
-        }),
+      await axios.post(`${config.api}/post`, {
+        'description': `${file.name}`,
+        'filePath': s3res.data.Key,
+        'fileSize': file.size,
+        'uid': sub.getValue()
+      }, {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         }
-      });
-
-      if (!dbres.ok) throw new Error('アップロードに失敗');
+      })
 
       setComplete(true);
       setFiles([]);
