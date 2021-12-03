@@ -40,6 +40,7 @@ const A = styled.a`${ButtonStyle}`;
 const Div = styled.div`${ButtonStyle}`;
 
 const Inner = styled.span`
+  pointer-events: none;
 `;
 
 export default Button;
