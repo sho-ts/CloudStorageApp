@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { SiteLogo } from '@/components/atoms';
 import { HeaderNav } from '@/components/molecules'
 import { useModal } from '@/hooks';
+import Link from 'next/link';
 
 type Props = {
   isGuest?: boolean
@@ -13,7 +14,11 @@ const Header: React.FC<Props> = ({ isGuest }) => {
   return (
     <>
       <Wrapper>
-        <SiteLogo />
+        <Link href={isGuest ? '/' : '/mypage'}>
+          <a>
+            <SiteLogo />
+          </a>
+        </Link>
         <ToggleButton alia-label="menu" onClick={handleModalOpen}><span /></ToggleButton>
       </Wrapper>
       <HeaderNav isGuest={isGuest} isOpen={isOpen} onClose={handleModalClose} />
