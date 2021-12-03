@@ -56,6 +56,7 @@ const Post: NextPage = () => {
           </div>
         </>
       )}
+      {error && <p>データがありません</p>}
     </Layout>
   )
 }
