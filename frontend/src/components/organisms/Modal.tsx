@@ -24,6 +24,8 @@ const Inner = styled.div`
   background-color: #fff;
   width: 70%;
   max-width: 700px;
+  position: relative;
+  z-index: 99999999;
 `;
 
 export default Modal;

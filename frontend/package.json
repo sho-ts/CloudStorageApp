@@ -18,6 +18,7 @@
     "@reduxjs/toolkit": "^1.6.2",
     "amazon-cognito-identity-js": "^5.2.3",
     "aws-sdk": "^2.1023.0",
+    "axios": "^0.24.0",
     "babel-plugin-styled-components": "^2.0.1",
     "destyle.css": "^3.0.0",
     "framer-motion": "^4",
