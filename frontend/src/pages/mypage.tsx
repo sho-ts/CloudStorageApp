@@ -11,6 +11,10 @@ import { Button, TextField } from '@/components/atoms';
 import { UploadModal } from '@/components/organisms';
 import Link from 'next/link';
 import { useModal } from '@/hooks';
+import useSWR from 'swr';
+import { config } from '@/utils';
+import { auth } from '@/utils/aws';
+import axios from 'axios'
 
 const MyPage: NextPage = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
@@ -18,45 +22,46 @@ const MyPage: NextPage = () => {
   const [current, setCurrent] = useState<number>(0);
   const [modalOpen, handleModalOpen, handleModalClose] = useModal();
 
-  const getNextPosts = async () => {
-    const next = current + 1
+  //pagination周りの処理（置き換え後削除）
+  // const getNextPosts = async () => {
+  //   const next = current + 1
 
-    if (pages < next) return;
+  //   if (pages < next) return;
 
-    const newPosts = await fetchPosts(next);
+  //   const newPosts = await fetchPosts(next);
 
-    if (newPosts) {
-      setPosts(newPosts.posts);
-      setPages(newPosts.pages);
-      setCurrent(newPosts.current);
-    }
-  }
+  //   if (newPosts) {
+  //     setPosts(newPosts.posts);
+  //     setPages(newPosts.pages);
+  //     setCurrent(newPosts.current);
+  //   }
+  // }
 
-  const getPrevPosts = async () => {
-    const prev = current - 1;
+  // const getPrevPosts = async () => {
+  //   const prev = current - 1;
 
-    if (1 > prev) return;
+  //   if (1 > prev) return;
 
-    const newPosts = await fetchPosts(prev);
+  //   const newPosts = await fetchPosts(prev);
 
-    if (newPosts) {
-      setPosts(newPosts.posts);
-      setPages(newPosts.pages);
-      setCurrent(newPosts.current);
-    }
-  }
+  //   if (newPosts) {
+  //     setPosts(newPosts.posts);
+  //     setPages(newPosts.pages);
+  //     setCurrent(newPosts.current);
+  //   }
+  // }
 
-  useEffect(() => {
-    (async () => {
-      const newPosts = await fetchPosts();
+  const { data, error } = useSWR<{
+    posts: PostType[],
+    pages: number,
+    current: number,
+  }>(`${config.api}/post/all?page=2`, (url: string) => {
+    const token = auth.getIdToken();
 
-      if (newPosts) {
-        setPosts(newPosts.posts);
-        setPages(newPosts.pages);
-        setCurrent(newPosts.current);
-      }
-    })();
-  }, [])
+    return axios.get(url, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(res => res.data);
+  });
 
   return (
     <Auth>
@@ -75,7 +80,7 @@ const MyPage: NextPage = () => {
                   <Th>ファイル名</Th>
                   <Th className="creted-at">アップロード日</Th>
                 </Tr>
-                {posts.map((post, index) => (
+                {data && data.posts.map((post, index) => (
                   <Tr key={index}>
                     <Link href={`/posts/${post.id}`}>
                       <a>
