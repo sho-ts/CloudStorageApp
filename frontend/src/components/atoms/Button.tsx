@@ -9,16 +9,17 @@ type Props = {
   style?: CSSProperties,
   download?: boolean,
   outline?: boolean,
+  className?: string,
 }
 
-const Button: React.FC<Props> = ({ as, href, children, style, onClick, download, outline }) => {
+const Button: React.FC<Props> = ({ as, href, children, style, onClick, download, outline, className }) => {
   switch (as) {
     case 'a':
-      return <A download={download} href={href} style={style} onClick={onClick} outline={outline}><Inner>{children}</Inner></A>
+      return <A download={download} href={href} style={style} onClick={onClick} outline={outline} className={className}><Inner>{children}</Inner></A>
     case 'div':
-      return <Div style={style} onClick={onClick} outline={outline}><Inner>{children}</Inner></Div>
+      return <Div style={style} onClick={onClick} outline={outline} className={className}><Inner>{children}</Inner></Div>
     default:
-      return <Default style={style} onClick={onClick} outline={outline}><Inner>{children}</Inner></Default>
+      return <Default style={style} onClick={onClick} outline={outline} className={className}><Inner>{children}</Inner></Default>
   }
 };
 
@@ -43,7 +44,6 @@ const ButtonStyle = (props: ButtonStyleProps) => css<ButtonStyleProps>`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  min-width: 172px;
   height: 54px;
   border-radius: 28px;
   background-color: #105cc3;
