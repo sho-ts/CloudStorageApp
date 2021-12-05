@@ -7,16 +7,17 @@ type Props = {
   onClick?: any,
   style?: CSSProperties,
   download?: boolean,
+  outline?: boolean,
 }
 
-const Button: React.FC<Props> = ({ as, href, children, style, onClick, download }) => {
+const Button: React.FC<Props> = ({ as, href, children, style, onClick, download, outline }) => {
   switch (as) {
     case 'a':
-      return <A download={download} href={href} style={style} onClick={onClick}><Inner>{children}</Inner></A>
+      return <A download={download} href={href} style={style} onClick={onClick} outline={outline}><Inner>{children}</Inner></A>
     case 'div':
-      return <Div style={style} onClick={onClick}><Inner>{children}</Inner></Div>
+      return <Div style={style} onClick={onClick} outline={outline}><Inner>{children}</Inner></Div>
     default:
-      return <Default style={style} onClick={onClick}><Inner>{children}</Inner></Default>
+      return <Default style={style} onClick={onClick} outline={outline}><Inner>{children}</Inner></Default>
   }
 };
 
@@ -35,9 +36,28 @@ const ButtonStyle = css`
   cursor: pointer;
 `;
 
-const Default = styled.button`${ButtonStyle}`;
-const A = styled.a`${ButtonStyle}`;
-const Div = styled.div`${ButtonStyle}`;
+const outlineStyle = css`
+  border: 2px solid #105cc3;
+  color: #105cc3;
+  background-color: #fff;
+`;
+
+type ButtonStyleProps = {
+  outline?: boolean,
+}
+
+const Default = styled.button<ButtonStyleProps>`
+  ${ButtonStyle}
+  ${props => props.outline && outlineStyle}
+`;
+const A = styled.a<ButtonStyleProps>`
+  ${ButtonStyle}
+  ${props => props.outline && outlineStyle}
+`;
+const Div = styled.div<ButtonStyleProps>`
+  ${ButtonStyle}
+  ${props => props.outline && outlineStyle}
+`;
 
 const Inner = styled.span`
   pointer-events: none;
