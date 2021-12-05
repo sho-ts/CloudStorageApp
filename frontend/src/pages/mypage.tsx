@@ -1,67 +1,29 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { PostType } from '@/types/PostType';
-import fetchPosts from '@/utils/fetchPosts';
 import Auth from '@/provider/AuthProvider';
-import { useState, useEffect } from 'react';
 import { Layout } from '@/components/templates';
 import styled from 'styled-components';
-import { mq } from '@mixin';
+import { mq, hover } from '@mixin';
 import { Button, TextField } from '@/components/atoms';
+import { Pagination } from '@/components/molecules';
 import { UploadModal } from '@/components/organisms';
 import Link from 'next/link';
-import { useModal } from '@/hooks';
+import { useModal, usePosts } from '@/hooks';
 import useSWR from 'swr';
 import { config } from '@/utils';
 import { auth } from '@/utils/aws';
 import axios from 'axios'
 
+type PostsType = {
+  posts: PostType[],
+  pages: number,
+  current: number,
+}
+
 const MyPage: NextPage = () => {
-  const [posts, setPosts] = useState<PostType[]>([]);
-  const [pages, setPages] = useState<number>(0);
-  const [current, setCurrent] = useState<number>(0);
   const [modalOpen, handleModalOpen, handleModalClose] = useModal();
-
-  //pagination周りの処理（置き換え後削除）
-  // const getNextPosts = async () => {
-  //   const next = current + 1
-
-  //   if (pages < next) return;
-
-  //   const newPosts = await fetchPosts(next);
-
-  //   if (newPosts) {
-  //     setPosts(newPosts.posts);
-  //     setPages(newPosts.pages);
-  //     setCurrent(newPosts.current);
-  //   }
-  // }
-
-  // const getPrevPosts = async () => {
-  //   const prev = current - 1;
-
-  //   if (1 > prev) return;
-
-  //   const newPosts = await fetchPosts(prev);
-
-  //   if (newPosts) {
-  //     setPosts(newPosts.posts);
-  //     setPages(newPosts.pages);
-  //     setCurrent(newPosts.current);
-  //   }
-  // }
-
-  const { data, error } = useSWR<{
-    posts: PostType[],
-    pages: number,
-    current: number,
-  }>(`${config.api}/post/all?page=2`, (url: string) => {
-    const token = auth.getIdToken();
-
-    return axios.get(url, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).then(res => res.data);
-  });
+  const { current, data, error, getNextDatas, getPrevDatas} = usePosts();
 
   return (
     <Auth>
@@ -92,6 +54,7 @@ const MyPage: NextPage = () => {
                 ))}
               </Table>
             </FileList>
+            {data && <Pagination pages={data.pages} current={current} getNextDatas={getNextDatas} getPrevDatas={getPrevDatas} />}
           </Main>
           <Sidebar>
             <FileUpload>
@@ -132,6 +95,7 @@ const DirHeading = styled.h2`
 `;
 
 const FileList = styled.div`
+  margin-bottom: 32px;
 `;
 
 const Table = styled.div`
@@ -215,6 +179,16 @@ const FileUpload = styled.section`
 
 const Search = styled.div`
 
+`;
+
+const PaginationButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  .pagination-button {
+    &:not(:last-child) {
+      margin-right: 16px;
+    }
+  }
 `;
 
 export default MyPage;
