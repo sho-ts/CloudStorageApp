@@ -4,6 +4,7 @@ import { config } from '@/utils';
 import { S3ReponseType } from '@/types/S3ResponseType';
 import { auth } from '@/utils/aws';
 import axios from 'axios';
+import { mutate } from 'swr';
 
 const useUpload = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -55,6 +56,7 @@ const useUpload = () => {
 
       setComplete(true);
       setFiles([]);
+      mutate(`${config.api}/post/all?page=2`)
     } catch (e) {
       console.error(e);
     } finally {
