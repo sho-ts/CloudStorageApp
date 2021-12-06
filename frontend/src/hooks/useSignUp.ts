@@ -10,7 +10,7 @@ const useSignUp = () => {
   const signUp = async () => {
     try {
       const res = await auth.signup(email, password);
-      router.push('/activate');
+      router.push(`/activate?email=${email}`);
     } catch (e) {
       console.error(e);
     }
