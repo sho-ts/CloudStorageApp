@@ -5,6 +5,8 @@ import { config } from '@/utils';
 import axios from 'axios'
 import { PostType } from '@/types/PostType';
 import { createPagination } from '@/utils';
+import { useDispatch, useSelector } from '@/hooks';
+import { setPostState } from '@/stores/post';
 
 type PostsType = {
   posts: PostType[],
@@ -13,13 +15,24 @@ type PostsType = {
 }
 
 const usePosts = () => {
-  const [current, setCurrent] = useState<number>(1);
-  const [keyword, setKeyword] = useState<string>('');
+  const { current, keyword } = useSelector(props => props.post);
+  const dispatch = useDispatch();
+
+  const [inputKeyword, setInputKeyword] = useState<string>('');
 
   const onChangeInputKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value)
-    setCurrent(1);
+    setInputKeyword(e.target.value);
+    dispatch(setPostState({
+      current: 1,
+      keyword: inputKeyword,
+    }));
   };
+
+  const dispatchCurrent = (current: number) => {
+    dispatch(setPostState({
+      current,
+    }))
+  }
 
   const { data, error } = useSWR<PostsType>(`${config.api}/post/all?page=${current}&s=${keyword}`, (url: string) => {
     const token = auth.getIdToken();
@@ -27,13 +40,15 @@ const usePosts = () => {
     return axios.get<PostsType>(url, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(({ data }) => {
-      setCurrent(data.current);
+      dispatch(setPostState({
+        current: data.current
+      }))
 
       return data
     });
   });
 
-  const [getNextDatas, getPrevDatas] = createPagination<PostsType>(current, setCurrent, data);
+  const [getNextDatas, getPrevDatas] = createPagination<PostsType>(current, dispatchCurrent, data);
 
   return {
     current,

@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 import { configureStore } from "@reduxjs/toolkit";
-import { useSelector as useSelectorOrigin } from 'react-redux';
 
 import userReducer from './user';
+import postReducer from './post';
 
 const reducer = combineReducers({
-  user: userReducer
+  user: userReducer,
+  post: postReducer,
 })
 
 const store = configureStore({ reducer });
