@@ -13,6 +13,15 @@ const useUpload = (onClose: any, current: number, keyword?: string) => {
 
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
+      const [file] = acceptedFiles;
+
+      if(file.size >= 524288000) {
+        alert('一度にアップロードできるサイズは500MBまでです');
+        acceptedFiles.pop();
+
+        return;
+      }
+      
       setFiles([...files, ...acceptedFiles]);
     },
   })
@@ -27,16 +36,9 @@ const useUpload = (onClose: any, current: number, keyword?: string) => {
     const formData = new FormData();
     formData.append('file', file);
 
+
     try {
-      const user = await auth.getUser();
       const token = auth.getIdToken();
-
-      if (!user || !token) throw new Error('不正なユーザー');
-
-      const sub = user.getCognitoUserAttribute('sub');
-
-      if (!sub) throw new Error('ユーザーIDが存在しません');
-
       const s3res = await axios.post<S3ReponseType>(`${config.api}/file/upload`, formData, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -45,7 +47,6 @@ const useUpload = (onClose: any, current: number, keyword?: string) => {
         'description': `${file.name}`,
         'filePath': s3res.data.Key,
         'fileSize': file.size,
-        'uid': sub.getValue()
       }, {
         headers: {
           'Accept': 'application/json',
@@ -56,6 +57,7 @@ const useUpload = (onClose: any, current: number, keyword?: string) => {
 
       setComplete(true);
       setFiles([]);
+      acceptedFiles.pop();
       mutate(`${config.api}/post/all?page=${current}&s=${keyword}`)
       onClose();
     } catch (e) {
