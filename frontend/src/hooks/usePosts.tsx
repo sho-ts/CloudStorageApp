@@ -16,7 +16,10 @@ const usePosts = () => {
   const [current, setCurrent] = useState<number>(1);
   const [keyword, setKeyword] = useState<string>('');
 
-  const onChangeInputKeyword = (e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value);
+  const onChangeInputKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value)
+    setCurrent(1);
+  };
 
   const { data, error } = useSWR<PostsType>(`${config.api}/post/all?page=${current}&s=${keyword}`, (url: string) => {
     const token = auth.getIdToken();

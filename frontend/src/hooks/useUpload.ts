@@ -6,7 +6,7 @@ import { auth } from '@/utils/aws';
 import axios from 'axios';
 import { mutate } from 'swr';
 
-const useUpload = () => {
+const useUpload = (onClose: any, current: number, keyword?: string) => {
   const [files, setFiles] = useState<File[]>([]);
   const [complete, setComplete] = useState<boolean>(false);
   const [wait, setWait] = useState<boolean>(false);
@@ -56,7 +56,8 @@ const useUpload = () => {
 
       setComplete(true);
       setFiles([]);
-      mutate(`${config.api}/post/all?page=2`)
+      mutate(`${config.api}/post/all?page=${current}&s=${keyword}`)
+      onClose();
     } catch (e) {
       console.error(e);
     } finally {
