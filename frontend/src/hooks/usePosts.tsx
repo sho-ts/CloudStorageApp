@@ -14,8 +14,11 @@ type PostsType = {
 
 const usePosts = () => {
   const [current, setCurrent] = useState<number>(1);
+  const [keyword, setKeyword] = useState<string>('');
 
-  const { data, error } = useSWR<PostsType>(`${config.api}/post/all?page=${current}`, (url: string) => {
+  const onChangeInputKeyword = (e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value);
+
+  const { data, error } = useSWR<PostsType>(`${config.api}/post/all?page=${current}&s=${keyword}`, (url: string) => {
     const token = auth.getIdToken();
 
     return axios.get<PostsType>(url, {
@@ -33,6 +36,8 @@ const usePosts = () => {
     current,
     data,
     error,
+    keyword,
+    onChangeInputKeyword,
     getNextDatas,
     getPrevDatas,
   }
