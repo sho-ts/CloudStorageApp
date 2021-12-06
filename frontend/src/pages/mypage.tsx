@@ -40,7 +40,7 @@ const MyPage: NextPage = () => {
               <Table>
                 <Tr className="head">
                   <Th>ファイル名</Th>
-                  <Th className="creted-at">アップロード日</Th>
+                  <Th className="created-at">アップロード日</Th>
                 </Tr>
                 {data && data.posts.map((post, index) => (
                   <Tr key={index}>
