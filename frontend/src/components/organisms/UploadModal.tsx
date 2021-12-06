@@ -5,11 +5,13 @@ import { useUpload } from '@/hooks';
 
 type Props = {
   isOpen: boolean,
-  onClose: any
+  onClose: any,
+  current: number,
+  keyword?: string,
 }
 
-const UploadModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { getRootProps, getInputProps, upload, file } = useUpload();
+const UploadModal: React.FC<Props> = ({ isOpen, onClose, current, keyword }) => {
+  const { getRootProps, getInputProps, upload, file } = useUpload(onClose, current, keyword);
 
   return (
     <Modal
