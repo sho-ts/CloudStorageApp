@@ -14,6 +14,8 @@ export class FileService {
     const s3 = new aws.S3();
 
     return new Promise((resolve, reject) => {
+      file.size >= 524288000 && reject('ファイルサイズが制限を超えています');
+
       s3.upload({
         Bucket: process.env.S3_BUCKET_NAME,
         Key: `${new Date().getTime()}-${process.env.S3_BUCKET_KEY_PREFIX}-${file.originalname}`,
