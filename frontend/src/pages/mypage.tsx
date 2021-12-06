@@ -23,7 +23,7 @@ type PostsType = {
 
 const MyPage: NextPage = () => {
   const [modalOpen, handleModalOpen, handleModalClose] = useModal();
-  const { current, data, error, getNextDatas, getPrevDatas} = usePosts();
+  const { current, data, error, getNextDatas, getPrevDatas, onChangeInputKeyword } = usePosts();
 
   return (
     <Auth>
@@ -61,7 +61,7 @@ const MyPage: NextPage = () => {
               <Button onClick={handleModalOpen}>アップロード</Button>
             </FileUpload>
             <Search>
-              <TextField placeholder="検索" />
+              <TextField onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeInputKeyword(e)} placeholder="検索" />
             </Search>
           </Sidebar>
         </Inner>
