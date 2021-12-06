@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Post } from './../entities/post.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { isDeleted } from '../utils';
 
 @Injectable()
 export class PostService {
@@ -41,13 +40,14 @@ export class PostService {
     return post;
   }
 
-  async readAll(uid: string, page = 1) {
+  async readAll(uid: string, page = 1, s: string = '') {
     // 投稿件数の合計を取得
     const count = await this.postRepository
       .createQueryBuilder()
       .select('COUNT(id)', 'count')
       .where('del_flg = :del_flg', { del_flg: 0 })
       .andWhere('uid = :uid', { uid })
+      .andWhere('description like :description', { description: `%${s}%` })
       .execute()
 
     // 投稿件数からページ数を計算
@@ -61,6 +61,7 @@ export class PostService {
       .select('*')
       .where('del_flg = :del_flg', { del_flg: 0 })
       .andWhere('uid = :uid', { uid })
+      .andWhere('description like :description', { description: `%${s}%` })
       .limit(10)
       .offset(offset)
       .execute()
