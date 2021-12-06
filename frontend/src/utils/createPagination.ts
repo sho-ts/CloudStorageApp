@@ -1,21 +1,19 @@
-import { SetStateAction } from 'react';
-
 const createPagination = <T extends { pages: number }>(
   current: number,
-  setCurrent: (value: SetStateAction<number>) => void,
+  dispacthCurrent: (value: number) => void,
   data?: T,
 ) => ([
   () => {
     if (!data) return;
 
     const next = current + 1
-    data.pages < next || setCurrent(next);
+    data.pages < next || dispacthCurrent(next);
   },
   () => {
     if (!data) return;
 
     const prev = current - 1;
-    1 > prev || setCurrent(prev);
+    1 > prev || dispacthCurrent(prev);
   }
 ]);
 
