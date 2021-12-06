@@ -70,6 +70,15 @@ class AWSCognito {
     });
   }
 
+  activate = (username: string, code: string) => {
+    const cognitoUser = new CognitoUser({
+      Username: username,
+      Pool: this.userPool
+    })
+
+    return new Promise<boolean | Error>((resolve, reject) => cognitoUser.confirmRegistration(code, true, error => error ? reject(error) : resolve(true)));
+  }
+
   getToken = (token: string) => {
     const key = Object.keys(localStorage).find(storage => storage.includes(token) && storage.includes('Cognito'))
 
