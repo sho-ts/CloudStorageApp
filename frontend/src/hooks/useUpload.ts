@@ -8,20 +8,24 @@ import { mutate } from 'swr';
 
 const useUpload = (onClose: any, current: number, keyword?: string) => {
   const [files, setFiles] = useState<File[]>([]);
+  const [fileName, setFileName] = useState<string>('');
+  const [disclosureRange, setDisclosureRange] = useState<number>(0);
   const [complete, setComplete] = useState<boolean>(false);
   const [wait, setWait] = useState<boolean>(false);
 
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
       const [file] = acceptedFiles;
+      setFileName(file.name);
+      setDisclosureRange(0);
 
-      if(file.size >= 524288000) {
+      if (file.size >= 524288000) {
         alert('一度にアップロードできるサイズは500MBまでです');
         acceptedFiles.pop();
 
         return;
       }
-      
+
       setFiles([...files, ...acceptedFiles]);
     },
   })
@@ -36,7 +40,6 @@ const useUpload = (onClose: any, current: number, keyword?: string) => {
     const formData = new FormData();
     formData.append('file', file);
 
-
     try {
       const token = auth.getIdToken();
       const s3res = await axios.post<S3ReponseType>(`${config.api}/file/upload`, formData, {
@@ -44,9 +47,10 @@ const useUpload = (onClose: any, current: number, keyword?: string) => {
       });
 
       await axios.post(`${config.api}/post`, {
-        'description': `${file.name}`,
-        'filePath': s3res.data.Key,
-        'fileSize': file.size,
+        description: fileName,
+        filePath: s3res.data.Key,
+        fileSize: file.size,
+        disclosureRange
       }, {
         headers: {
           'Accept': 'application/json',
@@ -69,6 +73,8 @@ const useUpload = (onClose: any, current: number, keyword?: string) => {
 
   return {
     getRootProps, getInputProps, upload,
+    fileName, disclosureRange,
+    setFileName, setDisclosureRange,
     file: files[0], complete
   }
 }

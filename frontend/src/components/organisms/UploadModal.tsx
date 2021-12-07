@@ -1,4 +1,4 @@
-import { Button } from '@/components/atoms';
+import { Button, TextField, Select } from '@/components/atoms';
 import { Modal } from '@/components/organisms';
 import styled from 'styled-components';
 import { useUpload } from '@/hooks';
@@ -11,7 +11,11 @@ type Props = {
 }
 
 const UploadModal: React.FC<Props> = ({ isOpen, onClose, current, keyword }) => {
-  const { getRootProps, getInputProps, upload, file } = useUpload(onClose, current, keyword);
+  const {
+    getRootProps, getInputProps, upload,
+    file, fileName, disclosureRange,
+    setFileName, setDisclosureRange,
+  } = useUpload(onClose, current, keyword);
 
   return (
     <Modal
@@ -23,7 +27,15 @@ const UploadModal: React.FC<Props> = ({ isOpen, onClose, current, keyword }) => 
         {file ? (
           <>
             <div style={{ marginBottom: 32 }}>
-              <Text style={{ marginRight: 16 }}>{file.name}</Text>
+              <TextField placeholder="ファイル名" style={{ marginBottom: 16 }} value={fileName} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFileName(e.target.value)} />
+              <Select
+                style={{ marginBottom: 16 }}
+                value={disclosureRange}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => { setDisclosureRange(Number(e.target.value)) }}
+              >
+                <option value="0">公開</option>
+                <option value="1">非公開</option>
+              </Select>
               <Text>{Math.ceil(file.size / 1024)}KB</Text>
             </div>
             <div style={{ textAlign: 'center' }}>

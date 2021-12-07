@@ -15,8 +15,8 @@ export class PostService {
     fileSize: string,
     filePath: string,
     uid: string,
-    disclosure_range: number,
-    allowed_email?: string,
+    disclosureRange: number,
+    allowedEmail?: string,
     password?: string,
   }) {
     const post = new Post();
@@ -24,8 +24,8 @@ export class PostService {
     post.file_size = postData.fileSize;
     post.file_path = postData.filePath;
     post.uid = postData.uid;
-    post.disclosure_range = postData.disclosure_range;
-    post.allowed_email = postData.allowed_email;
+    post.disclosure_range = postData.disclosureRange;
+    post.allowed_email = postData.allowedEmail;
     post.password = postData.password;
 
     return this.postRepository.insert(post);
@@ -44,12 +44,12 @@ export class PostService {
     if (!post) return;
 
     // 投稿のユーザーIDと一致しているか確認
-    if(post.uid === user.uid) {
+    if (post.uid === user.uid) {
       return post;
     } else {
       // ユーザーIDが一致していない場合は公開条件を確認する
       // 投稿が全体公開の場合は取得する
-      if(post.disclosure_range === 0) return post;
+      if (post.disclosure_range === 0) return post;
 
       return;
     }
