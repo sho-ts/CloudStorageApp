@@ -14,19 +14,25 @@ export class PostController {
 
   @Post()
   create(@GuardResponse() user, @Req() req: Request) {
-    const { description, fileSize, filePath } = req.body;
+    const {
+      description, fileSize, filePath,
+      allowed_email, password, disclosure_range
+    } = req.body;
 
     return this.service.create({
       description,
       fileSize,
       filePath,
+      disclosure_range,
+      allowed_email,
+      password,
       uid: user.sub
     });
   }
 
   @Get()
   read(@GuardResponse() user, @Query() { id }: { id: number }) {
-    return this.service.read(user.sub, id);
+    return this.service.read(user, id);
   }
 
   @Get('all')
