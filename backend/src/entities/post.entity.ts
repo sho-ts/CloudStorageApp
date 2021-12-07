@@ -2,36 +2,36 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 @Entity()
 export class Post {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column('text')
-    uid: string;
+  @Column('text')
+  uid: string;
 
-    @Column('text')
-    description: string;
+  @Column('text')
+  description: string;
 
-    @Column('text')
-    file_size: string;
+  @Column('text')
+  file_size: string;
 
-    @Column('text')
-    file_path: string
+  @Column('text')
+  file_path: string
 
-    @CreateDateColumn()
-    readonly created_at?: Date;
+  @CreateDateColumn()
+  readonly created_at?: Date;
 
-    @UpdateDateColumn()
-    readonly updated_at?: Date;
+  @UpdateDateColumn()
+  readonly updated_at?: Date;
 
-    @Column('tinyint', { width: 1, default: 0 })
-    del_flg: number;
+  @Column('tinyint', { width: 1, default: 0 })
+  del_flg: number;
 
-    @Column('tinyint', { width: 1, default: 0 })
-    disclosure_range : number;
+  @Column('tinyint', { width: 1, default: 0 })
+  disclosure_range: number;
 
-    @Column('longtext')
-    allowed_email: string
+  @Column({ nullable: true, type: 'longtext' })
+  allowed_email: string
 
-    @Column('text')
-    password: string
+  @Column({ nullable: true, type: 'text' })
+  password: string
 }
