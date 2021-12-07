@@ -15,17 +15,23 @@ export class PostService {
     fileSize: string,
     filePath: string,
     uid: string,
+    disclosure_range: number,
+    allowed_email?: string,
+    password?: string,
   }) {
     const post = new Post();
     post.description = postData.description;
     post.file_size = postData.fileSize;
     post.file_path = postData.filePath;
     post.uid = postData.uid;
+    post.disclosure_range = postData.disclosure_range;
+    post.allowed_email = postData.allowed_email;
+    post.password = postData.password;
 
     return this.postRepository.insert(post);
   }
 
-  async read(uid: string, id: number) {
+  async read(user: any, id: number) {
     const posts = await this.postRepository.
       createQueryBuilder()
       .select('*')
@@ -37,7 +43,16 @@ export class PostService {
 
     if (!post) return;
 
-    return post;
+    // 投稿のユーザーIDと一致しているか確認
+    if(post.uid === user.uid) {
+      return post;
+    } else {
+      // ユーザーIDが一致していない場合は公開条件を確認する
+      // 投稿が全体公開の場合は取得する
+      if(post.disclosure_range === 0) return post;
+
+      return;
+    }
   }
 
   async readAll(uid: string, page = 1, s: string = '') {
