@@ -16,15 +16,15 @@ export class PostController {
   create(@GuardResponse() user, @Req() req: Request) {
     const {
       description, fileSize, filePath,
-      allowed_email, password, disclosure_range
+      allowedEmail, password, disclosureRange
     } = req.body;
 
     return this.service.create({
       description,
       fileSize,
       filePath,
-      disclosure_range,
-      allowed_email,
+      disclosureRange,
+      allowedEmail,
       password,
       uid: user.sub
     });
