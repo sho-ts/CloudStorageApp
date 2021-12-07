@@ -25,4 +25,13 @@ export class Post {
 
     @Column('tinyint', { width: 1, default: 0 })
     del_flg: number;
+
+    @Column('tinyint', { width: 1, default: 0 })
+    disclosure_range : number;
+
+    @Column('longtext')
+    allowed_email: string
+
+    @Column('text')
+    password: string
 }
