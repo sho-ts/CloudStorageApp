@@ -30,8 +30,8 @@ const usePosts = () => {
 
   return {
     current,
-    data,
-    error,
+    postData: data,
+    postError: error,
     keyword,
     mutate,
     onChangeInputKeyword,
