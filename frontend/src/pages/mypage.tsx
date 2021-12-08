@@ -23,9 +23,6 @@ const MyPage: NextPage = () => {
       <Layout>
         <Inner>
           <Main>
-            <Header>
-              <DirHeading>開いているディレクトリの名前</DirHeading>
-            </Header>
             <FileList>
               <Table>
                 <Tr className="head">

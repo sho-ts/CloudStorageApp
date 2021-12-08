@@ -30,7 +30,6 @@ const Wrapper = styled.div.attrs((props: { isOpen?: boolean }) => ({
   justify-content: center;
   align-items: center;
   background-color: rgba(0,0,0,0.2);
-  cursor: pointer;
   padding: 16px;
   transition: all 0.3s;
   z-index: 9999999999999;
@@ -44,6 +43,7 @@ const CloseWrapper = styled.div`
   width: 100%;
   height: 100%;
   z-index: 5000000;
+  cursor: pointer;
 `;
 
 export default ModalWrapper;
