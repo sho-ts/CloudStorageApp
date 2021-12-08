@@ -1,19 +1,34 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { PostType } from '@/types/PostType';
 import Auth from '@/provider/AuthProvider';
 import { Layout } from '@/components/templates';
-import styled from 'styled-components';
-import { mq} from '@mixin';
+import styled, { css } from 'styled-components';
+import { mq, hover } from '@mixin';
 import { Button, TextField } from '@/components/atoms';
-import { Pagination } from '@/components/molecules';
+import { Pagination, Directories } from '@/components/molecules';
 import { UploadModal } from '@/components/organisms';
 import Link from 'next/link';
 import { useModal, usePosts } from '@/hooks';
+import useSWR from 'swr';
+import axios from 'axios';
+import { config } from '@/utils';
+import { auth } from '@/utils/aws';
+import { DirType } from '@/types/DirType';
 
 const MyPage: NextPage = () => {
   const [modalOpen, handleModalOpen, handleModalClose] = useModal();
-  const { current, data, error, keyword, getNextDatas, getPrevDatas, onChangeInputKeyword, mutate } = usePosts();
+  const { current, postData, postError, keyword, getNextDatas, getPrevDatas, onChangeInputKeyword, mutate } = usePosts();
+
+  const { data, error } = useSWR(`${config.api}/directory/all`, async (url: string) => {
+    await auth.getUser();
+    const token = auth.getIdToken();
+
+    return axios.get<DirType[]>(url, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(({ data }) => {
+      return data
+    });
+  })
 
   return (
     <Auth>
@@ -29,7 +44,7 @@ const MyPage: NextPage = () => {
                   <Th>ファイル名</Th>
                   <Th className="created-at">アップロード日</Th>
                 </Tr>
-                {data && data.posts.map((post, index) => (
+                {postData && postData.posts.map((post, index) => (
                   <Tr key={index}>
                     <Link href={`/posts/${post.id}`}>
                       <a>
@@ -41,7 +56,7 @@ const MyPage: NextPage = () => {
                 ))}
               </Table>
             </FileList>
-            {data && <Pagination pages={data.pages} current={current} getNextDatas={getNextDatas} getPrevDatas={getPrevDatas} />}
+            {postData && <Pagination pages={postData.pages} current={current} getNextDatas={getNextDatas} getPrevDatas={getPrevDatas} />}
           </Main>
           <Sidebar>
             <FileUpload>
@@ -50,6 +65,7 @@ const MyPage: NextPage = () => {
             <Search>
               <TextField value={keyword} onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeInputKeyword(e)} placeholder="検索" />
             </Search>
+            {data && <Directories dirs={data} />}
           </Sidebar>
         </Inner>
         <UploadModal mutate={mutate} current={current} keyword={keyword} isOpen={modalOpen} onClose={handleModalClose} />
@@ -71,14 +87,6 @@ const Main = styled.main`
   ${mq('md', 'down')} {
     margin-bottom: 32px;
   }
-`;
-
-const Header = styled.header`
-  margin-bottom: 16px;
-`;
-
-const DirHeading = styled.h2`
-  font-size: 20px;
 `;
 
 const FileList = styled.div`
@@ -110,9 +118,9 @@ const Tr = styled.div`
     ${mq()} {
       width: 100%;
     }
-    &:hover {
+    ${hover(css`
       background-color: #ededed;
-    }
+    `)} 
   }
 `;
 
