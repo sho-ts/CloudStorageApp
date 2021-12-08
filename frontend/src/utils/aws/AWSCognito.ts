@@ -88,7 +88,7 @@ class AWSCognito {
   };
 
   /** cognitoUserのAttributeを取得する */
-  getCognitoUserAttribute = (cognitoUserAttribute: CognitoUserAttribute[], attributeName: string) => cognitoUserAttribute.find(attribute => attribute.Name === attributeName);
+  getCognitoUserAttribute = (cognitoUserAttribute: CognitoUserAttribute[], attributeName: string) => cognitoUserAttribute.find(attribute => attribute.Name === attributeName)?.Value ?? '';
 
   getAccessToken = () => this.getToken('accessToken');
 
@@ -100,7 +100,7 @@ class AWSCognito {
     const cognitoUser = this.userPool.getCurrentUser();
 
     return new Promise<{
-      getCognitoUserAttribute: (attributeName: string) => CognitoUserAttribute | void
+      getCognitoUserAttribute: (attributeName: string) => string | void
     } | void>((resolve) => {
       cognitoUser || resolve();
 
