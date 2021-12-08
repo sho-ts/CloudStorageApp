@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { auth } from '@/utils/aws';
 import { useRouter } from 'next/router';
 import { useDispatch } from '@/hooks';
-import { setSignInState } from '@/stores/user';
+import { signIn as storeSignIn } from '@/stores/user/asyncThunk';
 
 const useSignIn = () => {
   const router = useRouter();
@@ -12,12 +11,9 @@ const useSignIn = () => {
 
   const signIn = async () => {
     try {
-      const res = await auth.signin(email, password);
+      const result = await dispatch(storeSignIn({ username: email, password })).unwrap()
 
-      dispatch(setSignInState({
-        isSignIn: true,
-        email
-      }))
+      if(!result.isSignIn) throw new Error;
 
       router.push('/mypage');
     } catch (e) {

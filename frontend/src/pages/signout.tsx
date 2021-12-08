@@ -3,17 +3,21 @@ import Head from 'next/head'
 import { PageTitle } from '@/components/atoms';
 import { Button } from '@/components/atoms';
 import { Layout, Container } from '@/components/templates';
-import { auth } from '@/utils/aws';
 import { useRouter } from 'next/router';
+import { signOut } from '@/stores/user/asyncThunk';
+import { useDispatch } from '@/hooks';
 
 const SignOut: NextPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const onClickSignout = async () => {
     try {
-      const ok = await auth.signout();
+      const result = await dispatch(signOut()).unwrap();
 
-      ok && router.push('/');
+      if (!result) throw new Error;
+
+      router.push('/');
     } catch (e) {
       alert('ログアウトに失敗しました。\n再度お試しください。')
     }
