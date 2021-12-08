@@ -25,7 +25,7 @@ const usePosts = () => {
     setInputKeyword(e.target.value);
     dispatch(setPostState({
       current: 1,
-      keyword: inputKeyword,
+      keyword: e.target.value,
     }));
   };
 
