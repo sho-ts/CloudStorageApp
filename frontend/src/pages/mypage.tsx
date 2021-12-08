@@ -78,6 +78,8 @@ const Inner = styled.div`
   ${mq()} {
     display: flex;
     flex-direction: row-reverse;
+  }
+  ${mq('lg')} {
     padding: 0 24px;
   }
 `;
@@ -163,9 +165,14 @@ const Td = styled.div`
 `;
 
 const Sidebar = styled.aside`
-  max-width: 280px;
   flex-shrink: 0;
-  margin-right: 48px;
+  ${mq()} {
+    max-width: 280px;
+    margin-right: 24px;
+  }
+  ${mq('lg')} {
+    margin-right: 48px;
+  }
 `;
 
 const FileUpload = styled.section`
@@ -174,16 +181,6 @@ const FileUpload = styled.section`
 
 const Search = styled.div`
 
-`;
-
-const PaginationButtons = styled.div`
-  display: flex;
-  justify-content: center;
-  .pagination-button {
-    &:not(:last-child) {
-      margin-right: 16px;
-    }
-  }
 `;
 
 export default MyPage;

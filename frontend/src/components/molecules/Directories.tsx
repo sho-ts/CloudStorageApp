@@ -51,18 +51,29 @@ const HeadingIcon = styled.div`
 `;
 
 const List = styled.ul`
-  margin-left: -48px;
   margin-bottom: 16px;
+  margin-left: -16px;
+  ${mq()} {
+    margin-left: -24px;
+  }
+  ${mq('lg')} {
+    margin-left: -48px;
+  }
 `;
 
 const Item = styled.li`
   cursor: pointer;
-  padding: 8px 8px 8px 56px;
+  padding: 8px 8px 8px 24px;
   font-size: 13px;
   transition: all 0.3s;
+  ${mq()} {
+    padding-left: 32px;
+  }
+  ${mq('lg')} {
+    padding-left: 56px;
+  }
   ${hover(css`
     background-color: #ededed;
-
   `)}
 `;
 
