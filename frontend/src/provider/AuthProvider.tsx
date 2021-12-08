@@ -16,12 +16,9 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     (async () => {
       const result = await dispatch(checkAuth()).unwrap();
 
-      !result.isSignIn && router.replace('/');
-
-      setIsChecked(true);
+      result.isSignIn ? setIsChecked(true) : router.replace('/');
     })();
   }, [dispatch, router]);
-
 
   return (
     <>
