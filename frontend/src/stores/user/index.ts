@@ -7,14 +7,7 @@ const slice = createSlice({
     email: '',
     isSignIn: false
   },
-  reducers: {
-    setSignInState: (state, action) => {
-      return {
-        ...state,
-        ...action.payload
-      }
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(signIn.fulfilled, (state, action) => {
       state.email = action.payload.email;
@@ -32,4 +25,3 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-export const { setSignInState } = slice.actions;

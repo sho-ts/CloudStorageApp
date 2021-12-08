@@ -42,8 +42,6 @@ const Post: NextPage = () => {
     }
   }
 
-
-
   return (
     <Layout>
       {data && (

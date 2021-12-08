@@ -4,22 +4,12 @@ import { PostType } from '@/types/PostType';
 import Auth from '@/provider/AuthProvider';
 import { Layout } from '@/components/templates';
 import styled from 'styled-components';
-import { mq, hover } from '@mixin';
+import { mq} from '@mixin';
 import { Button, TextField } from '@/components/atoms';
 import { Pagination } from '@/components/molecules';
 import { UploadModal } from '@/components/organisms';
 import Link from 'next/link';
 import { useModal, usePosts } from '@/hooks';
-import useSWR from 'swr';
-import { config } from '@/utils';
-import { auth } from '@/utils/aws';
-import axios from 'axios'
-
-type PostsType = {
-  posts: PostType[],
-  pages: number,
-  current: number,
-}
 
 const MyPage: NextPage = () => {
   const [modalOpen, handleModalOpen, handleModalClose] = useModal();
