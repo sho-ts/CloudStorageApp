@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signIn, signOut } from './asyncThunk';
+import { signIn, signOut, checkAuth } from './asyncThunk';
 
 const slice = createSlice({
   name: 'user',
@@ -17,6 +17,10 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(signIn.fulfilled, (state, action) => {
+      state.email = action.payload.email;
+      state.isSignIn = action.payload.isSignIn;
+    });
+    builder.addCase(checkAuth.fulfilled, (state, action) => {
       state.email = action.payload.email;
       state.isSignIn = action.payload.isSignIn;
     });

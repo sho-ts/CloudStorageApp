@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import { auth } from '@/utils/aws';
 import { useDispatch } from '@/hooks';
-import { setSignInState } from '@/stores/user';
+import { checkAuth } from '@/stores/user/asyncThunk';
 
 type Props = {
   children: React.ReactNode
@@ -15,20 +14,11 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      const user = await auth.getUser();
+      const result = await dispatch(checkAuth()).unwrap();
 
-      if (user) {
-        dispatch(setSignInState({
-          isSignIn: true
-        }))
-        setIsChecked(true);
-      } else {
-        dispatch(setSignInState({
-          isSignIn: false
-        }))
-        router.replace('/');
-      }
+      !result.isSignIn && router.replace('/');
 
+      setIsChecked(true);
     })();
   }, [dispatch, router]);
 
