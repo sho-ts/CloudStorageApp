@@ -27,6 +27,25 @@ export const signIn = createAsyncThunk<User, { username: string, password: strin
   }
 );
 
+export const checkAuth = createAsyncThunk<User>(
+  'user/check',
+  async () => {
+    const user = await auth.getUser();
+
+    if(user) {
+      return {
+        isSignIn: true,
+        email: user.getCognitoUserAttribute('email')!
+      }
+    }
+    
+    return {
+      isSignIn: false,
+      email: ''
+    }
+  }
+)
+
 export const signOut = createAsyncThunk<boolean>(
   'user/signout',
   async () => {
