@@ -56,6 +56,7 @@ const usePosts = () => {
     current: post?.current,
     data,
     error,
+    inputKeyword,
     keyword: post?.keyword,
     onChangeInputKeyword,
     getNextDatas,
