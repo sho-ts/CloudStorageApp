@@ -2,20 +2,23 @@ import { Button, TextField, Select } from '@/components/atoms';
 import { Modal } from '@/components/organisms';
 import styled from 'styled-components';
 import { useUpload } from '@/hooks';
+import { KeyedMutator } from 'swr';
+import { PostsType } from '@/types/PostsType';
 
 type Props = {
   isOpen: boolean,
   onClose: any,
   current: number,
   keyword?: string,
+  mutate: KeyedMutator<PostsType>,
 }
 
-const UploadModal: React.FC<Props> = ({ isOpen, onClose, current, keyword }) => {
+const UploadModal: React.FC<Props> = ({ mutate, isOpen, onClose, current, keyword }) => {
   const {
     getRootProps, getInputProps, upload,
     file, fileName, disclosureRange,
     setFileName, setDisclosureRange,
-  } = useUpload(onClose, current, keyword);
+  } = useUpload(mutate, onClose, current, keyword);
 
   return (
     <Modal
@@ -30,7 +33,7 @@ const UploadModal: React.FC<Props> = ({ isOpen, onClose, current, keyword }) => 
               <TextField placeholder="ファイル名" style={{ marginBottom: 16 }} value={fileName} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFileName(e.target.value)} />
               <Select
                 style={{ marginBottom: 16 }}
-                value={disclosureRange}
+                value={String(disclosureRange)}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => { setDisclosureRange(Number(e.target.value)) }}
               >
                 <option value="0">公開</option>

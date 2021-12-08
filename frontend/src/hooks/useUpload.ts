@@ -4,9 +4,10 @@ import { config } from '@/utils';
 import { S3ReponseType } from '@/types/S3ResponseType';
 import { auth } from '@/utils/aws';
 import axios from 'axios';
-import { mutate } from 'swr';
+import { KeyedMutator } from 'swr';
+import { PostsType } from '@/types/PostsType';
 
-const useUpload = (onClose: any, current: number, keyword?: string) => {
+const useUpload = (mutate: KeyedMutator<PostsType>, onClose: any, current: number, keyword?: string) => {
   const [files, setFiles] = useState<File[]>([]);
   const [fileName, setFileName] = useState<string>('');
   const [disclosureRange, setDisclosureRange] = useState<number>(0);
@@ -62,7 +63,7 @@ const useUpload = (onClose: any, current: number, keyword?: string) => {
       setComplete(true);
       setFiles([]);
       acceptedFiles.pop();
-      mutate(`${config.api}/post/all?page=${current}&s=${keyword}`)
+      mutate();
       onClose();
     } catch (e) {
       console.error(e);
