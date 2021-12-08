@@ -8,7 +8,7 @@ type User = {
 
 export const signIn = createAsyncThunk<User, { username: string, password: string }>(
   'user/signin',
-  async ({ username, password }) => {
+  async ({ username, password }, { rejectWithValue }) => {
     try {
       const res = await auth.signin(username, password);
 
@@ -19,36 +19,36 @@ export const signIn = createAsyncThunk<User, { username: string, password: strin
         email: username
       };
     } catch (e) {
-      return {
-        isSignIn: false,
-        email: ''
-      }
+      return rejectWithValue({
+        errorMessage: 'サインインに失敗しました'
+      })
     }
   }
 );
 
 export const checkAuth = createAsyncThunk<User>(
   'user/check',
-  async () => {
-    const user = await auth.getUser();
+  async (_, { rejectWithValue }) => {
+    try {
+      const user = await auth.getUser();
 
-    if(user) {
+      if (!user) throw new Error();
+
       return {
         isSignIn: true,
         email: user.getCognitoUserAttribute('email')!
       }
-    }
-    
-    return {
-      isSignIn: false,
-      email: ''
+    } catch (e) {
+      return rejectWithValue({
+        errorMessage: '認証していません'
+      })
     }
   }
 )
 
 export const signOut = createAsyncThunk<boolean>(
   'user/signout',
-  async () => {
+  async (_, { rejectWithValue }) => {
     try {
       const res = await auth.signout();
 
@@ -56,7 +56,9 @@ export const signOut = createAsyncThunk<boolean>(
 
       return true;
     } catch (e) {
-      return false;
+      return rejectWithValue({
+        errorMessage: 'ログアウトに失敗しました'
+      })
     }
   }
 );

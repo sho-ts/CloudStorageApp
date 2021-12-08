@@ -11,13 +11,10 @@ const useSignIn = () => {
 
   const signIn = async () => {
     try {
-      const result = await dispatch(storeSignIn({ username: email, password })).unwrap()
-
-      if(!result.isSignIn) throw new Error;
-
+      await dispatch(storeSignIn({ username: email, password })).unwrap();
       router.push('/mypage');
     } catch (e) {
-      alert('ログインに失敗しました。\nメールアドレスとパスワードを確認して再度お試しください。');
+      alert((e as { errorMessage: string }).errorMessage);
     }
   }
 

@@ -24,11 +24,9 @@ const slice = createSlice({
       state.email = action.payload.email;
       state.isSignIn = action.payload.isSignIn;
     });
-    builder.addCase(signOut.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.email = '';
-        state.isSignIn = false;
-      }
+    builder.addCase(signOut.fulfilled, (state) => {
+      state.email = '';
+      state.isSignIn = false;
     })
   }
 });
