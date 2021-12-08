@@ -3,10 +3,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { PageTitle } from '@/components/atoms';
 import { TextField, TextLink, Button } from '@/components/atoms';
-import { Layout } from '@/components/templates';
+import { Layout, Container } from '@/components/templates';
 import Link from 'next/link';
-import styled from 'styled-components';
-
 
 const SignIn: NextPage = () => {
   const { email, password, setEmail, setPassword, signUp } = useSignUp();
@@ -16,7 +14,7 @@ const SignIn: NextPage = () => {
       <Head>
         <title>新規登録</title>
       </Head>
-      <Inner>
+      <Container size="sm">
         <PageTitle>新規登録</PageTitle>
         <div style={{ marginBottom: 16 }}>
           <TextField
@@ -40,14 +38,9 @@ const SignIn: NextPage = () => {
             <TextLink>ログインはこちら</TextLink>
           </Link>
         </div>
-      </Inner>
+      </Container>
     </Layout>
   )
 }
-
-const Inner = styled.div`
-  max-width: 500px;
-  margin: 0 auto;
-`;
 
 export default SignIn;

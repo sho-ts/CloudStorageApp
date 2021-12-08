@@ -2,19 +2,22 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { PageTitle } from '@/components/atoms';
 import { Button } from '@/components/atoms';
-import { Layout } from '@/components/templates';
-import styled from 'styled-components';
-import { auth } from '@/utils/aws';
+import { Layout, Container } from '@/components/templates';
 import { useRouter } from 'next/router';
+import { signOut } from '@/stores/user/asyncThunk';
+import { useDispatch } from '@/hooks';
 
 const SignOut: NextPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const onClickSignout = async () => {
     try {
-      const ok = await auth.signout();
+      const result = await dispatch(signOut()).unwrap();
 
-      ok && router.push('/');
+      if (!result) throw new Error;
+
+      router.push('/');
     } catch (e) {
       alert('ログアウトに失敗しました。\n再度お試しください。')
     }
@@ -25,20 +28,15 @@ const SignOut: NextPage = () => {
       <Head>
         <title>ログアウト</title>
       </Head>
-      <Inner>
+      <Container size="sm">
         <PageTitle>ログアウト</PageTitle>
         <p style={{ marginBottom: 16 }}>ログアウトする場合はこちらのボタンを押してください</p>
         <div style={{ marginBottom: 16, textAlign: 'center' }}>
           <Button onClick={onClickSignout}>ログアウト</Button>
         </div>
-      </Inner>
+      </Container>
     </Layout>
   )
 }
-
-const Inner = styled.div`
-  max-width: 500px;
-  margin: 0 auto;
-`;
 
 export default SignOut;
