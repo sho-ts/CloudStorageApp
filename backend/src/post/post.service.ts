@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Post } from './../entities/post.entity';
+import { Directory } from './../entities/directory.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -7,10 +8,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class PostService {
   constructor(
     @InjectRepository(Post)
-    private readonly postRepository: Repository<Post>
+    private readonly postRepository: Repository<Post>,
+    @InjectRepository(Directory)
+    private readonly directoryRepository: Repository<Directory>,
   ) { }
 
-  create(postData: {
+  async create(postData: {
     description: string,
     fileSize: string,
     filePath: string,
@@ -18,15 +21,24 @@ export class PostService {
     disclosureRange: number,
     allowedEmail?: string,
     password?: string,
+    dir?: number,
   }) {
     const post = new Post();
-    post.description = postData.description;
-    post.file_size = postData.fileSize;
-    post.file_path = postData.filePath;
-    post.uid = postData.uid;
-    post.disclosure_range = postData.disclosureRange;
-    post.allowed_email = postData.allowedEmail;
-    post.password = postData.password;
+    const {
+      description, fileSize, filePath, dir,
+      allowedEmail, password, disclosureRange, uid
+    } = postData;
+
+    const directory = await this.directoryRepository.findOne({ id: dir });
+
+    post.description = description;
+    post.file_size = fileSize;
+    post.file_path = filePath;
+    post.uid = uid;
+    post.disclosure_range = disclosureRange;
+    post.allowed_email = allowedEmail;
+    post.password = password;
+    post.directory = directory;
 
     return this.postRepository.insert(post);
   }
@@ -55,15 +67,16 @@ export class PostService {
     }
   }
 
-  async readAll(uid: string, page = 1, s: string = '') {
+  async readAll(uid: string, page = 1, s: string = '', directoryId?: number) {
     // 投稿件数の合計を取得
     const count = await this.postRepository
       .createQueryBuilder()
       .select('COUNT(id)', 'count')
       .where('del_flg = :del_flg', { del_flg: 0 })
       .andWhere('uid = :uid', { uid })
-      .andWhere('description like :description', { description: `%${s}%` })
-      .execute()
+      .andWhere(directoryId ? 'directoryId = :directoryId' : '1 = 1', { directoryId })
+      .andWhere(s ? 'description like :description' : '1 = 1', { description: `%${s}%` })
+      .execute();
 
     // 投稿件数からページ数を計算
     const pages = Math.ceil(Number(count[0].count) / 10);
@@ -76,10 +89,11 @@ export class PostService {
       .select('*')
       .where('del_flg = :del_flg', { del_flg: 0 })
       .andWhere('uid = :uid', { uid })
-      .andWhere('description like :description', { description: `%${s}%` })
+      .andWhere(directoryId ? 'directoryId = :directoryId' : '1 = 1', { directoryId })
+      .andWhere(s ? 'description like :description' : '1 = 1', { description: `%${s}%` })
       .limit(10)
       .offset(offset)
-      .execute()
+      .execute();
 
     return {
       posts: posts,
@@ -88,11 +102,13 @@ export class PostService {
     };
   }
 
-  async update(uid: string, description: string, id: number) {
+  async update(uid: string, description: string, dir: number, id: number) {
+    const directory = await this.directoryRepository.findOne({ id: dir });
+
     return await this.postRepository
       .createQueryBuilder()
       .update(Post)
-      .set({ description })
+      .set({ description, directory })
       .where('id = :id', { id })
       .andWhere('uid = :uid', { uid })
       .andWhere('del_flg = :del_flg', { del_flg: 0 })

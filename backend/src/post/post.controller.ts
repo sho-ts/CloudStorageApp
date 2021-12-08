@@ -19,10 +19,11 @@ export class PostController {
     filePath: string,
     allowedEmail?: string,
     password?: string,
+    dir?: number,
     disclosureRange: number,
   }>) {
     const {
-      description, fileSize, filePath,
+      description, fileSize, filePath, dir,
       allowedEmail, password, disclosureRange
     } = req.body;
 
@@ -33,6 +34,7 @@ export class PostController {
       disclosureRange,
       allowedEmail,
       password,
+      dir,
       uid: user.sub
     });
   }
@@ -43,17 +45,18 @@ export class PostController {
   }
 
   @Get('all')
-  readAll(@GuardResponse() user, @Query() { page, s }: { page: number, s: string }) {
-    return this.service.readAll(user.sub, page, s);
+  readAll(@GuardResponse() user, @Query() { page, s, dir }: { page: number, s: string, dir?: number }) {
+    return this.service.readAll(user.sub, page, s, dir);
   }
 
   @Put()
   update(@GuardResponse() user, @Req() req: Request<{}, {}, {
-    description: string
+    description: string,
+    dir: number,
   }>, @Query() { id }: { id: number }) {
-    const { description } = req.body;
+    const { description, dir } = req.body;
 
-    return this.service.update(user.sub, description, id);
+    return this.service.update(user.sub, description, dir, id);
   }
 
   @Delete()
