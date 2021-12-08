@@ -12,6 +12,9 @@ export class Directory {
   @Column('tinyint', { width: 1, default: 0 })
   del_flg: number;
 
+  @Column('text')
+  name: string;
+
   @CreateDateColumn()
   readonly created_at?: Date;
 
