@@ -6,6 +6,7 @@ import { PostModule } from './post/post.module';
 import { FileModule } from './file/file.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { DirectoryModule } from './directory/directory.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AuthModule } from './auth/auth.module';
     PostModule,
     FileModule,
     AuthModule,
+    DirectoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
