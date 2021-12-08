@@ -56,7 +56,7 @@ export class PostService {
     if (!post) return;
 
     // 投稿のユーザーIDと一致しているか確認
-    if (post.uid === user.uid) {
+    if (post.uid === user.sub) {
       return post;
     } else {
       // ユーザーIDが一致していない場合は公開条件を確認する
