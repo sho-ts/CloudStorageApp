@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import { Directory } from './directory.entity';
 
 @Entity()
 export class Post {
@@ -26,9 +27,6 @@ export class Post {
   @Column('tinyint', { width: 1, default: 0 })
   del_flg: number;
 
-  @Column({ type: 'int', nullable: true })
-  directory_id: number;
-
   @Column('tinyint', { width: 1, default: 0 })
   disclosure_range: number;
 
@@ -37,4 +35,8 @@ export class Post {
 
   @Column({ nullable: true, type: 'text' })
   password: string
+
+  @ManyToOne(type => Directory)
+  @JoinColumn()
+  directory: Directory;
 }
