@@ -26,6 +26,9 @@ export class Post {
   @Column('tinyint', { width: 1, default: 0 })
   del_flg: number;
 
+  @Column({ type: 'int', nullable: true })
+  directory_id: number;
+
   @Column('tinyint', { width: 1, default: 0 })
   disclosure_range: number;
 
