@@ -13,7 +13,14 @@ export class PostController {
   constructor(private readonly service: PostService) { }
 
   @Post()
-  create(@GuardResponse() user, @Req() req: Request) {
+  create(@GuardResponse() user, @Req() req: Request<{}, {}, {
+    description: string,
+    fileSize: string,
+    filePath: string,
+    allowedEmail?: string,
+    password?: string,
+    disclosureRange: number,
+  }>) {
     const {
       description, fileSize, filePath,
       allowedEmail, password, disclosureRange
@@ -41,7 +48,9 @@ export class PostController {
   }
 
   @Put()
-  update(@GuardResponse() user, @Req() req: Request, @Query() { id }: { id: number }) {
+  update(@GuardResponse() user, @Req() req: Request<{}, {}, {
+    description: string
+  }>, @Query() { id }: { id: number }) {
     const { description } = req.body;
 
     return this.service.update(user.sub, description, id);
