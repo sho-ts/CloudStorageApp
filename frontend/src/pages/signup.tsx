@@ -28,7 +28,7 @@ const SignIn: NextPage = () => {
         <div style={{ marginBottom: 16 }}>
           <TextField
             placeholder="パスワード"
-            type="text" value={password}
+            type="password" value={password}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
           />
         </div>

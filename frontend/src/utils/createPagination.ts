@@ -1,19 +1,19 @@
 const createPagination = <T extends { pages: number }>(
   current: number,
-  dispacthCurrent: (value: number) => void,
+  setCurrent: (value: number) => void,
   data?: T,
 ) => ([
   () => {
     if (!data) return;
 
     const next = current + 1
-    data.pages < next || dispacthCurrent(next);
+    data.pages < next || setCurrent(next);
   },
   () => {
     if (!data) return;
 
     const prev = current - 1;
-    1 > prev || dispacthCurrent(prev);
+    1 > prev || setCurrent(prev);
   }
 ]);
 

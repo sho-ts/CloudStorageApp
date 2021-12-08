@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { auth } from '@/utils/aws';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from '@/hooks';
-import { resetPostState } from '@/stores/post';
+import { useDispatch } from '@/hooks';
 import { setSignInState } from '@/stores/user';
 
 const useSignIn = () => {
@@ -15,7 +14,6 @@ const useSignIn = () => {
     try {
       const res = await auth.signin(email, password);
 
-      dispatch(resetPostState());
       dispatch(setSignInState({
         isSignIn: true,
         email

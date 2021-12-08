@@ -3,61 +3,37 @@ import useSWR from 'swr';
 import { auth } from '@/utils/aws';
 import { config } from '@/utils';
 import axios from 'axios'
-import { PostType } from '@/types/PostType';
+import { PostsType } from '@/types/PostsType';
 import { createPagination } from '@/utils';
-import { useDispatch, useSelector } from '@/hooks';
-import { setPostState } from '@/stores/post';
-
-type PostsType = {
-  posts: PostType[],
-  pages: number,
-  current: number,
-}
 
 const usePosts = () => {
-  const post = useSelector(props => props.post);
-
-  const dispatch = useDispatch();
-
-  const [inputKeyword, setInputKeyword] = useState<string>('');
+  const [current, setCurrent] = useState<number>(1);
+  const [keyword, setKeyword] = useState<string>('');
 
   const onChangeInputKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputKeyword(e.target.value);
-    dispatch(setPostState({
-      current: 1,
-      keyword: e.target.value,
-    }));
+    setKeyword(e.target.value);
   };
 
-  const dispatchCurrent = (current: number) => {
-    dispatch(setPostState({
-      current,
-    }))
-  }
-
-  const { data, error } = useSWR<PostsType>(`${config.api}/post/all?page=${post?.current}&s=${post?.keyword}`, async (url: string) => {
+  const { data, error, mutate } = useSWR<PostsType>(`${config.api}/post/all?page=${current}&s=${keyword}`, async (url: string) => {
     await auth.getUser();
     const token = auth.getIdToken();
 
     return axios.get<PostsType>(url, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(({ data }) => {
-      dispatch(setPostState({
-        post: data.current
-      }))
-
+      setCurrent(data.current);
       return data
     });
   });
 
-  const [getNextDatas, getPrevDatas] = createPagination<PostsType>(post?.current, dispatchCurrent, data);
+  const [getNextDatas, getPrevDatas] = createPagination<PostsType>(current, setCurrent, data);
 
   return {
-    current: post?.current,
+    current,
     data,
     error,
-    inputKeyword,
-    keyword: post?.keyword,
+    keyword,
+    mutate,
     onChangeInputKeyword,
     getNextDatas,
     getPrevDatas,
