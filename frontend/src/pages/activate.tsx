@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { auth } from '@/utils/aws';
 import Head from 'next/head'
 import { PageTitle } from '@/components/atoms';
-import { TextField, TextLink, Button } from '@/components/atoms';
+import { TextField, Button } from '@/components/atoms';
 import { Layout } from '@/components/templates';
 import styled from 'styled-components';
 import { useState } from 'react';
