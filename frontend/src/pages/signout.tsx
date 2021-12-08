@@ -13,13 +13,10 @@ const SignOut: NextPage = () => {
 
   const onClickSignout = async () => {
     try {
-      const result = await dispatch(signOut()).unwrap();
-
-      if (!result) throw new Error;
-
+      await dispatch(signOut()).unwrap();
       router.push('/');
     } catch (e) {
-      alert('ログアウトに失敗しました。\n再度お試しください。')
+      alert((e as { errorMessage: string }).errorMessage);
     }
   }
 
