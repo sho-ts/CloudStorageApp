@@ -9,26 +9,10 @@ import { Pagination, Directories } from '@/components/molecules';
 import { UploadModal } from '@/components/organisms';
 import Link from 'next/link';
 import { useModal, usePosts } from '@/hooks';
-import useSWR from 'swr';
-import axios from 'axios';
-import { config } from '@/utils';
-import { auth } from '@/utils/aws';
-import { DirType } from '@/types/DirType';
 
 const MyPage: NextPage = () => {
   const [modalOpen, handleModalOpen, handleModalClose] = useModal();
-  const { page, postData, postError, keyword, getNextDatas, getPrevDatas, onChangeInputKeyword, mutate } = usePosts();
-
-  const { data, error } = useSWR(`${config.api}/directory/all`, async (url: string) => {
-    await auth.getUser();
-    const token = auth.getIdToken();
-
-    return axios.get<DirType[]>(url, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).then(({ data }) => {
-      return data
-    });
-  })
+  const { posts, currentDir, dirs, page, keyword, setCurrentDir, getNextDatas, getPrevDatas, setKeyword } = usePosts();
 
   return (
     <Auth>
@@ -39,12 +23,15 @@ const MyPage: NextPage = () => {
         <Inner>
           <Main>
             <FileList>
+              <DirName>
+                {currentDir ? currentDir.name : '全てのファイル'}
+              </DirName>
               <Table>
                 <Tr className="head">
                   <Th>ファイル名</Th>
                   <Th className="created-at">アップロード日</Th>
                 </Tr>
-                {postData && postData.posts.map((post, index) => (
+                {posts.data && posts.data.posts.map((post, index) => (
                   <Tr key={index}>
                     <Link href={`/posts/${post.id}`}>
                       <a>
@@ -56,19 +43,19 @@ const MyPage: NextPage = () => {
                 ))}
               </Table>
             </FileList>
-            {postData && <Pagination pages={postData.pages} page={page} getNextDatas={getNextDatas} getPrevDatas={getPrevDatas} />}
+            {posts.data && <Pagination pages={posts.data.pages} page={page} getNextDatas={getNextDatas} getPrevDatas={getPrevDatas} />}
           </Main>
           <Sidebar>
             <FileUpload>
               <Button onClick={handleModalOpen}>アップロード</Button>
             </FileUpload>
             <Search>
-              <TextField value={keyword} onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeInputKeyword(e)} placeholder="検索" />
+              <TextField value={keyword} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)} placeholder="検索" />
             </Search>
-            {data && <Directories dirs={data} />}
+            {dirs.data && <Directories dirs={dirs.data} onClick={setCurrentDir} />}
           </Sidebar>
         </Inner>
-        <UploadModal mutate={mutate} isOpen={modalOpen} onClose={handleModalClose} />
+        <UploadModal mutate={posts.mutate} isOpen={modalOpen} onClose={handleModalClose} />
       </Layout>
     </Auth >
   )
@@ -89,6 +76,12 @@ const Main = styled.main`
   ${mq('md', 'down')} {
     margin-bottom: 32px;
   }
+`;
+
+const DirName = styled.h2`
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 const FileList = styled.div`

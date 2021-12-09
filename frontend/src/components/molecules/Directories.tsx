@@ -20,7 +20,8 @@ const Directories: React.FC<Props> = ({ dirs, onClick }) => {
         <span>ディレクトリ</span>
       </Heading>
       <List>
-        {dirs.map(dir => <Item key={dir.id} onClick={() => { onClick && onClick(dir.id) }}>{dir.name}</Item>)}
+        <Item onClick={()=>{onClick && onClick(null)}}>全て</Item>
+        {dirs.map(dir => <Item key={dir.id} onClick={() => { onClick && onClick(dir) }}>{dir.name}</Item>)}
       </List>
       <AddIcon>
         <Image src={addIcon} />
