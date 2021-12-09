@@ -79,7 +79,7 @@ class AWSCognito {
     return new Promise<boolean | Error>((resolve, reject) => cognitoUser.confirmRegistration(code, true, error => error ? reject(error) : resolve(true)));
   }
 
-  getToken = (token: string) => {
+  getToken = (token: string): string | void => {
     const key = Object.keys(localStorage).find(storage => storage.includes(token) && storage.includes('Cognito'))
 
     if (key) return localStorage[key];
@@ -95,6 +95,22 @@ class AWSCognito {
   getIdToken = () => this.getToken('idToken');
 
   getRefreshToken = () => this.getToken('refreshToken');
+
+  getIdTokenAndUser = async () => {
+    const user = await this.getUser();
+
+    return {
+      user, token: this.getToken('idToken')
+    }
+  }
+
+  getAccessTokenAndUser = async () => {
+    const user = await this.getUser();
+
+    return {
+      user, token: this.getToken('accessToken'),
+    }
+  }
 
   getUser = () => {
     const cognitoUser = this.userPool.getCurrentUser();

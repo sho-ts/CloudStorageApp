@@ -8,3 +8,4 @@ export { default as MainVisual } from './MainVisual';
 export { default as Feature } from './Feature';
 export { default as GetStarted } from './GetStarted';
 export { default as CreateDirModal } from './CreateDirModal';
+export { default as DirEditModal } from './DirEditModal'

@@ -19,7 +19,7 @@ const Directories: React.FC<Props> = ({ dirs, changeDir, modalOpen }) => {
         <HeadingIcon>
           <Image src={dirIcon} />
         </HeadingIcon>
-        <span>ディレクトリ</span>
+        <h3>ディレクトリ</h3>
       </Heading>
       <List>
         <Item onClick={() => changeDir(null)}>全て</Item>
@@ -36,12 +36,12 @@ const Wrapper = styled.div`
   padding: 24px 0;
 `;
 
-const Heading = styled.h3`
+const Heading = styled.div`
   font-weight: bold;
   margin-bottom: 8px;
   display: flex;
   align-items: center;
-  span {
+  h3 {
     display: block;
     margin-top: -2px;
   }
