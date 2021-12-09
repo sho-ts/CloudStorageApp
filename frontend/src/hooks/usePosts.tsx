@@ -43,6 +43,7 @@ const usePosts = () => {
     posts,
     dirs,
     keyword,
+    setPage,
     setKeyword,
     setCurrentDir,
     getNextDatas,

@@ -7,11 +7,17 @@ import Image from 'next/image'
 
 type Props = {
   dirs: DirType[]
-  onClick?: any,
+  changeDir: any,
   modalOpen?: any,
+  setPage: any,
 }
 
-const Directories: React.FC<Props> = ({ dirs, onClick, modalOpen }) => {
+const Directories: React.FC<Props> = ({ dirs, changeDir, modalOpen, setPage }) => {
+  const onClickChangeDir = (dir: DirType | null) => {
+    changeDir(dir);
+    setPage(1);
+  }
+
   return (
     <Wrapper>
       <Heading>
@@ -21,8 +27,8 @@ const Directories: React.FC<Props> = ({ dirs, onClick, modalOpen }) => {
         <span>ディレクトリ</span>
       </Heading>
       <List>
-        <Item onClick={() => { onClick && onClick(null) }}>全て</Item>
-        {dirs.map(dir => <Item key={dir.id} onClick={() => { onClick && onClick(dir) }}>{dir.name}</Item>)}
+        <Item onClick={() => onClickChangeDir(null)}>全て</Item>
+        {dirs.map(dir => <Item key={dir.id} onClick={() => onClickChangeDir(dir)}>{dir.name}</Item>)}
       </List>
       <AddIcon onClick={modalOpen}>
         <Image src={addIcon} />
