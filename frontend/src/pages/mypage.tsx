@@ -6,12 +6,13 @@ import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
 import { Button, TextField } from '@/components/atoms';
 import { Pagination, Directories } from '@/components/molecules';
-import { UploadModal } from '@/components/organisms';
+import { CreateDirModal, UploadModal } from '@/components/organisms';
 import Link from 'next/link';
 import { useModal, usePosts } from '@/hooks';
 
 const MyPage: NextPage = () => {
-  const [modalOpen, handleModalOpen, handleModalClose] = useModal();
+  const [uploadModalOpen, handleUploadModalOpen, handleUploadModalClose] = useModal();
+  const [dirModalOpen, handleDirModalOpen, handleDirModalClose] = useModal();
   const { posts, currentDir, dirs, page, keyword, setCurrentDir, getNextDatas, getPrevDatas, setKeyword } = usePosts();
 
   return (
@@ -47,19 +48,24 @@ const MyPage: NextPage = () => {
           </Main>
           <Sidebar>
             <FileUpload>
-              <Button onClick={handleModalOpen}>アップロード</Button>
+              <Button onClick={handleUploadModalOpen}>アップロード</Button>
             </FileUpload>
             <Search>
               <TextField value={keyword} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)} placeholder="検索" />
             </Search>
-            {dirs.data && <Directories dirs={dirs.data} onClick={setCurrentDir} />}
+            {dirs.data && <Directories modalOpen={handleDirModalOpen} dirs={dirs.data} onClick={setCurrentDir} />}
           </Sidebar>
         </Inner>
         <UploadModal
           mutate={posts.mutate}
-          isOpen={modalOpen}
+          isOpen={uploadModalOpen}
           dirs={dirs.data ?? []}
-          onClose={handleModalClose}
+          onClose={handleUploadModalClose}
+        />
+        <CreateDirModal
+          mutate={dirs.mutate}
+          isOpen={dirModalOpen}
+          onClose={handleDirModalClose}
         />
       </Layout>
     </Auth >
