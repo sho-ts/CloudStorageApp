@@ -8,9 +8,10 @@ import Image from 'next/image'
 type Props = {
   dirs: DirType[]
   onClick?: any,
+  modalOpen?: any,
 }
 
-const Directories: React.FC<Props> = ({ dirs, onClick }) => {
+const Directories: React.FC<Props> = ({ dirs, onClick, modalOpen }) => {
   return (
     <Wrapper>
       <Heading>
@@ -20,10 +21,10 @@ const Directories: React.FC<Props> = ({ dirs, onClick }) => {
         <span>ディレクトリ</span>
       </Heading>
       <List>
-        <Item onClick={()=>{onClick && onClick(null)}}>全て</Item>
+        <Item onClick={() => { onClick && onClick(null) }}>全て</Item>
         {dirs.map(dir => <Item key={dir.id} onClick={() => { onClick && onClick(dir) }}>{dir.name}</Item>)}
       </List>
-      <AddIcon>
+      <AddIcon onClick={modalOpen}>
         <Image src={addIcon} />
       </AddIcon>
     </Wrapper>
