@@ -4,19 +4,21 @@ import styled from 'styled-components';
 import { useUpload } from '@/hooks';
 import { KeyedMutator } from 'swr';
 import { PostsType } from '@/types/PostsType';
+import { DirType } from '@/types/DirType';
 
 type Props = {
   isOpen: boolean,
   onClose: any,
+  dirs: DirType[],
   mutate: KeyedMutator<PostsType>,
 }
 
-const UploadModal: React.FC<Props> = ({ mutate, isOpen, onClose }) => {
+const UploadModal: React.FC<Props> = ({ mutate, dirs, isOpen, onClose }) => {
   const {
     getRootProps, getInputProps, upload,
-    file, fileName, disclosureRange,
-    setFileName, setDisclosureRange,
-  } = useUpload(mutate, onClose);
+    file, fileName, disclosureRange, uploadDir,
+    setFileName, setDisclosureRange, setUploadDir,
+  } = useUpload(mutate, dirs, onClose);
 
   return (
     <Modal
@@ -29,6 +31,14 @@ const UploadModal: React.FC<Props> = ({ mutate, isOpen, onClose }) => {
           <>
             <div style={{ marginBottom: 32 }}>
               <TextField placeholder="ファイル名" style={{ marginBottom: 16 }} value={fileName} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFileName(e.target.value)} />
+              <Select
+                style={{ marginBottom: 16 }}
+                value={`${uploadDir || ''}`}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => { setUploadDir(Number(e.target.value)) }}
+              >
+                <option value="">ディレクトリなし</option>
+                {dirs.map(dir => <option key={dir.id} value={`${dir.id}`}>{dir.name}</option>)}
+              </Select>
               <Select
                 style={{ marginBottom: 16 }}
                 value={String(disclosureRange)}

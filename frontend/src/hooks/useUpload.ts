@@ -6,10 +6,12 @@ import { auth } from '@/utils/aws';
 import axios from 'axios';
 import { KeyedMutator } from 'swr';
 import { PostsType } from '@/types/PostsType';
+import { DirType } from '@/types/DirType';
 
-const useUpload = (mutate: KeyedMutator<PostsType>, onClose: any) => {
+const useUpload = (mutate: KeyedMutator<PostsType>, dirs: DirType[], onClose: any) => {
   const [files, setFiles] = useState<File[]>([]);
   const [fileName, setFileName] = useState<string>('');
+  const [uploadDir, setUploadDir] = useState<number | null>(null);
   const [disclosureRange, setDisclosureRange] = useState<number>(0);
   const [complete, setComplete] = useState<boolean>(false);
   const [wait, setWait] = useState<boolean>(false);
@@ -51,7 +53,8 @@ const useUpload = (mutate: KeyedMutator<PostsType>, onClose: any) => {
         description: fileName,
         filePath: s3res.data.Key,
         fileSize: file.size,
-        disclosureRange
+        disclosureRange,
+        dir: uploadDir,
       }, {
         headers: {
           'Accept': 'application/json',
@@ -74,8 +77,8 @@ const useUpload = (mutate: KeyedMutator<PostsType>, onClose: any) => {
 
   return {
     getRootProps, getInputProps, upload,
-    fileName, disclosureRange,
-    setFileName, setDisclosureRange,
+    fileName, disclosureRange, uploadDir,
+    setFileName, setDisclosureRange, setUploadDir,
     file: files[0], complete
   }
 }

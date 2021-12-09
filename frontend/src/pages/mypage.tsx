@@ -55,7 +55,12 @@ const MyPage: NextPage = () => {
             {dirs.data && <Directories dirs={dirs.data} onClick={setCurrentDir} />}
           </Sidebar>
         </Inner>
-        <UploadModal mutate={posts.mutate} isOpen={modalOpen} onClose={handleModalClose} />
+        <UploadModal
+          mutate={posts.mutate}
+          isOpen={modalOpen}
+          dirs={dirs.data ?? []}
+          onClose={handleModalClose}
+        />
       </Layout>
     </Auth >
   )
