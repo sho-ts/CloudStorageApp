@@ -33,6 +33,11 @@ const useUpload = (mutate: KeyedMutator<PostsType>, dirs: DirType[], onClose: an
     },
   })
 
+  const clearFile = () => {
+    acceptedFiles.pop();
+    setFiles([]);
+  }
+
   const upload = async () => {
     setComplete(false);
     setWait(true);
@@ -64,8 +69,7 @@ const useUpload = (mutate: KeyedMutator<PostsType>, dirs: DirType[], onClose: an
       })
 
       setComplete(true);
-      setFiles([]);
-      acceptedFiles.pop();
+      clearFile();
       mutate();
       onClose();
     } catch (e) {
@@ -76,7 +80,7 @@ const useUpload = (mutate: KeyedMutator<PostsType>, dirs: DirType[], onClose: an
   }
 
   return {
-    getRootProps, getInputProps, upload,
+    getRootProps, getInputProps, upload, clearFile,
     fileName, disclosureRange, uploadDir,
     setFileName, setDisclosureRange, setUploadDir,
     file: files[0], complete
