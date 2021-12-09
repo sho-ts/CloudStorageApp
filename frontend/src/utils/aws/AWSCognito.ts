@@ -79,7 +79,7 @@ class AWSCognito {
     return new Promise<boolean | Error>((resolve, reject) => cognitoUser.confirmRegistration(code, true, error => error ? reject(error) : resolve(true)));
   }
 
-  getToken = (token: string) => {
+  getToken = (token: string): string | void => {
     const key = Object.keys(localStorage).find(storage => storage.includes(token) && storage.includes('Cognito'))
 
     if (key) return localStorage[key];
