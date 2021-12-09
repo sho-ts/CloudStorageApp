@@ -96,6 +96,22 @@ class AWSCognito {
 
   getRefreshToken = () => this.getToken('refreshToken');
 
+  getIdTokenAndUser = async () => {
+    const user = await this.getUser();
+
+    return {
+      user, token: this.getToken('idToken')
+    }
+  }
+
+  getAccessTokenAndUser = async () => {
+    const user = await this.getUser();
+
+    return {
+      user, token: this.getToken('accessToken'),
+    }
+  }
+
   getUser = () => {
     const cognitoUser = this.userPool.getCurrentUser();
 
