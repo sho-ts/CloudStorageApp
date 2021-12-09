@@ -7,29 +7,30 @@ import { PostsType } from '@/types/PostsType';
 import { createPagination } from '@/utils';
 
 const usePosts = () => {
-  const [current, setCurrent] = useState<number>(1);
+  const [page, setPage] = useState<number>(1);
+  
   const [keyword, setKeyword] = useState<string>('');
 
   const onChangeInputKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
 
-  const { data, error, mutate } = useSWR<PostsType>(`${config.api}/post/all?page=${current}&s=${keyword}`, async (url: string) => {
+  const { data, error, mutate } = useSWR<PostsType>(`${config.api}/post/all?page=${page}&s=${keyword}`, async (url: string) => {
     await auth.getUser();
     const token = auth.getIdToken();
 
     return axios.get<PostsType>(url, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(({ data }) => {
-      setCurrent(data.current);
+      setPage(data.current);
       return data
     });
   });
 
-  const [getNextDatas, getPrevDatas] = createPagination<PostsType>(current, setCurrent, data);
+  const [getNextDatas, getPrevDatas] = createPagination<PostsType>(page, setPage, data);
 
   return {
-    current,
+    page,
     postData: data,
     postError: error,
     keyword,

@@ -8,17 +8,15 @@ import { PostsType } from '@/types/PostsType';
 type Props = {
   isOpen: boolean,
   onClose: any,
-  current: number,
-  keyword?: string,
   mutate: KeyedMutator<PostsType>,
 }
 
-const UploadModal: React.FC<Props> = ({ mutate, isOpen, onClose, current, keyword }) => {
+const UploadModal: React.FC<Props> = ({ mutate, isOpen, onClose }) => {
   const {
     getRootProps, getInputProps, upload,
     file, fileName, disclosureRange,
     setFileName, setDisclosureRange,
-  } = useUpload(mutate, onClose, current, keyword);
+  } = useUpload(mutate, onClose);
 
   return (
     <Modal

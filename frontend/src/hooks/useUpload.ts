@@ -7,7 +7,7 @@ import axios from 'axios';
 import { KeyedMutator } from 'swr';
 import { PostsType } from '@/types/PostsType';
 
-const useUpload = (mutate: KeyedMutator<PostsType>, onClose: any, current: number, keyword?: string) => {
+const useUpload = (mutate: KeyedMutator<PostsType>, onClose: any) => {
   const [files, setFiles] = useState<File[]>([]);
   const [fileName, setFileName] = useState<string>('');
   const [disclosureRange, setDisclosureRange] = useState<number>(0);

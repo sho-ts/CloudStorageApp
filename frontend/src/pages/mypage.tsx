@@ -17,7 +17,7 @@ import { DirType } from '@/types/DirType';
 
 const MyPage: NextPage = () => {
   const [modalOpen, handleModalOpen, handleModalClose] = useModal();
-  const { current, postData, postError, keyword, getNextDatas, getPrevDatas, onChangeInputKeyword, mutate } = usePosts();
+  const { page, postData, postError, keyword, getNextDatas, getPrevDatas, onChangeInputKeyword, mutate } = usePosts();
 
   const { data, error } = useSWR(`${config.api}/directory/all`, async (url: string) => {
     await auth.getUser();
@@ -56,7 +56,7 @@ const MyPage: NextPage = () => {
                 ))}
               </Table>
             </FileList>
-            {postData && <Pagination pages={postData.pages} current={current} getNextDatas={getNextDatas} getPrevDatas={getPrevDatas} />}
+            {postData && <Pagination pages={postData.pages} page={page} getNextDatas={getNextDatas} getPrevDatas={getPrevDatas} />}
           </Main>
           <Sidebar>
             <FileUpload>
@@ -68,7 +68,7 @@ const MyPage: NextPage = () => {
             {data && <Directories dirs={data} />}
           </Sidebar>
         </Inner>
-        <UploadModal mutate={mutate} current={current} keyword={keyword} isOpen={modalOpen} onClose={handleModalClose} />
+        <UploadModal mutate={mutate} isOpen={modalOpen} onClose={handleModalClose} />
       </Layout>
     </Auth >
   )
