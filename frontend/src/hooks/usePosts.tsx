@@ -4,37 +4,47 @@ import { auth } from '@/utils/aws';
 import { config } from '@/utils';
 import axios from 'axios'
 import { PostsType } from '@/types/PostsType';
+import { DirType } from '@/types/DirType';
 import { createPagination } from '@/utils';
 
 const usePosts = () => {
-  const [current, setCurrent] = useState<number>(1);
+  const [page, setPage] = useState<number>(1);
+  const [currentDir, setCurrentDir] = useState<DirType | null>(null);
   const [keyword, setKeyword] = useState<string>('');
 
-  const onChangeInputKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-  };
+  const dirs = useSWR(`${config.api}/directory/all`, async (url: string) => {
+    await auth.getUser();
+    const token = auth.getIdToken();
 
-  const { data, error, mutate } = useSWR<PostsType>(`${config.api}/post/all?page=${current}&s=${keyword}`, async (url: string) => {
+    return axios.get<DirType[]>(url, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(({ data }) => {
+      return data
+    });
+  })
+
+  const posts = useSWR<PostsType>(`${config.api}/post/all?page=${page}&s=${keyword || ''}&dir=${currentDir ? currentDir.id : ''}`, async (url: string) => {
     await auth.getUser();
     const token = auth.getIdToken();
 
     return axios.get<PostsType>(url, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(({ data }) => {
-      setCurrent(data.current);
+      setPage(data.current);
       return data
     });
   });
 
-  const [getNextDatas, getPrevDatas] = createPagination<PostsType>(current, setCurrent, data);
+  const [getNextDatas, getPrevDatas] = createPagination<PostsType>(page, setPage, posts.data);
 
   return {
-    current,
-    postData: data,
-    postError: error,
+    page,
+    currentDir,
+    posts,
+    dirs,
     keyword,
-    mutate,
-    onChangeInputKeyword,
+    setKeyword,
+    setCurrentDir,
     getNextDatas,
     getPrevDatas,
   }

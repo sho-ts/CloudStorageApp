@@ -3,16 +3,16 @@ import { Button } from '@/components/atoms';
 
 type Props = {
   pages: number,
-  current: number,
+  page: number,
   getNextDatas: () => void,
   getPrevDatas: () => void,
 }
 
-const Pagination: React.FC<Props> = ({ pages, current, getNextDatas, getPrevDatas, }) => {
+const Pagination: React.FC<Props> = ({ pages, page, getNextDatas, getPrevDatas, }) => {
   return (
     <PaginationButtons>
-      {1 > current - 1 || <Button className="pagination-button" outline onClick={getPrevDatas}>前へ</Button>}
-      {pages < current + 1 || <Button className="pagination-button" outline onClick={getNextDatas}>次へ</Button>}
+      {1 > page - 1 || <Button className="pagination-button" outline onClick={getPrevDatas}>前へ</Button>}
+      {pages < page + 1 || <Button className="pagination-button" outline onClick={getNextDatas}>次へ</Button>}
     </PaginationButtons>
   )
 }
