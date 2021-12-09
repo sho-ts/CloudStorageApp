@@ -12,6 +12,11 @@ const usePosts = () => {
   const [currentDir, setCurrentDir] = useState<DirType | null>(null);
   const [keyword, setKeyword] = useState<string>('');
 
+  const changeDir = (dir: DirType | null) => {
+    setCurrentDir(dir);
+    setPage(1);
+  }
+
   const dirs = useSWR(`${config.api}/directory/all`, async (url: string) => {
     await auth.getUser();
     const token = auth.getIdToken();
@@ -43,7 +48,7 @@ const usePosts = () => {
     posts,
     dirs,
     keyword,
-    setPage,
+    changeDir,
     setKeyword,
     setCurrentDir,
     getNextDatas,

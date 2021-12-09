@@ -9,14 +9,9 @@ type Props = {
   dirs: DirType[]
   changeDir: any,
   modalOpen?: any,
-  setPage: any,
 }
 
-const Directories: React.FC<Props> = ({ dirs, changeDir, modalOpen, setPage }) => {
-  const onClickChangeDir = (dir: DirType | null) => {
-    changeDir(dir);
-    setPage(1);
-  }
+const Directories: React.FC<Props> = ({ dirs, changeDir, modalOpen }) => {
 
   return (
     <Wrapper>
@@ -27,8 +22,8 @@ const Directories: React.FC<Props> = ({ dirs, changeDir, modalOpen, setPage }) =
         <span>ディレクトリ</span>
       </Heading>
       <List>
-        <Item onClick={() => onClickChangeDir(null)}>全て</Item>
-        {dirs.map(dir => <Item key={dir.id} onClick={() => onClickChangeDir(dir)}>{dir.name}</Item>)}
+        <Item onClick={() => changeDir(null)}>全て</Item>
+        {dirs.map(dir => <Item key={dir.id} onClick={() => changeDir(dir)}>{dir.name}</Item>)}
       </List>
       <AddIcon onClick={modalOpen}>
         <Image src={addIcon} />

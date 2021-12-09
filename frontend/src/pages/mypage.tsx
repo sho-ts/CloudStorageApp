@@ -13,7 +13,7 @@ import { useModal, usePosts } from '@/hooks';
 const MyPage: NextPage = () => {
   const [uploadModalOpen, handleUploadModalOpen, handleUploadModalClose] = useModal();
   const [dirModalOpen, handleDirModalOpen, handleDirModalClose] = useModal();
-  const { posts, currentDir, dirs, page, keyword, setPage, setCurrentDir, getNextDatas, getPrevDatas, setKeyword } = usePosts();
+  const { posts, currentDir, dirs, page, keyword, changeDir, getNextDatas, getPrevDatas, setKeyword } = usePosts();
 
   return (
     <Auth>
@@ -55,10 +55,9 @@ const MyPage: NextPage = () => {
             </Search>
             {dirs.data &&
               <Directories
-                setPage={setPage}
                 modalOpen={handleDirModalOpen}
                 dirs={dirs.data}
-                changeDir={setCurrentDir}
+                changeDir={changeDir}
               />
             }
           </Sidebar>
