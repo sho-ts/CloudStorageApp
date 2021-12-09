@@ -6,13 +6,16 @@ import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
 import { Button, TextField } from '@/components/atoms';
 import { Pagination, Directories } from '@/components/molecules';
-import { CreateDirModal, UploadModal } from '@/components/organisms';
+import { CreateDirModal, UploadModal, DirEditModal } from '@/components/organisms';
 import Link from 'next/link';
 import { useModal, usePosts } from '@/hooks';
+import settingIcon from '@imgs/common/setting-icon.svg';
+import Image from 'next/image'
 
 const MyPage: NextPage = () => {
   const [uploadModalOpen, handleUploadModalOpen, handleUploadModalClose] = useModal();
   const [dirModalOpen, handleDirModalOpen, handleDirModalClose] = useModal();
+  const [dirEditModalOpen, handleDirEditModalOpen, handleDirEditModalClose] = useModal();
   const { posts, currentDir, dirs, page, keyword, changeDir, getNextDatas, getPrevDatas, setKeyword } = usePosts();
 
   return (
@@ -24,9 +27,16 @@ const MyPage: NextPage = () => {
         <Inner>
           <Main>
             <FileList>
-              <DirName>
-                {currentDir ? currentDir.name : '全てのファイル'}
-              </DirName>
+              <Header>
+                <DirName>
+                  {currentDir ? currentDir.name : '全てのファイル'}
+                </DirName>
+                {currentDir && (
+                  <SettingIcon onClick={handleDirEditModalOpen}>
+                    <Image src={settingIcon} />
+                  </SettingIcon>
+                )}
+              </Header>
               <Table>
                 <Tr className="head">
                   <Th>ファイル名</Th>
@@ -73,6 +83,15 @@ const MyPage: NextPage = () => {
           isOpen={dirModalOpen}
           onClose={handleDirModalClose}
         />
+        {currentDir && (
+          <DirEditModal
+            changeDir={changeDir}
+            dir={currentDir}
+            mutate={dirs.mutate}
+            isOpen={dirEditModalOpen}
+            onClose={handleDirEditModalClose}
+          />
+        )}
       </Layout>
     </Auth >
   )
@@ -95,8 +114,20 @@ const Main = styled.main`
   }
 `;
 
-const DirName = styled.h2`
+const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 16px;
+`;
+
+const SettingIcon = styled.button`
+  flex-shrink: 0;
+  width: 24px;
+  margin-left: 16px;
+`;
+
+const DirName = styled.h2`
   font-size: 18px;
   font-weight: bold;
 `;
