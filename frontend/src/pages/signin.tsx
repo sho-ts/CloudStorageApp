@@ -3,14 +3,15 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { PageTitle } from '@/components/atoms';
 import { TextField, TextLink, Button } from '@/components/atoms';
-import { Layout, Container } from '@/components/templates';
+import { GuestLayout, Container } from '@/components/templates';
 import Link from 'next/link';
+import type { ReactElement } from 'react'
 
-const SignIn: NextPage = () => {
+const SignIn = () => {
   const { email, password, setEmail, setPassword, signIn } = useSignIn();
 
   return (
-    <Layout isGuest={true}>
+    <>
       <Head>
         <title>ログイン</title>
       </Head>
@@ -39,7 +40,15 @@ const SignIn: NextPage = () => {
           </Link>
         </div>
       </Container>
-    </Layout>
+    </>
+  )
+}
+
+SignIn.getLayout = (page: ReactElement) => {
+  return (
+    <GuestLayout>
+      {page}
+    </GuestLayout>
   )
 }
 

@@ -10,19 +10,18 @@ import styled from 'styled-components';
 
 type Props = {
   dir: DirType | null,
-  changeDir: any,
   isOpen: boolean,
   onClose: any,
-  mutate: KeyedMutator<DirType[]>
+  mutate?: KeyedMutator<DirType>
 }
 
 const DirEditModal: React.FC<Props> = ({
-  isOpen, onClose, dir, mutate, changeDir,
+  isOpen, onClose, dir, mutate,
 }) => {
   const [dirName, setDirName] = useState<string>('');
 
   const editDir = async () => {
-    if (!dirName || !dir) return;
+    if (!dirName || !dir || !mutate) return;
 
     try {
       const { token } = await auth.getIdTokenAndUser();
@@ -34,7 +33,6 @@ const DirEditModal: React.FC<Props> = ({
       });
 
       onClose();
-      changeDir({ ...dir, name: dirName });
       mutate();
     } catch (e) {
       alert('ディレクトリの編集に失敗しました');
@@ -42,7 +40,7 @@ const DirEditModal: React.FC<Props> = ({
   }
 
   const deleteDir = async () => {
-    if (!dir) return;
+    if (!dir || !mutate) return;
 
     try {
       const { token } = await auth.getIdTokenAndUser();
@@ -54,7 +52,6 @@ const DirEditModal: React.FC<Props> = ({
       });
 
       onClose();
-      changeDir(null);
       mutate();
     } catch (e) {
       alert('ディレクトリの削除に失敗しました');
