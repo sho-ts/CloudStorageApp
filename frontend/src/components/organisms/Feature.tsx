@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import figure1 from '@imgs/top/feature__figure1.png';
-import figure2 from '@imgs/top/feature__figure2.png';
 import { mq, perce } from '@mixin';
 import Image from 'next/image'
+import figure1 from '@imgs/top/feature__figure1.png';
+import figure2 from '@imgs/top/feature__figure2.png';
 
 const Feature = () => {
   return (

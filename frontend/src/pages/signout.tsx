@@ -1,10 +1,9 @@
-import Head from 'next/head'
-import { PageTitle } from '@/components/atoms';
-import { Button } from '@/components/atoms';
-import { Container } from '@/components/templates';
 import { useRouter } from 'next/router';
-import { signOut } from '@/stores/user/asyncThunk';
 import { useDispatch } from '@/hooks';
+import { PageTitle, Button } from '@/components/atoms';
+import { Container } from '@/components/templates';
+import { signOut } from '@/stores/user/asyncThunk';
+import Head from 'next/head'
 import { getUserLayout } from '@/utils/getLayout';
 
 const SignOut = () => {
@@ -36,6 +35,6 @@ const SignOut = () => {
   )
 }
 
-SignOut.getLayout = getUserLayout;
+SignOut.getLayout = getUserLayout.ignoreMainLayout;
 
 export default SignOut;

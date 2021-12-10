@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { mq, perce } from '@mixin';
-import figure from '@imgs/top/mv__figure.png';
-import Image from 'next/image'
 import { Button } from '@/components/atoms';
+import Image from 'next/image'
+import figure from '@imgs/top/mv__figure.png';
 
 type Props = {
   onClick: any,

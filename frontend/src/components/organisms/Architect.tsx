@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import { mq, perce } from '@mixin';
 import styled from 'styled-components';
+import Image from 'next/image'
 import nestLogo from '@imgs/top/nest-logo.svg';
 import nextLogo from '@imgs/top/next-logo.svg';
 import awsLogo from '@imgs/top/aws-logo.svg';

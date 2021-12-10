@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { ModalWrapper } from '@/components/molecules';
 import { mq } from '@mixin';
+import { ModalWrapper } from '@/components/molecules';
 
 type Props = {
   isOpen: boolean,

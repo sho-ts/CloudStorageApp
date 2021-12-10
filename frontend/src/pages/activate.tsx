@@ -1,10 +1,9 @@
-import { auth } from '@/utils/aws';
-import Head from 'next/head'
-import { PageTitle } from '@/components/atoms';
-import { TextField, Button } from '@/components/atoms';
-import styled from 'styled-components';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { auth } from '@/utils/aws';
+import styled from 'styled-components';
+import { PageTitle, TextField, Button } from '@/components/atoms';
+import Head from 'next/head'
 import { getGuestLayout } from '@/utils/getLayout';
 
 const Activate = () => {

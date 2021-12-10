@@ -1,10 +1,10 @@
+import type{ DirType } from '@/types/DirType';
 import styled, { css } from 'styled-components';
-import { DirType } from '@/types/DirType';
 import { hover, mq } from '@mixin';
-import dirIcon from '@imgs/common/dir-icon.svg';
-import addIcon from '@imgs/common/add-icon.svg';
 import Image from 'next/image'
 import Link from 'next/link';
+import addIcon from '@imgs/common/add-icon.svg';
+import dirIcon from '@imgs/common/dir-icon.svg';
 
 type Props = {
   dirs: DirType[]
@@ -25,7 +25,7 @@ const Directories: React.FC<Props> = ({ dirs, modalOpen }) => {
         <Item><Link href="/mypage"><a>全て</a></Link></Item>
         {dirs.map(dir => (
           <Item key={dir.id}>
-            <Link href={`/directories/${dir.id}`}>
+            <Link href={`/directory/${dir.id}`}>
               <a>{dir.name}</a>
             </Link>
           </Item>

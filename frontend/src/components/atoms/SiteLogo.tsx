@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { mq } from '@mixin';
 
 const SiteLogo = () => {
   return (

@@ -1,12 +1,11 @@
+import type { PostType } from '@/types/PostType';
 import { useRouter } from "next/router";
-import { PostType } from '@/types/PostType';
-import config from '@/utils/config';
 import useSWR from 'swr';
+import { config } from '@/utils';
+import { getUserLayout } from "@/utils/getLayout";
 import { auth } from '@/utils/aws';
-import { Button } from '@/components/atoms'
 import axios from 'axios';
-import { UserLayout } from '@/components/templates';
-import type { ReactElement } from 'react'
+import { Button } from '@/components/atoms'
 import Head from 'next/head';
 
 const Post = () => {
@@ -63,12 +62,6 @@ const Post = () => {
   )
 }
 
-Post.getLayout = (page: ReactElement) => {
-  return (
-    <UserLayout>
-      {page}
-    </UserLayout>
-  )
-}
+Post.getLayout = getUserLayout;
 
 export default Post;

@@ -1,12 +1,11 @@
-import { Button, TextField } from '@/components/atoms';
-import { Modal } from '@/components/organisms';
-import styled from 'styled-components';
-import { DirType } from '@/types/DirType';
-import { KeyedMutator } from 'swr';
+import type { DirType } from '@/types/DirType';
+import type { KeyedMutator } from 'swr';
 import { useState } from 'react';
 import axios from 'axios';
 import { auth } from '@/utils/aws';
 import { config } from '@/utils';
+import { Button, TextField } from '@/components/atoms';
+import { Modal } from '@/components/organisms';
 
 type Props = {
   isOpen: boolean,

@@ -1,6 +1,6 @@
+import { Button } from '@/components/atoms';
 import styled from 'styled-components';
 import { mq } from '@mixin';
-import { Button } from '@/components/atoms';
 
 type Props = {
   onClick?: any;

@@ -1,7 +1,7 @@
+import { useModal } from '@/hooks';
 import styled, { css } from 'styled-components';
 import { SiteLogo } from '@/components/atoms';
 import { HeaderNav } from '@/components/molecules'
-import { useModal } from '@/hooks';
 import Link from 'next/link';
 
 type Props = {

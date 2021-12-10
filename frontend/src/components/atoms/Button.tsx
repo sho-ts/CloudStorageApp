@@ -1,6 +1,6 @@
+import type { CSSProperties } from 'react';
 import styled, { css } from 'styled-components';
 import { hover } from '@mixin';
-import { CSSProperties } from 'react';
 
 type Props = {
   as?: 'a' | 'div' | 'button',
