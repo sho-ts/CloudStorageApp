@@ -20,6 +20,8 @@ type Props = {
 
 const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
   const { keyword } = useSelector(props => props.search);
+  const { isSmallWindowSize } = useSelector(props => props.windowSize);
+
   const dispatch = useDispatch();
 
   const checkWindowSize = () => dispatch(setIsSmallWindowSize(window.matchMedia('(max-width: 767px)').matches));
@@ -59,20 +61,22 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
             <Main>
               {children}
             </Main>
-            <Sidebar>
-              <FileUpload>
-                <Button onClick={handleUploadModalOpen}>アップロード</Button>
-              </FileUpload>
-              <Search>
-                <TextField placeholder="検索" value={keyword} onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeDispatchKeyword(e.target.value)} />
-              </Search>
-              {dirs.data &&
-                <Directories
-                  modalOpen={handleDirModalOpen}
-                  dirs={dirs.data}
-                />
-              }
-            </Sidebar>
+            {isSmallWindowSize || (
+              <Sidebar>
+                <FileUpload>
+                  <Button onClick={handleUploadModalOpen}>アップロード</Button>
+                </FileUpload>
+                <Search>
+                  <TextField placeholder="検索" value={keyword} onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeDispatchKeyword(e.target.value)} />
+                </Search>
+                {dirs.data &&
+                  <Directories
+                    modalOpen={handleDirModalOpen}
+                    dirs={dirs.data}
+                  />
+                }
+              </Sidebar>
+            )}
           </Inner>
           <UploadModal
             isOpen={uploadModalOpen}
