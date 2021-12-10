@@ -3,13 +3,14 @@ import type { PostsType } from '@/types/PostsType';
 import type { KeyedMutator } from 'swr';
 import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
+import { Pagination } from '@/components/molecules';
 import { DirEditModal } from '@/components/organisms';
 import Image from 'next/image'
 import Link from 'next/link';
 import settingIcon from '@imgs/common/setting-icon.svg';
 
 type Props = {
-  posts?: PostsType,
+  posts: PostsType,
   page: number,
   getNextDatas: () => void,
   getPrevDatas: () => void,
@@ -20,37 +21,49 @@ type Props = {
   mutate?: KeyedMutator<DirType>
 }
 
-const FileList: React.FC<Props> = ({ isModalOpen, posts, dir, handleDirEditModalOpen, handleDirEditModalClose, mutate }) => {
+const FileList: React.FC<Props> = ({
+  isModalOpen, posts, dir, page,
+  handleDirEditModalOpen, handleDirEditModalClose, mutate,
+  getNextDatas, getPrevDatas,
+}) => {
   return (
     <>
-      <Wrapper>
-        <Header>
-          <DirName>
-            {dir ? dir.name : '全てのファイル'}
-          </DirName>
-          {dir && (
-            <SettingIcon onClick={handleDirEditModalOpen}>
-              <Image src={settingIcon} />
-            </SettingIcon>
-          )}
-        </Header>
-        <Table>
-          <Tr className="head">
-            <Th>ファイル名</Th>
-            <Th className="created-at">アップロード日</Th>
-          </Tr>
-          {posts && posts.posts.map((post, index) => (
-            <Tr key={index}>
-              <Link href={`/posts/${post.id}`}>
-                <a>
-                  <Td>{post.description}</Td>
-                  <Td className="created-at">{post.created_at}</Td>
-                </a>
-              </Link>
+      <Header>
+        <DirName>
+          {dir ? dir.name : '全てのファイル'}
+        </DirName>
+        {dir && (
+          <SettingIcon onClick={handleDirEditModalOpen}>
+            <Image src={settingIcon} />
+          </SettingIcon>
+        )}
+      </Header>
+      {posts && (
+        <>
+          <Table>
+            <Tr className="head">
+              <Th>ファイル名</Th>
+              <Th className="created-at">アップロード日</Th>
             </Tr>
-          ))}
-        </Table>
-      </Wrapper>
+            {posts && posts.posts.map((post, index) => (
+              <Tr key={index}>
+                <Link href={`/posts/${post.id}`}>
+                  <a>
+                    <Td>{post.description}</Td>
+                    <Td className="created-at">{post.created_at}</Td>
+                  </a>
+                </Link>
+              </Tr>
+            ))}
+          </Table>
+          <Pagination
+            pages={posts?.pages}
+            page={page}
+            getNextDatas={getNextDatas}
+            getPrevDatas={getPrevDatas}
+          />
+        </>
+      )}
       {dir && (
         <DirEditModal
           isOpen={isModalOpen ?? false}
@@ -81,13 +94,9 @@ const DirName = styled.h2`
   font-weight: bold;
 `;
 
-
-const Wrapper = styled.div`
-  margin-bottom: 32px;
-`;
-
 const Table = styled.div`
   width: 100%;
+  margin-bottom: 32px;
 `;
 
 const Tr = styled.div`
