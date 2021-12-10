@@ -1,11 +1,10 @@
 import { useSignIn } from '@/hooks';
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import { PageTitle } from '@/components/atoms';
 import { TextField, TextLink, Button } from '@/components/atoms';
-import { GuestLayout, Container } from '@/components/templates';
+import {  Container } from '@/components/templates';
 import Link from 'next/link';
-import type { ReactElement } from 'react'
+import { getGuestLayout } from '@/utils/getLayout';
 
 const SignIn = () => {
   const { email, password, setEmail, setPassword, signIn } = useSignIn();
@@ -44,12 +43,6 @@ const SignIn = () => {
   )
 }
 
-SignIn.getLayout = (page: ReactElement) => {
-  return (
-    <GuestLayout>
-      {page}
-    </GuestLayout>
-  )
-}
+SignIn.getLayout = getGuestLayout;
 
 export default SignIn;

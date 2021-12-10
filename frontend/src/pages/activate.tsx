@@ -1,14 +1,13 @@
-import { NextPage } from 'next'
 import { auth } from '@/utils/aws';
 import Head from 'next/head'
 import { PageTitle } from '@/components/atoms';
 import { TextField, Button } from '@/components/atoms';
-import { Layout } from '@/components/templates';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { getGuestLayout } from '@/utils/getLayout';
 
-const Activate: NextPage = () => {
+const Activate = () => {
   const [code, setCode] = useState<string>('');
   const router = useRouter();
 
@@ -27,7 +26,7 @@ const Activate: NextPage = () => {
   }
 
   return (
-    <Layout isGuest={true}>
+    <>
       <Head>
         <title>アクティベート</title>
       </Head>
@@ -45,9 +44,11 @@ const Activate: NextPage = () => {
           <Button onClick={activateUser}>確認</Button>
         </div>
       </Inner>
-    </Layout>
+    </>
   )
 }
+
+Activate.getLayout = getGuestLayout;
 
 const Inner = styled.div`
   max-width: 500px;
