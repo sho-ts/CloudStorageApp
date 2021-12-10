@@ -3,10 +3,12 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import userReducer from './user';
 import searchReducer from './search';
+import windowSizeReducer from './windowSize'
 
 const reducer = combineReducers({
   user: userReducer,
   search: searchReducer,
+  windowSize: windowSizeReducer,
 })
 
 const store = configureStore({ reducer });

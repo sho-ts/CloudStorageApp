@@ -52,6 +52,9 @@ const Footer: React.FC<Props> = ({ isGuest }) => {
 
 const Wrapper = styled.footer`
   background-color: #f2f2f2;
+  ${mq('md', 'down')} {
+    padding-bottom: 52px;
+  }
 `;
 
 const Inner = styled.div`
