@@ -1,13 +1,11 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import { PageTitle } from '@/components/atoms';
 import { Button } from '@/components/atoms';
-import { Layout, Container } from '@/components/templates';
+import { Container } from '@/components/templates';
 import { useRouter } from 'next/router';
 import { signOut } from '@/stores/user/asyncThunk';
 import { useDispatch } from '@/hooks';
-import { UserLayout } from '@/components/templates';
-import type { ReactElement } from 'react'
+import { getUserLayout } from '@/utils/getLayout';
 
 const SignOut = () => {
   const router = useRouter();
@@ -38,12 +36,6 @@ const SignOut = () => {
   )
 }
 
-SignOut.getLayout = (page: ReactElement) => {
-  return (
-    <UserLayout ignoreMainLayout={true}>
-      {page}
-    </UserLayout>
-  )
-}
+SignOut.getLayout = getUserLayout;
 
 export default SignOut;

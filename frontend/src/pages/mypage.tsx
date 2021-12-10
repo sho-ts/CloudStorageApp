@@ -1,6 +1,4 @@
 import Head from 'next/head'
-import { UserLayout } from '@/components/templates';
-import type { ReactElement } from 'react'
 import { FileList } from '@/components/organisms';
 import { PostsType } from '@/types/PostsType';
 import { useState } from 'react';
@@ -9,6 +7,7 @@ import axios from 'axios';
 import config from '@/utils/config';
 import { auth } from '@/utils/aws';
 import { createPagination } from '@/utils';
+import { getUserLayout } from '@/utils/getLayout';
 
 const MyPage = () => {
   const [page, setPage] = useState<number>(1);
@@ -43,12 +42,6 @@ const MyPage = () => {
   )
 }
 
-MyPage.getLayout = (page: ReactElement) => {
-  return (
-    <UserLayout>
-      {page}
-    </UserLayout>
-  )
-}
+MyPage.getLayout = getUserLayout;
 
 export default MyPage;
