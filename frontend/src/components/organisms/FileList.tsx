@@ -10,7 +10,7 @@ import Link from 'next/link';
 import settingIcon from '@imgs/common/setting-icon.svg';
 
 type Props = {
-  posts: PostsType,
+  posts?: PostsType,
   page: number,
   getNextDatas: () => void,
   getPrevDatas: () => void,
