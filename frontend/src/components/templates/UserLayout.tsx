@@ -1,5 +1,6 @@
 import useSWR from 'swr';
-import { useModal } from '@/hooks';
+import { useModal, useSelector, useDispatch } from '@/hooks';
+import { setSearchKeyword } from '@/stores/search';
 import axios from 'axios'
 import { auth } from '@/utils/aws';
 import { config } from '@/utils';
@@ -10,14 +11,16 @@ import { DirType } from '@/types/DirType';
 import { Directories } from '@/components/molecules';
 import { CreateDirModal, UploadModal } from '@/components/organisms';
 import { Layout } from '@/components/templates';
-import Provider from '@/provider';
-import Auth from '@/provider/AuthProvider';
 
 type Props = {
   ignoreMainLayout?: boolean
 }
 
 const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
+  const { keyword } = useSelector(props => props.search);
+  const dispatch = useDispatch();
+  const onChangeDispatchKeyword = (nextKeyword: string) => dispatch(setSearchKeyword(nextKeyword));
+
   const dirs = useSWR(`${config.api}/directory/all`, async (url: string) => {
     await auth.getUser();
     const token = auth.getIdToken();
@@ -33,47 +36,43 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
   const [dirModalOpen, handleDirModalOpen, handleDirModalClose] = useModal();
 
   return (
-    <Provider>
-      <Auth>
-        <Layout>
-          {ignoreMainLayout ? (
-            <>{children}</>
-          ) : (
-            <>
-              <Inner>
-                <Main>
-                  {children}
-                </Main>
-                <Sidebar>
-                  <FileUpload>
-                    <Button onClick={handleUploadModalOpen}>アップロード</Button>
-                  </FileUpload>
-                  <Search>
-                    <TextField placeholder="検索" />
-                  </Search>
-                  {dirs.data &&
-                    <Directories
-                      modalOpen={handleDirModalOpen}
-                      dirs={dirs.data}
-                    />
-                  }
-                </Sidebar>
-              </Inner>
-              <UploadModal
-                isOpen={uploadModalOpen}
-                dirs={dirs.data ?? []}
-                onClose={handleUploadModalClose}
-              />
-              <CreateDirModal
-                mutate={dirs.mutate}
-                isOpen={dirModalOpen}
-                onClose={handleDirModalClose}
-              />
-            </>
-          )}
-        </Layout>
-      </Auth>
-    </Provider>
+    <Layout>
+      {ignoreMainLayout ? (
+        <>{children}</>
+      ) : (
+        <>
+          <Inner>
+            <Main>
+              {children}
+            </Main>
+            <Sidebar>
+              <FileUpload>
+                <Button onClick={handleUploadModalOpen}>アップロード</Button>
+              </FileUpload>
+              <Search>
+                <TextField placeholder="検索" value={keyword} onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeDispatchKeyword(e.target.value)} />
+              </Search>
+              {dirs.data &&
+                <Directories
+                  modalOpen={handleDirModalOpen}
+                  dirs={dirs.data}
+                />
+              }
+            </Sidebar>
+          </Inner>
+          <UploadModal
+            isOpen={uploadModalOpen}
+            dirs={dirs.data ?? []}
+            onClose={handleUploadModalClose}
+          />
+          <CreateDirModal
+            mutate={dirs.mutate}
+            isOpen={dirModalOpen}
+            onClose={handleDirModalClose}
+          />
+        </>
+      )}
+    </Layout>
   )
 }
 
