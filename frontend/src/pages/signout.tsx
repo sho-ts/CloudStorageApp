@@ -35,6 +35,6 @@ const SignOut = () => {
   )
 }
 
-SignOut.getLayout = getUserLayout;
+SignOut.getLayout = getUserLayout.ignoreMainLayout;
 
 export default SignOut;
