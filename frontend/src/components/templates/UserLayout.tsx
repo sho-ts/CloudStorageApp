@@ -13,7 +13,11 @@ import { config } from '@/utils';
 import axios from 'axios'
 import { DirType } from '@/types/DirType';
 
-const UserLayout: React.FC = ({ children }) => {
+type Props = {
+  ignoreMainLayout?: boolean
+}
+
+const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
   const dirs = useSWR(`${config.api}/directory/all`, async (url: string) => {
     await auth.getUser();
     const token = auth.getIdToken();
@@ -32,35 +36,41 @@ const UserLayout: React.FC = ({ children }) => {
     <Provider>
       <Auth>
         <Layout>
-          <Inner>
-            <Main>
-              {children}
-            </Main>
-            <Sidebar>
-              <FileUpload>
-                <Button onClick={handleUploadModalOpen}>アップロード</Button>
-              </FileUpload>
-              <Search>
-                <TextField placeholder="検索" />
-              </Search>
-              {dirs.data &&
-                <Directories
-                  modalOpen={handleDirModalOpen}
-                  dirs={dirs.data}
-                />
-              }
-            </Sidebar>
-          </Inner>
-          <UploadModal
-            isOpen={uploadModalOpen}
-            dirs={dirs.data ?? []}
-            onClose={handleUploadModalClose}
-          />
-          <CreateDirModal
-            mutate={dirs.mutate}
-            isOpen={dirModalOpen}
-            onClose={handleDirModalClose}
-          />
+          {ignoreMainLayout ? (
+            <>{children}</>
+          ) : (
+            <>
+              <Inner>
+                <Main>
+                  {children}
+                </Main>
+                <Sidebar>
+                  <FileUpload>
+                    <Button onClick={handleUploadModalOpen}>アップロード</Button>
+                  </FileUpload>
+                  <Search>
+                    <TextField placeholder="検索" />
+                  </Search>
+                  {dirs.data &&
+                    <Directories
+                      modalOpen={handleDirModalOpen}
+                      dirs={dirs.data}
+                    />
+                  }
+                </Sidebar>
+              </Inner>
+              <UploadModal
+                isOpen={uploadModalOpen}
+                dirs={dirs.data ?? []}
+                onClose={handleUploadModalClose}
+              />
+              <CreateDirModal
+                mutate={dirs.mutate}
+                isOpen={dirModalOpen}
+                onClose={handleDirModalClose}
+              />
+            </>
+          )}
         </Layout>
       </Auth>
     </Provider>
