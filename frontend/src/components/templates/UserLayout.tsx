@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import useSWR from 'swr';
 import { useModal, useSelector, useDispatch } from '@/hooks';
 import { setSearchKeyword } from '@/stores/search';
+import { setIsSmallWindowSize } from '@/stores/windowSize';
 import axios from 'axios'
 import { auth } from '@/utils/aws';
 import { config } from '@/utils';
@@ -8,7 +10,7 @@ import styled from 'styled-components';
 import { mq } from '@mixin';
 import { Button, TextField } from '@/components/atoms';
 import { DirType } from '@/types/DirType';
-import { Directories } from '@/components/molecules';
+import { Directories, BottomNav } from '@/components/molecules';
 import { CreateDirModal, UploadModal } from '@/components/organisms';
 import { Layout } from '@/components/templates';
 
@@ -19,6 +21,18 @@ type Props = {
 const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
   const { keyword } = useSelector(props => props.search);
   const dispatch = useDispatch();
+
+  const checkWindowSize = () => dispatch(setIsSmallWindowSize(window.matchMedia('(max-width: 767px)').matches));
+
+  useEffect(() => {
+    checkWindowSize();
+    window.addEventListener('resize', checkWindowSize);
+
+    return () => {
+      window.removeEventListener('resize', checkWindowSize);
+    }
+  }, []);
+
   const onChangeDispatchKeyword = (nextKeyword: string) => dispatch(setSearchKeyword(nextKeyword));
 
   const dirs = useSWR(`${config.api}/directory/all`, async (url: string) => {
@@ -70,6 +84,7 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
             isOpen={dirModalOpen}
             onClose={handleDirModalClose}
           />
+          <BottomNav />
         </>
       )}
     </Layout>
