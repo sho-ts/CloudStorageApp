@@ -8,8 +8,6 @@ type Props = {
 }
 
 const Layout: React.FC<Props> = ({ children, isGuest }) => {
-  const user = useSelector(state => state.user);
-
   return (
     <>
       <Header isGuest={isGuest} />
