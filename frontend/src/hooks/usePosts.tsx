@@ -1,39 +1,18 @@
+import type { PostsType } from '@/types/PostsType';
 import { useState } from 'react';
 import useSWR from 'swr';
 import { auth } from '@/utils/aws';
-import { config } from '@/utils';
+import { config, createPagination } from '@/utils';
 import axios from 'axios'
-import { PostsType } from '@/types/PostsType';
-import { DirType } from '@/types/DirType';
-import { createPagination } from '@/utils';
 
-const usePosts = () => {
+const usePosts = (dirId?: string) => {
   const [page, setPage] = useState<number>(1);
-  const [currentDir, setCurrentDir] = useState<DirType | null>(null);
-  const [keyword, setKeyword] = useState<string>('');
 
-  const changeDir = (dir: DirType | null) => {
-    setCurrentDir(dir);
-    setPage(1);
-  }
-
-  const dirs = useSWR(`${config.api}/directory/all`, async (url: string) => {
-    await auth.getUser();
-    const token = auth.getIdToken();
-
-    return axios.get<DirType[]>(url, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).then(({ data }) => {
-      return data
-    });
-  })
-
-  const posts = useSWR<PostsType>(`${config.api}/post/all?page=${page}&s=${keyword || ''}&dir=${currentDir ? currentDir.id : ''}`, async (url: string) => {
-    await auth.getUser();
-    const token = auth.getIdToken();
+  const posts = useSWR<PostsType>(`${config.api}/post/all?page=${page}&dir=${dirId ?? ''}`, async (url: string) => {
+    const { token } = await auth.getIdTokenAndUser();
 
     return axios.get<PostsType>(url, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token} ` }
     }).then(({ data }) => {
       setPage(data.current);
       return data
@@ -44,13 +23,7 @@ const usePosts = () => {
 
   return {
     page,
-    currentDir,
     posts,
-    dirs,
-    keyword,
-    changeDir,
-    setKeyword,
-    setCurrentDir,
     getNextDatas,
     getPrevDatas,
   }

@@ -47,7 +47,7 @@ const FileList: React.FC<Props> = ({
             </Tr>
             {posts && posts.posts.map((post, index) => (
               <Tr key={index}>
-                <Link href={`/posts/${post.id}`}>
+                <Link href={`/post/${post.id}`}>
                   <a>
                     <Td>{post.description}</Td>
                     <Td className="created-at">{post.created_at}</Td>

@@ -25,7 +25,7 @@ const Directories: React.FC<Props> = ({ dirs, modalOpen }) => {
         <Item><Link href="/mypage"><a>全て</a></Link></Item>
         {dirs.map(dir => (
           <Item key={dir.id}>
-            <Link href={`/directories/${dir.id}`}>
+            <Link href={`/directory/${dir.id}`}>
               <a>{dir.name}</a>
             </Link>
           </Item>
