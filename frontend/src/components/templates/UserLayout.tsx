@@ -1,69 +1,69 @@
-import { useSelector } from '@/hooks';
 import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
 import { Button, TextField } from '@/components/atoms';
 import { Layout } from '@/components/templates';
-import { Pagination, Directories } from '@/components/molecules';
-import { Header, Footer } from '@/components/organisms';
-import { CreateDirModal, UploadModal, DirEditModal } from '@/components/organisms';
-import Link from 'next/link';
-import { useModal, usePosts } from '@/hooks';
-import settingIcon from '@imgs/common/setting-icon.svg';
-import Image from 'next/image'
+import { Directories } from '@/components/molecules';
+import { CreateDirModal, UploadModal } from '@/components/organisms';
+import { useModal } from '@/hooks';
+import Auth from '@/provider/AuthProvider';
+import Provider from '@/provider';
+import useSWR from 'swr';
+import { auth } from '@/utils/aws';
+import { config } from '@/utils';
+import axios from 'axios'
+import { DirType } from '@/types/DirType';
 
+const UserLayout: React.FC = ({ children }) => {
+  const dirs = useSWR(`${config.api}/directory/all`, async (url: string) => {
+    await auth.getUser();
+    const token = auth.getIdToken();
 
-type Props = {
-}
+    return axios.get<DirType[]>(url, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(({ data }) => {
+      return data
+    });
+  })
 
-const UserLayout: React.FC<Props> = ({ children }) => {
-  const { posts, currentDir, dirs, page, keyword, changeDir, getNextDatas, getPrevDatas, setKeyword } = usePosts();
   const [uploadModalOpen, handleUploadModalOpen, handleUploadModalClose] = useModal();
   const [dirModalOpen, handleDirModalOpen, handleDirModalClose] = useModal();
-  const [dirEditModalOpen, handleDirEditModalOpen, handleDirEditModalClose] = useModal();
 
   return (
-    <Layout>
-      <Inner>
-        <Main>
-          {children}
-        </Main>
-        <Sidebar>
-          <FileUpload>
-            <Button onClick={handleUploadModalOpen}>アップロード</Button>
-          </FileUpload>
-          <Search>
-            <TextField value={keyword} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)} placeholder="検索" />
-          </Search>
-          {dirs.data &&
-            <Directories
-              modalOpen={handleDirModalOpen}
-              dirs={dirs.data}
-              changeDir={changeDir}
-            />
-          }
-        </Sidebar>
-      </Inner>
-      <UploadModal
-        mutate={posts.mutate}
-        isOpen={uploadModalOpen}
-        dirs={dirs.data ?? []}
-        onClose={handleUploadModalClose}
-      />
-      <CreateDirModal
-        mutate={dirs.mutate}
-        isOpen={dirModalOpen}
-        onClose={handleDirModalClose}
-      />
-      {currentDir && (
-        <DirEditModal
-          changeDir={changeDir}
-          dir={currentDir}
-          mutate={dirs.mutate}
-          isOpen={dirEditModalOpen}
-          onClose={handleDirEditModalClose}
-        />
-      )}
-    </Layout>
+    <Provider>
+      <Auth>
+        <Layout>
+          <Inner>
+            <Main>
+              {children}
+            </Main>
+            <Sidebar>
+              <FileUpload>
+                <Button onClick={handleUploadModalOpen}>アップロード</Button>
+              </FileUpload>
+              <Search>
+                <TextField placeholder="検索" />
+              </Search>
+              {dirs.data &&
+                <Directories
+                  modalOpen={handleDirModalOpen}
+                  dirs={dirs.data}
+                />
+              }
+            </Sidebar>
+          </Inner>
+          <UploadModal
+            isOpen={uploadModalOpen}
+            dirs={dirs.data ?? []}
+            onClose={handleUploadModalClose}
+          />
+          <CreateDirModal
+            mutate={dirs.mutate}
+            isOpen={dirModalOpen}
+            onClose={handleDirModalClose}
+          />
+        </Layout>
+      </Auth>
+    </Provider>
   )
 }
 

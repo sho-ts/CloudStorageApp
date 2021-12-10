@@ -8,7 +8,7 @@ import { KeyedMutator } from 'swr';
 import { PostsType } from '@/types/PostsType';
 import { DirType } from '@/types/DirType';
 
-const useUpload = (mutate: KeyedMutator<PostsType>, dirs: DirType[], onClose: any) => {
+const useUpload = (dirs: DirType[], onClose: any) => {
   const [files, setFiles] = useState<File[]>([]);
   const [fileName, setFileName] = useState<string>('');
   const [uploadDir, setUploadDir] = useState<number | null>(null);
@@ -70,7 +70,6 @@ const useUpload = (mutate: KeyedMutator<PostsType>, dirs: DirType[], onClose: an
 
       setComplete(true);
       clearFile();
-      mutate();
       onClose();
     } catch (e) {
       console.error(e);

@@ -10,15 +10,15 @@ type Props = {
   isOpen: boolean,
   onClose: any,
   dirs: DirType[],
-  mutate: KeyedMutator<PostsType>,
+  // mutate: KeyedMutator<PostsType>,
 }
 
-const UploadModal: React.FC<Props> = ({ mutate, dirs, isOpen, onClose }) => {
+const UploadModal: React.FC<Props> = ({ dirs, isOpen, onClose }) => {
   const {
     getRootProps, getInputProps, upload,
     file, fileName, disclosureRange, uploadDir,
     setFileName, setDisclosureRange, setUploadDir,
-  } = useUpload(mutate, dirs, onClose);
+  } = useUpload(dirs, onClose);
 
   return (
     <Modal

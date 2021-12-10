@@ -2,30 +2,35 @@ import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
 import { Button, TextField } from '@/components/atoms';
 import { Pagination, Directories } from '@/components/molecules';
+import { DirEditModal } from '@/components/organisms';
 import { DirType } from '@/types/DirType';
 import { PostsType } from '@/types/PostsType';
 import settingIcon from '@imgs/common/setting-icon.svg';
 import Image from 'next/image'
+import { KeyedMutator } from 'swr';
 import Link from 'next/link';
 
 type Props = {
-  currentDir?: DirType | null,
   posts?: PostsType,
   page: number,
-  getNextDatas: any,
-  getPrevDatas: any,
-  handleDirEditModalOpen: any,
+  getNextDatas: () => void,
+  getPrevDatas: () => void,
+  dir?: DirType | null,
+  isModalOpen?: boolean
+  handleDirEditModalOpen?: () => void,
+  handleDirEditModalClose?: () => void,
+  mutate?: KeyedMutator<DirType>
 }
 
-const FileList: React.FC<Props> = ({ currentDir, handleDirEditModalOpen, posts, page, getNextDatas, getPrevDatas }) => {
+const FileList: React.FC<Props> = ({ isModalOpen, posts, dir, handleDirEditModalOpen, handleDirEditModalClose, mutate }) => {
   return (
     <>
       <Wrapper>
         <Header>
           <DirName>
-            {currentDir ? currentDir.name : '全てのファイル'}
+            {dir ? dir.name : '全てのファイル'}
           </DirName>
-          {currentDir && (
+          {dir && (
             <SettingIcon onClick={handleDirEditModalOpen}>
               <Image src={settingIcon} />
             </SettingIcon>
@@ -48,7 +53,14 @@ const FileList: React.FC<Props> = ({ currentDir, handleDirEditModalOpen, posts, 
           ))}
         </Table>
       </Wrapper>
-      {posts && <Pagination pages={posts.pages} page={page} getNextDatas={getNextDatas} getPrevDatas={getPrevDatas} />}
+      {dir && (
+        <DirEditModal
+          isOpen={isModalOpen ?? false}
+          onClose={handleDirEditModalClose}
+          dir={dir ?? null}
+          mutate={mutate}
+        />
+      )}
     </>
   )
 }

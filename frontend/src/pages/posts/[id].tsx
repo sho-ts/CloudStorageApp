@@ -1,5 +1,3 @@
-import { Layout } from '@/components/templates';
-import type { NextPage } from 'next'
 import { useRouter } from "next/router";
 import { PostType } from '@/types/PostType';
 import config from '@/utils/config';
@@ -7,8 +5,11 @@ import useSWR from 'swr';
 import { auth } from '@/utils/aws';
 import { Button } from '@/components/atoms'
 import axios from 'axios';
+import { UserLayout } from '@/components/templates';
+import type { ReactElement } from 'react'
+import Head from 'next/head';
 
-const Post: NextPage = () => {
+const Post = () => {
   const router = useRouter();
 
   const { data, error } = useSWR<PostType>(`${config.api}/post/?id=${router.query.id}`, (url: string) => {
@@ -43,9 +44,12 @@ const Post: NextPage = () => {
   }
 
   return (
-    <Layout>
+    <>
       {data && (
         <>
+          <Head>
+            <title>{data.description}</title>
+          </Head>
           {data.description}
           <div style={{ marginTop: 16 }}>
             <Button as="a" download onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => onClickDownload(e)}>
@@ -55,7 +59,15 @@ const Post: NextPage = () => {
         </>
       )}
       {error && <p>データがありません</p>}
-    </Layout>
+    </>
+  )
+}
+
+Post.getLayout = (page: ReactElement) => {
+  return (
+    <UserLayout>
+      {page}
+    </UserLayout>
   )
 }
 
