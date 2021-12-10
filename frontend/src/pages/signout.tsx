@@ -6,8 +6,10 @@ import { Layout, Container } from '@/components/templates';
 import { useRouter } from 'next/router';
 import { signOut } from '@/stores/user/asyncThunk';
 import { useDispatch } from '@/hooks';
+import { UserLayout } from '@/components/templates';
+import type { ReactElement } from 'react'
 
-const SignOut: NextPage = () => {
+const SignOut = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -21,7 +23,7 @@ const SignOut: NextPage = () => {
   }
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>ログアウト</title>
       </Head>
@@ -32,7 +34,15 @@ const SignOut: NextPage = () => {
           <Button onClick={onClickSignout}>ログアウト</Button>
         </div>
       </Container>
-    </Layout>
+    </>
+  )
+}
+
+SignOut.getLayout = (page: ReactElement) => {
+  return (
+    <UserLayout ignoreMainLayout={true}>
+      {page}
+    </UserLayout>
   )
 }
 

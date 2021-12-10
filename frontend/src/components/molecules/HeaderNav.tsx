@@ -9,7 +9,7 @@ import React from 'react';
 type Props = {
   onClose: any,
   isOpen?: boolean,
-  isGuest?: boolean
+  isGuest?: boolean,
 }
 
 const HeaderNav: React.FC<Props> = ({ onClose, isOpen, isGuest }) => {
@@ -22,21 +22,21 @@ const HeaderNav: React.FC<Props> = ({ onClose, isOpen, isGuest }) => {
               {isGuest && item.user === USER_TYPE.GUEST && (
                 <Item>
                   <Link href={item.href}>
-                    <a>{item.innerText}</a>
+                    <a onClick={onClose}>{item.innerText}</a>
                   </Link>
                 </Item>
               )}
               {isGuest || item.user === USER_TYPE.MEMBER && (
                 <Item>
                   <Link href={item.href}>
-                    <a>{item.innerText}</a>
+                    <a onClick={onClose}>{item.innerText}</a>
                   </Link>
                 </Item>
               )}
               {item.user === USER_TYPE.COMMON && (
                 <Item>
                   <Link href={item.href}>
-                    <a>{item.innerText}</a>
+                    <a onClick={onClose}>{item.innerText}</a>
                   </Link>
                 </Item>
               )}
