@@ -1,10 +1,10 @@
+import type{ DirType } from '@/types/DirType';
 import styled, { css } from 'styled-components';
-import { DirType } from '@/types/DirType';
 import { hover, mq } from '@mixin';
-import dirIcon from '@imgs/common/dir-icon.svg';
-import addIcon from '@imgs/common/add-icon.svg';
 import Image from 'next/image'
 import Link from 'next/link';
+import addIcon from '@imgs/common/add-icon.svg';
+import dirIcon from '@imgs/common/dir-icon.svg';
 
 type Props = {
   dirs: DirType[]

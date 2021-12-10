@@ -1,12 +1,12 @@
-import { Button, TextField } from '@/components/atoms';
-import { Modal } from '@/components/organisms';
-import { DirType } from '@/types/DirType';
-import { KeyedMutator } from 'swr';
+import type { DirType } from '@/types/DirType';
+import type { KeyedMutator } from 'swr';
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import axios from 'axios';
 import { auth } from '@/utils/aws';
 import { config } from '@/utils';
-import styled from 'styled-components';
+import { Button, TextField } from '@/components/atoms';
+import { Modal } from '@/components/organisms';
 
 type Props = {
   dir: DirType | null,

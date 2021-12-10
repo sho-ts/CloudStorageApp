@@ -1,11 +1,11 @@
-import Head from 'next/head'
-import { FileList } from '@/components/organisms';
-import { PostsType } from '@/types/PostsType';
+import type { PostsType } from '@/types/PostsType';
 import { useState } from 'react';
 import useSWR from 'swr';
-import axios from 'axios';
-import config from '@/utils/config';
+import { config } from '@/utils';
 import { auth } from '@/utils/aws';
+import axios from 'axios';
+import Head from 'next/head'
+import { FileList } from '@/components/organisms';
 import { createPagination } from '@/utils';
 import { getUserLayout } from '@/utils/getLayout';
 

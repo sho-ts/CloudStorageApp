@@ -1,10 +1,10 @@
+import React from 'react';
 import styled from 'styled-components';
-import { ModalWrapper } from '@/components/molecules';
 import { mq } from '@mixin';
 import { CONSTANT_VARIABLES } from '@/utils'
-import Link from 'next/link';
 import { USER_TYPE } from '@/utils/const';
-import React from 'react';
+import { ModalWrapper } from '@/components/molecules';
+import Link from 'next/link';
 
 type Props = {
   onClose: any,

@@ -1,10 +1,8 @@
+import { useUpload } from '@/hooks';
+import type { DirType } from '@/types/DirType';
+import styled from 'styled-components';
 import { Button, TextField, Select } from '@/components/atoms';
 import { Modal } from '@/components/organisms';
-import styled from 'styled-components';
-import { useUpload } from '@/hooks';
-import { KeyedMutator } from 'swr';
-import { PostsType } from '@/types/PostsType';
-import { DirType } from '@/types/DirType';
 
 type Props = {
   isOpen: boolean,

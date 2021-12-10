@@ -1,11 +1,11 @@
-import Head from 'next/head';
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { auth } from '@/utils/aws';
 import { CONSTANT_VARIABLES } from '@/utils';
-import { MainVisual, Feature, Architect, GetStarted, Header, Footer } from '@/components/organisms';
-import styled from 'styled-components';
 import { mq } from '@mixin';
+import styled from 'styled-components';
+import { MainVisual, Feature, Architect, GetStarted, Header, Footer } from '@/components/organisms';
+import Head from 'next/head';
 
 const Home = () => {
   const router = useRouter();

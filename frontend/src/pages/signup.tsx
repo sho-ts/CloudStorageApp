@@ -1,9 +1,8 @@
 import { useSignUp } from '@/hooks';
-import Head from 'next/head'
-import { PageTitle } from '@/components/atoms';
-import { TextField, TextLink, Button } from '@/components/atoms';
+import { TextField, TextLink, Button, PageTitle } from '@/components/atoms';
 import { Container } from '@/components/templates';
 import Link from 'next/link';
+import Head from 'next/head'
 import { getGuestLayout } from '@/utils/getLayout';
 
 const SignIn = () => {
