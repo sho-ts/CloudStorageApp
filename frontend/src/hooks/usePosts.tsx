@@ -1,5 +1,6 @@
 import type { PostsType } from '@/types/PostsType';
 import { useState } from 'react';
+import { useSelector } from '@/hooks';
 import useSWR from 'swr';
 import { auth } from '@/utils/aws';
 import { config, createPagination } from '@/utils';
@@ -7,8 +8,9 @@ import axios from 'axios'
 
 const usePosts = (dirId?: string) => {
   const [page, setPage] = useState<number>(1);
+  const { keyword } = useSelector(props => props.search);
 
-  const posts = useSWR<PostsType>(`${config.api}/post/all?page=${page}&dir=${dirId ?? ''}`, async (url: string) => {
+  const posts = useSWR<PostsType>(`${config.api}/post/all?page=${page}&s=${keyword}&dir=${dirId ?? ''}`, async (url: string) => {
     const { token } = await auth.getIdTokenAndUser();
 
     return axios.get<PostsType>(url, {
