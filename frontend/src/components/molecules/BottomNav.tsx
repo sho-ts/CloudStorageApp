@@ -1,35 +1,40 @@
-import { useSelector } from '@/hooks';
+import { useSelector, useModal } from '@/hooks';
 import styled from 'styled-components';
 import { AiOutlineHome, AiOutlineSearch, AiOutlineFolderOpen, AiOutlineUpload } from 'react-icons/ai'
+import { SearchModal } from '@/components/organisms';
 import Link from 'next/link'
 
 const BottomNav: React.FC = () => {
   const { isSmallWindowSize } = useSelector(props => props.windowSize);
+  const [searchModalisOpen, handleSearchModalOpen, handleSearchModalClose] = useModal();
 
   return (
     <>
-      {isSmallWindowSize ? (
-        <Wrapper>
-          <Inner>
-            <Button>
-              <Link href="/mypage">
-                <a>
-                  <AiOutlineHome size="24px" />
-                </a>
-              </Link>
-            </Button>
-            <Button>
-              <AiOutlineSearch size="24px" />
-            </Button>
-            <Button>
-              <AiOutlineFolderOpen size="24px" />
-            </Button>
-            <Button>
-              <AiOutlineUpload size="24px" />
-            </Button>
-          </Inner>
-        </Wrapper>
-      ) : <></>}
+      {isSmallWindowSize && (
+        <>
+          <Wrapper>
+            <Inner>
+              <Button>
+                <Link href="/mypage">
+                  <a>
+                    <AiOutlineHome size="24px" />
+                  </a>
+                </Link>
+              </Button>
+              <Button onClick={handleSearchModalOpen}>
+                <AiOutlineSearch size="24px" />
+              </Button>
+              <Button>
+                <AiOutlineFolderOpen size="24px" />
+              </Button>
+              <Button>
+                <AiOutlineUpload size="24px" />
+              </Button>
+            </Inner>
+          </Wrapper>
+          <SearchModal isOpen={searchModalisOpen} onClose={handleSearchModalClose} />
+        </>
+      )}
     </>
   )
 }

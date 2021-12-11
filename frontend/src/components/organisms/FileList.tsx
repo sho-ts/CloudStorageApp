@@ -1,6 +1,7 @@
 import type { DirType } from '@/types/DirType';
 import type { PostsType } from '@/types/PostsType';
 import type { KeyedMutator } from 'swr';
+import { useSelector } from '@/hooks';
 import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
 import { Pagination } from '@/components/molecules';
@@ -26,16 +27,23 @@ const FileList: React.FC<Props> = ({
   handleDirEditModalOpen, handleDirEditModalClose, mutate,
   getNextDatas, getPrevDatas,
 }) => {
+  const { keyword } = useSelector(props => props.search);
+
   return (
     <>
       <Header>
-        <DirName>
-          {dir ? dir.name : '全てのファイル'}
-        </DirName>
-        {dir && (
-          <SettingIcon onClick={handleDirEditModalOpen}>
-            <Image src={settingIcon} />
-          </SettingIcon>
+        <DirInfo>
+          <DirName>
+            {dir ? dir.name : '全てのファイル'}
+          </DirName>
+          {dir && (
+            <SettingIcon onClick={handleDirEditModalOpen}>
+              <Image src={settingIcon} />
+            </SettingIcon>
+          )}
+        </DirInfo>
+        {keyword && (
+          <Keyword>検索ワード : {keyword}</Keyword>
         )}
       </Header>
       {posts && (
@@ -77,10 +85,13 @@ const FileList: React.FC<Props> = ({
 }
 
 const Header = styled.header`
+  margin-bottom: 16px;
+`;
+
+const DirInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
 `;
 
 const SettingIcon = styled.button`
@@ -92,6 +103,11 @@ const SettingIcon = styled.button`
 const DirName = styled.h2`
   font-size: 18px;
   font-weight: bold;
+`;
+
+const Keyword = styled.div`
+  font-size: 12px;
+  margin-top: 10px;
 `;
 
 const Table = styled.div`
