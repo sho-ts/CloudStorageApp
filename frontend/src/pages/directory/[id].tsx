@@ -13,7 +13,8 @@ const Directory = () => {
   const router = useRouter();
   const [dirEditModalOpen, handleDirEditModalOpen, handleDirEditModalClose] = useModal();
   const id = router.query.id as string;
-  const { page, posts, getNextDatas, getPrevDatas } = usePosts(id);
+  const page = Number(router.query.page ?? 1);
+  const { posts, getNextDatas, getPrevDatas } = usePosts(page, id);
 
   const dir = useSWR(`${config.api}/directory?id=${id}`, async (url: string) => {
     await auth.getUser();
