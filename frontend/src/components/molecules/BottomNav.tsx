@@ -1,12 +1,19 @@
 import { useSelector, useModal } from '@/hooks';
 import styled from 'styled-components';
-import { AiOutlineHome, AiOutlineSearch, AiOutlineFolderOpen, AiOutlineUpload } from 'react-icons/ai'
+import {
+  AiTwotoneHome, AiOutlineHome,
+  AiTwotoneFolderOpen, AiOutlineFolderOpen,
+} from 'react-icons/ai'
+import { IoCloudUploadOutline, IoCloudUploadSharp } from 'react-icons/io5';
+import { RiSearchFill, RiSearchLine } from 'react-icons/ri'
 import { SearchModal } from '@/components/organisms';
 import Link from 'next/link'
+import { useState } from 'react'
 
 const BottomNav: React.FC = () => {
   const { isSmallWindowSize } = useSelector(props => props.windowSize);
   const [searchModalisOpen, handleSearchModalOpen, handleSearchModalClose] = useModal();
+  const [activeButton, setActiveButton] = useState<number | null>(null);
 
   return (
     <>
@@ -14,21 +21,21 @@ const BottomNav: React.FC = () => {
         <>
           <Wrapper>
             <Inner>
-              <Button>
+              <Button onClick={() => { setActiveButton(1) }}>
                 <Link href="/mypage">
                   <a>
-                    <AiOutlineHome size="24px" />
+                    {activeButton === 1 ? <AiTwotoneHome size="24" /> : <AiOutlineHome size="24px" />}
                   </a>
                 </Link>
               </Button>
-              <Button onClick={handleSearchModalOpen}>
-                <AiOutlineSearch size="24px" />
+              <Button onClick={() => { handleSearchModalOpen(); setActiveButton(2); }}>
+                {activeButton === 2 ? <RiSearchFill size="24px" /> : <RiSearchLine size="24px" />}
               </Button>
-              <Button>
-                <AiOutlineFolderOpen size="24px" />
+              <Button onClick={() => { setActiveButton(3) }}>
+                {activeButton === 3 ? <AiTwotoneFolderOpen size="24px" /> : <AiOutlineFolderOpen size="24px" />}
               </Button>
-              <Button>
-                <AiOutlineUpload size="24px" />
+              <Button onClick={() => { setActiveButton(4) }}>
+                {activeButton === 4 ? <IoCloudUploadSharp size="24px" /> : <IoCloudUploadOutline size="24px" />}
               </Button>
             </Inner>
           </Wrapper>
