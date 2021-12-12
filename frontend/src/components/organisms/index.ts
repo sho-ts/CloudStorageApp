@@ -11,3 +11,4 @@ export { default as CreateDirModal } from './CreateDirModal';
 export { default as DirEditModal } from './DirEditModal'
 export { default as SearchModal } from './SearchModal';
 export { default as FileList } from './FileList'
+export { default as Sidebar } from './Sidebar';

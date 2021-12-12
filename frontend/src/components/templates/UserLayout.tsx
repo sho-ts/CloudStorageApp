@@ -1,3 +1,4 @@
+import type { DirType } from '@/types/DirType';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import { useModal, useSelector, useDispatch } from '@/hooks';
@@ -9,9 +10,8 @@ import { config } from '@/utils';
 import styled from 'styled-components';
 import { mq } from '@mixin';
 import { Button, TextField } from '@/components/atoms';
-import { DirType } from '@/types/DirType';
 import { Directories, BottomNav } from '@/components/molecules';
-import { CreateDirModal, UploadModal } from '@/components/organisms';
+import { CreateDirModal, UploadModal, Sidebar } from '@/components/organisms';
 import { Layout } from '@/components/templates';
 
 type Props = {
@@ -62,20 +62,13 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
               {children}
             </Main>
             {isSmallWindowSize || (
-              <Sidebar>
-                <FileUpload>
-                  <Button onClick={handleUploadModalOpen}>アップロード</Button>
-                </FileUpload>
-                <Search>
-                  <TextField placeholder="検索" value={keyword} onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeDispatchKeyword(e.target.value)} />
-                </Search>
-                {dirs.data &&
-                  <Directories
-                    modalOpen={handleDirModalOpen}
-                    dirs={dirs.data}
-                  />
-                }
-              </Sidebar>
+              <Sidebar
+                handleDirModalOpen={handleDirModalOpen}
+                handleUploadModalOpen={handleUploadModalOpen}
+                keyword={keyword}
+                dirs={dirs.data}
+                onChangeSearch={(e: React.ChangeEvent<HTMLInputElement>) => onChangeDispatchKeyword(e.target.value)}
+              />
             )}
           </Inner>
           <UploadModal
@@ -110,25 +103,6 @@ const Main = styled.main`
   ${mq('md', 'down')} {
     margin-bottom: 32px;
   }
-`;
-
-const Sidebar = styled.aside`
-  flex-shrink: 0;
-  ${mq()} {
-    max-width: 280px;
-    margin-right: 24px;
-  }
-  ${mq('lg')} {
-    margin-right: 48px;
-  }
-`;
-
-const FileUpload = styled.section`
-  margin-bottom: 24px;
-`;
-
-const Search = styled.div`
-
 `;
 
 export default UserLayout;
