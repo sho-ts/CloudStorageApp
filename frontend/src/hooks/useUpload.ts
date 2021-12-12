@@ -4,11 +4,8 @@ import { config } from '@/utils';
 import { S3ReponseType } from '@/types/S3ResponseType';
 import { auth } from '@/utils/aws';
 import axios from 'axios';
-import { KeyedMutator } from 'swr';
-import { PostsType } from '@/types/PostsType';
-import { DirType } from '@/types/DirType';
 
-const useUpload = (dirs: DirType[], onClose: any) => {
+const useUpload = (onClose: any) => {
   const [files, setFiles] = useState<File[]>([]);
   const [fileName, setFileName] = useState<string>('');
   const [uploadDir, setUploadDir] = useState<number | null>(null);

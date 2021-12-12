@@ -9,8 +9,7 @@ import { auth } from '@/utils/aws';
 import { config } from '@/utils';
 import styled from 'styled-components';
 import { mq } from '@mixin';
-import { Button, TextField } from '@/components/atoms';
-import { Directories, BottomNav } from '@/components/molecules';
+import { BottomNav } from '@/components/molecules';
 import { CreateDirModal, UploadModal, Sidebar } from '@/components/organisms';
 import { Layout } from '@/components/templates';
 
