@@ -51,7 +51,7 @@ const Post = () => {
           </Head>
           {data.description}
           <div style={{ marginTop: 16 }}>
-            <Button as="a" download onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => onClickDownload(e)}>
+            <Button as="a" target="_blank" download onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => onClickDownload(e)}>
               ダウンロード
             </Button>
           </div>

@@ -1,6 +1,7 @@
-import { useUpload } from '@/hooks';
 import type { DirType } from '@/types/DirType';
-import styled from 'styled-components';
+import { useUpload, useSelector } from '@/hooks';
+import styled, { css } from 'styled-components';
+import { mq, hover } from '@mixin';
 import { Button, TextField, Select } from '@/components/atoms';
 import { Modal } from '@/components/organisms';
 
@@ -8,7 +9,6 @@ type Props = {
   isOpen: boolean,
   onClose: any,
   dirs: DirType[],
-  // mutate: KeyedMutator<PostsType>,
 }
 
 const UploadModal: React.FC<Props> = ({ dirs, isOpen, onClose }) => {
@@ -16,7 +16,8 @@ const UploadModal: React.FC<Props> = ({ dirs, isOpen, onClose }) => {
     getRootProps, getInputProps, upload,
     file, fileName, disclosureRange, uploadDir,
     setFileName, setDisclosureRange, setUploadDir,
-  } = useUpload(dirs, onClose);
+  } = useUpload(onClose);
+  const { isSmallWindowSize } = useSelector(props => props.windowSize);
 
   return (
     <Modal
@@ -48,14 +49,14 @@ const UploadModal: React.FC<Props> = ({ dirs, isOpen, onClose }) => {
               <Text>{Math.ceil(file.size / 1024)}KB</Text>
             </div>
             <div style={{ textAlign: 'center' }}>
-              <Button onClick={() => upload()}>このファイルをアップロード</Button>
+              <Button onClick={() => upload()}>アップロード</Button>
             </div>
           </>
         ) : (
           <DropWrapper>
             <DropArea {...getRootProps()}>
               <input {...getInputProps()} />
-              <Text>ここにファイルをアップロード</Text>
+              <Text>{isSmallWindowSize ? 'ファイルを選択' : 'ドラッグ&ドロップでアップロード'}</Text>
             </DropArea>
           </DropWrapper>
         )}
@@ -66,7 +67,9 @@ const UploadModal: React.FC<Props> = ({ dirs, isOpen, onClose }) => {
 
 const Body = styled.div`
   position: relative;
-  padding: 64px 32px;
+  ${mq()} {
+    padding: 32px;
+  }
 `
 
 const DropArea = styled.div`
@@ -81,6 +84,12 @@ const DropArea = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  ${hover(css`
+    background-color: #eee;
+  `)}
 `
 
 const DropWrapper = styled.div`

@@ -10,16 +10,17 @@ type Props = {
   download?: boolean,
   outline?: boolean,
   className?: string,
+  target?: string
 }
 
-const Button: React.FC<Props> = ({ as, href, children, style, onClick, download, outline, className }) => {
-  switch (as) {
+const Button: React.FC<Props> = (props) => {
+  switch (props.as) {
     case 'a':
-      return <A download={download} href={href} style={style} onClick={onClick} outline={outline} className={className}><Inner>{children}</Inner></A>
+      return <A {...props}><Inner>{props.children}</Inner></A>
     case 'div':
-      return <Div style={style} onClick={onClick} outline={outline} className={className}><Inner>{children}</Inner></Div>
+      return <Div {...props}><Inner>{props.children}</Inner></Div>
     default:
-      return <Default style={style} onClick={onClick} outline={outline} className={className}><Inner>{children}</Inner></Default>
+      return <Default {...props}><Inner>{props.children}</Inner></Default>
   }
 };
 
