@@ -9,6 +9,7 @@ import { DirEditModal } from '@/components/organisms';
 import Image from 'next/image'
 import Link from 'next/link';
 import settingIcon from '@imgs/common/setting-icon.svg';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 type Props = {
   posts?: PostsType,
@@ -43,7 +44,10 @@ const FileList: React.FC<Props> = ({
           )}
         </DirInfo>
         {keyword && (
-          <Keyword>検索ワード : {keyword}</Keyword>
+          <Search>
+            <AiOutlineSearch size="14" />
+            <Keyword>検索ワード : {keyword}</Keyword>
+          </Search>
         )}
       </Header>
       {posts && (
@@ -53,7 +57,7 @@ const FileList: React.FC<Props> = ({
               <Th>ファイル名</Th>
               <Th className="created-at">アップロード日</Th>
             </Tr>
-            {posts && posts.posts.map((post, index) => (
+            {posts.posts.length > 0 ? posts.posts.map((post, index) => (
               <Tr key={index}>
                 <Link href={`/post/${post.id}`}>
                   <a>
@@ -62,7 +66,8 @@ const FileList: React.FC<Props> = ({
                   </a>
                 </Link>
               </Tr>
-            ))}
+            )) : <div style={{padding: 16}}>{keyword ? 'ファイルが見つかりませんでした' : 'まだファイルはありません'}</div>
+            }
           </Table>
           <Pagination
             pages={posts?.pages}
@@ -92,6 +97,9 @@ const DirInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+  height: 45px;
 `;
 
 const SettingIcon = styled.button`
@@ -101,13 +109,18 @@ const SettingIcon = styled.button`
 `;
 
 const DirName = styled.h2`
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px;
+`;
+
+const Search = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 `;
 
 const Keyword = styled.div`
   font-size: 12px;
-  margin-top: 10px;
+  margin-left: 4px;
 `;
 
 const Table = styled.div`
@@ -143,10 +156,10 @@ const Tr = styled.div`
 `;
 
 const Th = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   border-bottom: 1px solid #a3a3a3;
-  padding: 24px;
+  padding: 16px;
   width: 100%;
   &.created-at {
     ${mq()} {
@@ -157,20 +170,23 @@ const Th = styled.div`
 `;
 
 const Td = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   width: 100%;
   display:flex;
   flex-direction: column;
   justify-content: center;
   padding: 12px 16px;
   ${mq()} {
-    padding: 16px 24px;
+    padding: 16px;
     border-bottom: 1px solid #d9d9d9;
   };
+  ${mq('md', 'down')} {
+    font-size: 13px;
+  }
   &.created-at {
     ${mq('md', 'down')} {
-      font-size: 12px;
       padding-bottom: 0;
+      font-size: 11px;
       opacity: 0.5;
     }
     ${mq()} {
