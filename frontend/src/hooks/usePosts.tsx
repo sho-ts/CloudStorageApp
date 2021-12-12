@@ -1,14 +1,15 @@
 import type { PostsType } from '@/types/PostsType';
-import { useState } from 'react';
 import { useSelector } from '@/hooks';
+import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { auth } from '@/utils/aws';
 import { config, createPagination } from '@/utils';
 import axios from 'axios'
 
-const usePosts = (dirId?: string) => {
-  const [page, setPage] = useState<number>(1);
+const usePosts = (page: number, dirId?: string | null) => {
   const { keyword } = useSelector(props => props.search);
+  const router = useRouter();
+  const path = router.asPath.replace(/\?.*$/, ''); // クエリパラメータいらないので削除する
 
   const posts = useSWR<PostsType>(`${config.api}/post/all?page=${page}&s=${keyword}&dir=${dirId ?? ''}`, async (url: string) => {
     const { token } = await auth.getIdTokenAndUser();
@@ -16,15 +17,13 @@ const usePosts = (dirId?: string) => {
     return axios.get<PostsType>(url, {
       headers: { Authorization: `Bearer ${token} ` }
     }).then(({ data }) => {
-      setPage(data.current);
       return data
     });
   });
 
-  const [getNextDatas, getPrevDatas] = createPagination<PostsType>(page, setPage, posts.data);
+  const [getNextDatas, getPrevDatas] = createPagination<PostsType>(page, path, router, posts.data);
 
   return {
-    page,
     posts,
     getNextDatas,
     getPrevDatas,
