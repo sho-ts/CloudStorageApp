@@ -81,7 +81,7 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
             isOpen={dirModalOpen}
             onClose={handleDirModalClose}
           />
-          <BottomNav />
+          <BottomNav dirs={dirs.data} uploadModalOpen={handleUploadModalOpen} />
         </>
       )}
     </Layout>
