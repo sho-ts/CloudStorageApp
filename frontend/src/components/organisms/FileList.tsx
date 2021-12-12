@@ -141,8 +141,12 @@ const Keyword = styled.div`
 `;
 
 const FileIcon = styled.div`
-  margin-right: 1em;
-  font-size: 1.6em;
+  margin-right: 0.8em;
+  font-size: 1.2em;
+  ${mq()} {
+    margin-right: 1em;
+    font-size: 1.6em;
+  }
 `;
 
 const Table = styled.div`
@@ -198,6 +202,7 @@ const Td = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 12px 16px;
+  word-break: break-all;
   ${mq()} {
     padding: 16px;
     border-bottom: 1px solid #d9d9d9;
