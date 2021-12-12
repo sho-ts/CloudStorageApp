@@ -3,6 +3,7 @@ import type { KeyedMutator } from 'swr';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { mutate as globalMutate } from 'swr';
 import { auth } from '@/utils/aws';
 import { config } from '@/utils';
 import { Button, TextField } from '@/components/atoms';
@@ -34,6 +35,7 @@ const DirEditModal: React.FC<Props> = ({
 
       onClose();
       mutate();
+      globalMutate(`${config.api}/directory/all`);
     } catch (e) {
       alert('ディレクトリの編集に失敗しました');
     }
