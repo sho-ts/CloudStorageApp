@@ -2,14 +2,14 @@ import styled from 'styled-components';
 
 type Props = {
   onChange?: any,
-  value: string,
+  value?: string,
   style?: React.CSSProperties;
 }
 
 const Select: React.FC<Props> = ({ onChange, value, children, style }) => {
   return (
-    <Wrapper style={style} value={value} onChange={onChange}>
-      <Body>
+    <Wrapper style={style}>
+      <Body value={value} onChange={onChange}>
         {children}
       </Body>
     </Wrapper>
