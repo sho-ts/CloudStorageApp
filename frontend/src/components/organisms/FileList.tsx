@@ -6,10 +6,13 @@ import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
 import { Pagination } from '@/components/molecules';
 import { DirEditModal } from '@/components/organisms';
+import { isImage, isMovie, isCompressed, isCode } from '@/utils/checkFileType';
 import Image from 'next/image'
 import Link from 'next/link';
 import settingIcon from '@imgs/common/setting-icon.svg';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { BsCardImage, BsFillFileEarmarkCodeFill, BsFileEarmarkZipFill, BsFillFileEarmarkFill } from 'react-icons/bs'
+import { BiMoviePlay } from 'react-icons/bi';
 
 type Props = {
   posts?: PostsType,
@@ -61,12 +64,26 @@ const FileList: React.FC<Props> = ({
               <Tr key={index}>
                 <Link href={`/post/${post.id}`}>
                   <a>
-                    <Td>{post.description}</Td>
+                    <Td className="fileName">
+                      <FileIcon>
+                        {isImage(post.file_path) ? (
+                          <BsCardImage color="#dc143c" />
+                        ) : isMovie(post.file_path) ? (
+                          <BiMoviePlay color="#008000" />
+                        ) : isCode(post.file_path) ? (
+                          <BsFillFileEarmarkCodeFill color="#ff8c00" />
+                        ) : isCompressed(post.file_path) ? (
+                          <BsFileEarmarkZipFill color="#888888" />
+                        ) :
+                          <BsFillFileEarmarkFill color="#1e90ff" />}
+                      </FileIcon>
+                      <span>{post.description}</span>
+                    </Td>
                     <Td className="created-at">{post.created_at}</Td>
                   </a>
                 </Link>
               </Tr>
-            )) : <div style={{padding: 16}}>{keyword ? 'ファイルが見つかりませんでした' : 'まだファイルはありません'}</div>
+            )) : <div style={{ padding: 16 }}>{keyword ? 'ファイルが見つかりませんでした' : 'まだファイルはありません'}</div>
             }
           </Table>
           <Pagination
@@ -121,6 +138,11 @@ const Search = styled.div`
 const Keyword = styled.div`
   font-size: 12px;
   margin-left: 4px;
+`;
+
+const FileIcon = styled.div`
+  margin-right: 1em;
+  font-size: 1.6em;
 `;
 
 const Table = styled.div`
@@ -182,6 +204,11 @@ const Td = styled.div`
   };
   ${mq('md', 'down')} {
     font-size: 13px;
+  }
+  &.fileName {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
   }
   &.created-at {
     ${mq('md', 'down')} {
