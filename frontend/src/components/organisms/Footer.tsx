@@ -1,6 +1,5 @@
 import React from 'react';
-import { USER_TYPE } from '@/utils/const';
-import { CONSTANT_VARIABLES } from '@/utils'
+import { USER_TYPE, NAV_ITEMS } from '@/utils/const';
 import styled from 'styled-components';
 import { mq } from '@mixin';
 import { SiteLogo } from '@/components/atoms';
@@ -16,7 +15,7 @@ const Footer: React.FC<Props> = ({ isGuest }) => {
       <Inner>
         <SiteLogo />
         <Menu>
-          {CONSTANT_VARIABLES.navItems.map((item, key) => (
+          {NAV_ITEMS.map((item, key) => (
             <React.Fragment key={key}>
               {isGuest && item.user === USER_TYPE.GUEST && (
                 <Item>

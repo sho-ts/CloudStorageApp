@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { mq } from '@mixin';
-import { CONSTANT_VARIABLES } from '@/utils'
-import { USER_TYPE } from '@/utils/const';
+import { USER_TYPE, NAV_ITEMS } from '@/utils/const';
 import { ModalWrapper } from '@/components/molecules';
 import Link from 'next/link';
 
@@ -17,7 +16,7 @@ const HeaderNav: React.FC<Props> = ({ onClose, isOpen, isGuest }) => {
     <ModalWrapper onClose={onClose} isOpen={isOpen}>
       <Inner isOpen={isOpen}>
         <Menu>
-          {CONSTANT_VARIABLES.navItems.map((item, key) => (
+          {NAV_ITEMS.map((item, key) => (
             <React.Fragment key={key}>
               {isGuest && item.user === USER_TYPE.GUEST && (
                 <Item>
