@@ -12,7 +12,7 @@ import Head from 'next/head';
 const Directory = () => {
   const router = useRouter();
   const [dirEditModalOpen, handleDirEditModalOpen, handleDirEditModalClose] = useModal();
-  const id = router.query.id as string;
+  const id = router.query.dir_id as string;
   const page = Number(router.query.page ?? 1);
   const { posts, getNextDatas, getPrevDatas } = usePosts(page, id);
 
