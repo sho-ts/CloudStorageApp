@@ -1,6 +1,8 @@
 import type { DirType } from '@/types/DirType';
 import type { KeyedMutator } from 'swr';
 import { useState, useEffect } from 'react';
+import { useDispatch } from '@/hooks';
+import { setFlash } from '@/stores/flash';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -20,6 +22,7 @@ type Props = {
 const DirEditModal: React.FC<Props> = ({
   isOpen, onClose, dir, mutate,
 }) => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [dirName, setDirName] = useState<string>('');
 
@@ -38,8 +41,15 @@ const DirEditModal: React.FC<Props> = ({
       onClose();
       mutate();
       globalMutate(`${config.api}/directory/all`);
+      dispatch(setFlash({
+        message: 'ディレクトリを編集しました',
+        type: 1
+      }))
     } catch (e) {
-      alert('ディレクトリの編集に失敗しました');
+      dispatch(setFlash({
+        message: 'ディレクトリの編集に失敗しました',
+        type: 1
+      }))
     }
   }
 
