@@ -1,6 +1,7 @@
 import type { DirType } from '@/types/DirType';
 import type { KeyedMutator } from 'swr';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import axios from 'axios';
 import { mutate as globalMutate } from 'swr';
@@ -19,6 +20,7 @@ type Props = {
 const DirEditModal: React.FC<Props> = ({
   isOpen, onClose, dir, mutate,
 }) => {
+  const router = useRouter();
   const [dirName, setDirName] = useState<string>('');
 
   const editDir = async () => {
@@ -55,6 +57,7 @@ const DirEditModal: React.FC<Props> = ({
 
       onClose();
       mutate();
+      router.push('/mypage');
     } catch (e) {
       alert('ディレクトリの削除に失敗しました');
     }
