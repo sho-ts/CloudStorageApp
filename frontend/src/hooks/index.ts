@@ -1,4 +1,5 @@
 export { default as useDispatch } from './useDispatch';
+export { default as useCreateDir } from './useCreateDir';
 export { default as useModal } from './useModal';
 export { default as usePosts } from './usePosts';
 export { default as useSelector } from './useSelector';
