@@ -1,17 +1,24 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useDropzone } from 'react-dropzone'
+import { useSelector } from '@/hooks';
+import { mutate } from 'swr';
 import { config } from '@/utils';
 import { S3ReponseType } from '@/types/S3ResponseType';
 import { auth } from '@/utils/aws';
 import axios from 'axios';
 
 const useUpload = (onClose: any) => {
+  const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
   const [fileName, setFileName] = useState<string>('');
   const [uploadDir, setUploadDir] = useState<number | null>(null);
   const [disclosureRange, setDisclosureRange] = useState<number>(0);
   const [complete, setComplete] = useState<boolean>(false);
   const [wait, setWait] = useState<boolean>(false);
+  const { keyword } = useSelector(props => props.search);
+  const page = Number(router.query.page ?? 1);
+  const dir = router.query.dir_id as string;
 
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
@@ -68,6 +75,7 @@ const useUpload = (onClose: any) => {
       setComplete(true);
       clearFile();
       onClose();
+      mutate(`${config.api}/post/all?page=${page}&s=${keyword}&dir=${dir ?? ''}`);
     } catch (e) {
       console.error(e);
     } finally {
