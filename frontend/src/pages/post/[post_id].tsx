@@ -11,7 +11,7 @@ import Head from 'next/head';
 const Post = () => {
   const router = useRouter();
 
-  const { data, error } = useSWR<PostType>(`${config.api}/post/?id=${router.query.id}`, (url: string) => {
+  const { data, error } = useSWR<PostType>(`${config.api}/post/?id=${router.query.post_id}`, (url: string) => {
     const token = auth.getIdToken();
 
     return axios.get(url, {
