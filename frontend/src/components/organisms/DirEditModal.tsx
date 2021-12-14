@@ -1,14 +1,14 @@
 import type { DirType } from '@/types/DirType';
 import type { KeyedMutator } from 'swr';
 import { useState, useEffect } from 'react';
-import { useDispatch } from '@/hooks';
-import { setFlash } from '@/stores/flash';
+import { useFlash } from '@/hooks';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import axios from 'axios';
 import { mutate as globalMutate } from 'swr';
 import { auth } from '@/utils/aws';
 import { config } from '@/utils';
+import { MESSAGE_TYPE } from '@/utils/const'
 import { Button, TextField } from '@/components/atoms';
 import { Modal } from '@/components/organisms';
 
@@ -22,8 +22,9 @@ type Props = {
 const DirEditModal: React.FC<Props> = ({
   isOpen, onClose, dir, mutate,
 }) => {
-  const dispatch = useDispatch();
+  const flash = useFlash();
   const router = useRouter();
+  const currentDir = Number(router.query.dir_id);
   const [dirName, setDirName] = useState<string>('');
 
   const editDir = async () => {
@@ -41,15 +42,15 @@ const DirEditModal: React.FC<Props> = ({
       onClose();
       mutate();
       globalMutate(`${config.api}/directory/all`);
-      dispatch(setFlash({
+      flash({
         message: 'ディレクトリを編集しました',
-        type: 1
-      }))
+        type: MESSAGE_TYPE.NOTICE
+      })
     } catch (e) {
-      dispatch(setFlash({
+      flash({
         message: 'ディレクトリの編集に失敗しました',
-        type: 1
-      }))
+        type: MESSAGE_TYPE.ERROR
+      })
     }
   }
 
@@ -67,9 +68,17 @@ const DirEditModal: React.FC<Props> = ({
 
       onClose();
       mutate();
-      router.push('/mypage');
+      flash({
+        message: 'ディレクトリを削除しました',
+        type: MESSAGE_TYPE.NOTICE
+      })
+
+      dir.id === currentDir && router.push('/mypage');
     } catch (e) {
-      alert('ディレクトリの削除に失敗しました');
+      flash({
+        message: 'ディレクトリの削除に失敗しました',
+        type: MESSAGE_TYPE.ERROR
+      })
     }
   }
 

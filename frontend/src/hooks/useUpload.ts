@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDropzone } from 'react-dropzone'
-import { useSelector } from '@/hooks';
+import { useSelector, useFlash } from '@/hooks';
 import { mutate } from 'swr';
 import { config } from '@/utils';
 import { S3ReponseType } from '@/types/S3ResponseType';
 import { auth } from '@/utils/aws';
+import { MESSAGE_TYPE } from '@/utils/const'
 import axios from 'axios';
 
 const useUpload = (onClose: any) => {
   const router = useRouter();
+  const flash = useFlash();
   const [files, setFiles] = useState<File[]>([]);
   const [fileName, setFileName] = useState<string>('');
   const [uploadDir, setUploadDir] = useState<number | null>(null);
@@ -76,8 +78,15 @@ const useUpload = (onClose: any) => {
       clearFile();
       onClose();
       mutate(`${config.api}/post/all?page=${page}&s=${keyword}&dir=${dir ?? ''}`);
+      flash({
+        message: 'ファイルのアップロードに成功しました',
+        type: MESSAGE_TYPE.NOTICE
+      })
     } catch (e) {
-      console.error(e);
+      flash({
+        message: 'ファイルのアップロードに失敗しました',
+        type: MESSAGE_TYPE.ERROR
+      })
     } finally {
       setWait(false);
     }
