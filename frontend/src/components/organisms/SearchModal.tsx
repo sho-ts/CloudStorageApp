@@ -18,6 +18,10 @@ const SearchModal: React.FC<Props> = ({
   const onClickSearch = () => {
     dispatch(setSearchKeyword(keyword));
     onClose();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
   }
 
   return (

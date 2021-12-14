@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { auth } from '@/utils/aws';
-import { CONSTANT_VARIABLES } from '@/utils';
+import { SITE_NAME } from '@/utils/const';
 import { mq } from '@mixin';
 import styled from 'styled-components';
 import { MainVisual, Feature, Architect, GetStarted, Header, Footer } from '@/components/organisms';
@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>{CONSTANT_VARIABLES.siteName}</title>
+        <title>{SITE_NAME}</title>
       </Head>
       <Header isGuest={true} />
       <LP>

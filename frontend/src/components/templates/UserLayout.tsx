@@ -9,6 +9,7 @@ import { auth } from '@/utils/aws';
 import { config } from '@/utils';
 import styled from 'styled-components';
 import { mq } from '@mixin';
+import { FlashMessage } from '@/components/atoms';
 import { BottomNav } from '@/components/molecules';
 import { CreateDirModal, UploadModal, Sidebar } from '@/components/organisms';
 import { Layout } from '@/components/templates';
@@ -56,6 +57,7 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
         <>{children}</>
       ) : (
         <>
+          <FlashMessage />
           <Inner>
             <Main>
               {children}
@@ -76,7 +78,6 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
             onClose={handleUploadModalClose}
           />
           <CreateDirModal
-            mutate={dirs.mutate}
             isOpen={dirModalOpen}
             onClose={handleDirModalClose}
           />

@@ -40,6 +40,9 @@ const Sidebar: React.FC<Props> = ({
 
 const Wrapper = styled.aside`
   flex-shrink: 0;
+  ${mq('md', 'down')} {
+    display: none;
+  }
   ${mq()} {
     max-width: 280px;
     margin-right: 24px;

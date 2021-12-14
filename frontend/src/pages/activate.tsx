@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useFlash } from '@/hooks';
 import { auth } from '@/utils/aws';
 import styled from 'styled-components';
 import { PageTitle, TextField, Button } from '@/components/atoms';
 import Head from 'next/head'
 import { getGuestLayout } from '@/utils/getLayout';
+import { MESSAGE_TYPE } from '@/utils/const'
 
 const Activate = () => {
   const [code, setCode] = useState<string>('');
   const router = useRouter();
+  const flash = useFlash();
 
   const activateUser = async () => {
     if (!router.query.email || !code) return;
@@ -17,10 +20,17 @@ const Activate = () => {
       const activated = await auth.activate(`${router.query.email}`, code);
 
       if (activated) {
+        flash({
+          message: '認証に成功しました。ログインしてください',
+          type: MESSAGE_TYPE.NOTICE
+        })
         router.push('/signin');
       }
     } catch (e) {
-      alert('認証コードが違います。\n再度確認してください');
+      flash({
+        message: '認証に失敗しました。コードを確認してください',
+        type: MESSAGE_TYPE.ERROR
+      })
     }
   }
 

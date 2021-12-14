@@ -1,43 +1,16 @@
-import type { DirType } from '@/types/DirType';
-import type { KeyedMutator } from 'swr';
-import { useState } from 'react';
-import axios from 'axios';
-import { auth } from '@/utils/aws';
-import { config } from '@/utils';
+import { useCreateDir } from '@/hooks';
 import { Button, TextField } from '@/components/atoms';
 import { Modal } from '@/components/organisms';
 
 type Props = {
   isOpen: boolean,
   onClose: any,
-  mutate: KeyedMutator<DirType[]>
 }
 
 const CreateDirModal: React.FC<Props> = ({
-  isOpen, onClose, mutate,
+  isOpen, onClose
 }) => {
-  const [dirName, setDirName] = useState<string>('');
-
-  const createDir = async () => {
-    if (!dirName) return;
-
-    try {
-      await auth.getUser();
-      const token = auth.getIdToken();
-
-      const res = await axios.post(`${config.api}/directory`, {
-        dirName
-      }, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-
-      setDirName('');
-      onClose();
-      mutate();
-    } catch (e) {
-      alert('ディレクトリの作成に失敗しました');
-    }
-  }
+  const { dirName, setDirName, createDir} = useCreateDir(onClose);
 
   return (
     <Modal
