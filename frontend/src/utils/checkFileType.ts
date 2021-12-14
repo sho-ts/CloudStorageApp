@@ -1,6 +1,6 @@
 export const checkFileType = (filePath: string, fileTypes: string[]) => fileTypes.filter(type => filePath.slice(-5).includes(`.${type}`)).length > 0
 
-export const isImage = (filePath: string) => checkFileType(filePath, ['jpg', 'jpeg', 'png', 'gif']);
+export const isImage = (filePath: string) => checkFileType(filePath, ['jpg', 'jpeg', 'png', 'gif', 'ico', 'svg']);
 
 export const isMovie = (filePath: string) => checkFileType(filePath, ['mp4', 'flv', 'mov', 'wmv', 'avi', 'mpg', 'mkv']);
 
