@@ -21,12 +21,15 @@ const usePosts = (page: number, dirId?: string | null) => {
     });
   });
 
-  const [getNextDatas, getPrevDatas] = createPagination<PostsType>(page, path, router, posts.data);
+  console.log(posts.data)
+
+  const [getNextDatas, getPrevDatas, changePage] = createPagination<PostsType>(page, path, router, posts.data);
 
   return {
     posts,
     getNextDatas,
     getPrevDatas,
+    changePage
   }
 }
 
