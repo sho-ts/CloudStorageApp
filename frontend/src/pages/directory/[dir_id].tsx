@@ -14,7 +14,7 @@ const Directory = () => {
   const [dirEditModalOpen, handleDirEditModalOpen, handleDirEditModalClose] = useModal();
   const id = router.query.dir_id as string;
   const page = Number(router.query.page ?? 1);
-  const { posts, getNextDatas, getPrevDatas } = usePosts(page, id);
+  const { posts, getNextDatas, getPrevDatas, changePage } = usePosts(page, id);
 
   const dir = useSWR(`${config.api}/directory?id=${id}`, async (url: string) => {
     await auth.getUser();
@@ -42,6 +42,7 @@ const Directory = () => {
             isModalOpen={dirEditModalOpen}
             getNextDatas={getNextDatas}
             getPrevDatas={getPrevDatas}
+            changePage={changePage}
             handleDirEditModalOpen={handleDirEditModalOpen}
             handleDirEditModalClose={handleDirEditModalClose}
           />

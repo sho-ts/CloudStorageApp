@@ -7,7 +7,7 @@ import { getUserLayout } from '@/utils/getLayout';
 const MyPage = () => {
   const router = useRouter();
   const page = Number(router.query.page ?? 1);
-  const { posts, getNextDatas, getPrevDatas } = usePosts(page);
+  const { posts, getNextDatas, getPrevDatas, changePage } = usePosts(page);
 
   return (
     <>
@@ -20,6 +20,7 @@ const MyPage = () => {
         posts={posts.data}
         getNextDatas={getNextDatas}
         getPrevDatas={getPrevDatas}
+        changePage={changePage}
       />
     </>
   )

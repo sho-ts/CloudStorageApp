@@ -19,6 +19,7 @@ type Props = {
   page: number,
   getNextDatas: () => void,
   getPrevDatas: () => void,
+  changePage: (page: number) => void,
   dir?: DirType | null,
   isModalOpen?: boolean
   handleDirEditModalOpen?: () => void,
@@ -29,7 +30,7 @@ type Props = {
 const FileList: React.FC<Props> = ({
   isModalOpen, posts, dir, page,
   handleDirEditModalOpen, handleDirEditModalClose, mutate,
-  getNextDatas, getPrevDatas,
+  getNextDatas, getPrevDatas, changePage
 }) => {
   const { keyword } = useSelector(props => props.search);
 
@@ -91,6 +92,7 @@ const FileList: React.FC<Props> = ({
             page={page}
             getNextDatas={getNextDatas}
             getPrevDatas={getPrevDatas}
+            changePage={changePage}
           />
         </>
       )}

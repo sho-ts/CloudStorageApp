@@ -5,7 +5,7 @@ const createPagination = <T extends { pages: number }>(
   path: string,
   router: NextRouter,
   data?: T,
-) => ([
+): [() => void, () => void, (page: number) => void] => ([
   () => {
     if (!data) return;
 
@@ -18,6 +18,9 @@ const createPagination = <T extends { pages: number }>(
     const prev = current - 1;
     // ページ番号が1の場合はクエリパラメータなしのページに移動する
     1 > prev || prev === 1 ? router.push(`${path}`) : router.push(`${path}?page=${prev}`);
+  },
+  (page: number) => {
+    router.push(`${path}?page=${page}`)
   }
 ]);
 
