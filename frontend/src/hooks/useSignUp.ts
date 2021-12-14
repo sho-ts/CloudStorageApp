@@ -13,11 +13,11 @@ const useSignUp = () => {
   const signUp = async () => {
     try {
       await auth.signup(email, password);
+      router.push(`/activate?email=${email}`);
       flash({
         message: '認証コードをメールアドレスに送信しました',
         type: MESSAGE_TYPE.NOTICE
       })
-      router.push(`/activate?email=${email}`);
     } catch (e) {
       flash({
         message: '新規登録に失敗しました',

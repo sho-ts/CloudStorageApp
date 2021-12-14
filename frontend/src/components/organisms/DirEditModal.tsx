@@ -68,12 +68,11 @@ const DirEditModal: React.FC<Props> = ({
 
       onClose();
       mutate();
+      dir.id === currentDir && router.push('/mypage');
       flash({
         message: 'ディレクトリを削除しました',
         type: MESSAGE_TYPE.NOTICE
       })
-
-      dir.id === currentDir && router.push('/mypage');
     } catch (e) {
       flash({
         message: 'ディレクトリの削除に失敗しました',

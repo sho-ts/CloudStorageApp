@@ -14,11 +14,11 @@ const useSignIn = () => {
   const signIn = async () => {
     try {
       await dispatch(storeSignIn({ username: email, password })).unwrap();
+      router.push('/mypage');
       flash({
         message: 'ログインしました',
         type: MESSAGE_TYPE.NOTICE
       })
-      router.push('/mypage');
     } catch (e) {
       flash({
         message: (e as { errorMessage: string }).errorMessage,
