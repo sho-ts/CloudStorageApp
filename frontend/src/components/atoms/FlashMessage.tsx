@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from '@/hooks';
 import { hidden } from '@/stores/flash';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
+import { MESSAGE_TYPE } from '@/utils/const'
 
 const FlashMessage = () => {
   const dispatch = useDispatch();
@@ -21,22 +22,13 @@ const FlashMessage = () => {
   return (
     <>
       {flash.active && (
-        <Wrapper onClick={close}>
+        <Wrapper className={`_${flash.type}`} onClick={close}>
           <span>{flash.message}</span>
         </Wrapper>
       )}
     </>
   )
 }
-
-const Animation = keyframes`
-  0%, 100% {
-    transform: translateY(-50px);
-  }
-  50% {
-    transform: none;
-  }
-`;
 
 const Wrapper = styled.div`
   position: fixed;
@@ -47,13 +39,16 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #66f;
   color: #fff;
   z-index:10000000000000;
   font-size: 13px;
   cursor: pointer;
-  /* animation-name: ${Animation};
-  animation-duration: 5000ms; */
+  &._${MESSAGE_TYPE.NOTICE} {
+    background-color: #54c288;
+  }
+  &._${MESSAGE_TYPE.ERROR} {
+    background-color: #dc143c;
+  }
 `;
 
 export default FlashMessage;
