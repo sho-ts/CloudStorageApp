@@ -78,7 +78,6 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
             onClose={handleUploadModalClose}
           />
           <CreateDirModal
-            mutate={dirs.mutate}
             isOpen={dirModalOpen}
             onClose={handleDirModalClose}
           />
