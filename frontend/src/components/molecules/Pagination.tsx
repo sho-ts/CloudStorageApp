@@ -29,8 +29,10 @@ const Pagination: React.FC<Props> = ({ pages, page, getNextDatas, getPrevDatas, 
     <Wrapper>
       <PaginationButton active={!(1 > page - 1)} className="PaginationItemElement" onClick={getPrevDatas}>前へ</PaginationButton>
       <CurrentPage className="PaginationNumbersElement PaginationItemElement" onClick={handleListOpen}>
-        <CurrentNumber className="PaginationNumbersElement">{page}</CurrentNumber>
-        <Arrow className="PaginationNumbersElement" />
+        <PageList className="PaginationNumbersElement">
+          <CurrentNumber className="PaginationNumbersElement">{page}</CurrentNumber>
+          <Arrow className="PaginationNumbersElement" />
+        </PageList>
         <PaginationNumbers listOpen={listOpen}>
           <List
             height={100}
@@ -69,11 +71,17 @@ const PaginationButton = styled.button<{ active: boolean }>`
   pointer-events: ${props => props.active ? 'auto' : 'none'};
 `;
 
+const PageList = styled.div`
+  display: flex;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+`;
+
 const CurrentPage = styled.div`
   position: relative;
   display: inline-flex;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+  cursor: pointer;
 `;
 
 const CurrentNumber = styled.div`
@@ -84,7 +92,6 @@ const CurrentNumber = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 14px;
-  cursor: pointer;
 `;
 
 const Arrow = styled.div`
@@ -118,6 +125,7 @@ const PaginationNumbers = styled.div<{ listOpen: boolean }>`
   border-radius: 10px;
   cursor: pointer;
   z-index: 1000;
+  overflow: hidden;
 `;
 
 const PaginationNumber = styled.div`
