@@ -1,7 +1,7 @@
 import useLogic from './hook'
-import { getUserLayout } from "@/utils/getLayout";
 import { Button } from '@/components/atoms'
 import Head from 'next/head';
+import { withUserLayout } from '@/components/hoc';
 
 const Post = () => {
   const { data, error, onClickDownload } = useLogic();
@@ -26,6 +26,4 @@ const Post = () => {
   )
 }
 
-Post.getLayout = getUserLayout;
-
-export default Post;
+export default withUserLayout(Post);

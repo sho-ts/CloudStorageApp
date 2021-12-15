@@ -1,7 +1,7 @@
 import useLogic from './hook';
-import { getUserLayout } from '@/utils/getLayout';
 import { FileList } from '@/components/organisms';
 import Head from 'next/head';
+import { withUserLayout } from '@/components/hoc';
 
 const Directory = () => {
   const {
@@ -35,6 +35,4 @@ const Directory = () => {
   )
 }
 
-Directory.getLayout = getUserLayout;
-
-export default Directory;
+export default withUserLayout(Directory);

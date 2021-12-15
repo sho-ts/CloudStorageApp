@@ -1,9 +1,8 @@
 import useLogic from './hook';
-import styled from 'styled-components';
 import { PageTitle, TextField, Button } from '@/components/atoms';
 import { Container } from '@/components/templates';
 import Head from 'next/head'
-import { getGuestLayout } from '@/utils/getLayout';
+import { withGuestLayout } from '@/components/hoc';
 
 const Activate = () => {
   const { code, setCode, activateUser } = useLogic();
@@ -31,6 +30,4 @@ const Activate = () => {
   )
 }
 
-Activate.getLayout = getGuestLayout;
-
-export default Activate;
+export default withGuestLayout(Activate);
