@@ -50,15 +50,13 @@ const Wrapper = styled.div`
   position: relative;
 `
 
-const Placeholder = styled.label.attrs((props: { isActive?: boolean | string }) => ({
-  transform: props.isActive ? 'scale(0.6) translate(28px, 10px)' : 'translate(16px, 14px)',
-})) <{ isActive?: boolean | string }>`
+const Placeholder = styled.label<{ isActive?: boolean | string }>`
   position: absolute;
   top: 0;
   left: 0;
   transition: all ${transitionDuration};
   transform-origin: left top;
-  transform: ${props => props.transform};
+  transform: ${props => props.isActive ? 'scale(0.6) translate(28px, 10px)' : 'translate(16px, 14px)'};
   opacity: 0.3;
   pointer-events: none;
 `
