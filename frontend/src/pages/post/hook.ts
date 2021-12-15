@@ -2,13 +2,10 @@ import type { PostType } from '@/types/PostType';
 import { useRouter } from "next/router";
 import useSWR from 'swr';
 import { config } from '@/utils';
-import { getUserLayout } from "@/utils/getLayout";
 import { auth } from '@/utils/aws';
 import axios from 'axios';
-import { Button } from '@/components/atoms'
-import Head from 'next/head';
 
-const Post = () => {
+const useLogic = () => {
   const router = useRouter();
 
   const { data, error } = useSWR<PostType>(`${config.api}/post/?id=${router.query.post_id}`, (url: string) => {
@@ -42,26 +39,7 @@ const Post = () => {
     }
   }
 
-  return (
-    <>
-      {data && (
-        <>
-          <Head>
-            <title>{data.description}</title>
-          </Head>
-          {data.description}
-          <div style={{ marginTop: 16 }}>
-            <Button as="a" target="_blank" download onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => onClickDownload(e)}>
-              ダウンロード
-            </Button>
-          </div>
-        </>
-      )}
-      {error && <p>データがありません</p>}
-    </>
-  )
+  return { data, error, onClickDownload }
 }
 
-Post.getLayout = getUserLayout;
-
-export default Post;
+export default useLogic;

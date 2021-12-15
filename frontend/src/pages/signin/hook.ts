@@ -1,26 +1,27 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useFlash } from '@/hooks';
-import { auth } from '@/utils/aws'
+import { useDispatch, useFlash } from '@/hooks';
+import { signIn as storeSignIn } from '@/stores/user/asyncThunk';
 import { MESSAGE_TYPE } from '@/utils/const'
 
-const useSignUp = () => {
+const useLogic = () => {
   const router = useRouter();
   const flash = useFlash();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
-  const signUp = async () => {
+  const signIn = async () => {
     try {
-      await auth.signup(email, password);
-      router.push(`/activate?email=${email}`);
+      await dispatch(storeSignIn({ username: email, password })).unwrap();
+      router.push('/mypage');
       flash({
-        message: '認証コードをメールアドレスに送信しました',
+        message: 'ログインしました',
         type: MESSAGE_TYPE.NOTICE
       })
     } catch (e) {
       flash({
-        message: '新規登録に失敗しました',
+        message: (e as { errorMessage: string }).errorMessage,
         type: MESSAGE_TYPE.ERROR
       })
     }
@@ -31,8 +32,8 @@ const useSignUp = () => {
     password,
     setEmail,
     setPassword,
-    signUp,
+    signIn,
   }
 }
 
-export default useSignUp
+export default useLogic
