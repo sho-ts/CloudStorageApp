@@ -21,8 +21,6 @@ const usePosts = (page: number, dirId?: string | null) => {
     });
   });
 
-  console.log(posts.data)
-
   const [getNextDatas, getPrevDatas, changePage] = createPagination<PostsType>(page, path, router, posts.data);
 
   return {
