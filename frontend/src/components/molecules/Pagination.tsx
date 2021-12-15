@@ -76,6 +76,7 @@ const PageList = styled.div`
   overflow: hidden;
   border: 1px solid #ddd;
   border-radius: 10px;
+  background-color: #fff;
 `;
 
 const CurrentPage = styled.div`
