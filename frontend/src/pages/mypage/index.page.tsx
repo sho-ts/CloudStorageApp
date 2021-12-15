@@ -1,13 +1,10 @@
-import { useRouter } from 'next/router';
-import { usePosts } from '@/hooks';
+import useLogic from './hook';
 import Head from 'next/head'
 import { FileList } from '@/components/organisms';
 import { getUserLayout } from '@/utils/getLayout';
 
 const MyPage = () => {
-  const router = useRouter();
-  const page = Number(router.query.page ?? 1);
-  const { posts, getNextDatas, getPrevDatas, changePage } = usePosts(page);
+  const { page, posts, getNextDatas, getPrevDatas, changePage } = useLogic();
 
   return (
     <>

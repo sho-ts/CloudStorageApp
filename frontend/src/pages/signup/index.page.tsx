@@ -1,4 +1,4 @@
-import { useSignUp } from '@/hooks';
+import useLogic from './hook';
 import { TextField, TextLink, Button, PageTitle } from '@/components/atoms';
 import { Container } from '@/components/templates';
 import Link from 'next/link';
@@ -6,7 +6,7 @@ import Head from 'next/head'
 import { getGuestLayout } from '@/utils/getLayout';
 
 const SignIn = () => {
-  const { email, password, setEmail, setPassword, signUp } = useSignUp();
+  const { email, password, setEmail, setPassword, signUp } = useLogic();
 
   return (
     <>
