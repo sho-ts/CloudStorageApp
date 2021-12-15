@@ -50,11 +50,7 @@ const HeaderNav: React.FC<Props> = ({ onClose, isOpen, isGuest }) => {
   )
 }
 
-const Inner = styled.div.attrs((props: { isOpen?: boolean }) => ({
-  style: {
-    transform: props.isOpen ? 'none' : 'translateX(calc(100% + 10px))',
-  }
-})) <{ isOpen?: boolean }>`
+const Inner = styled.div<{ isOpen?: boolean }>`
   position: absolute;
   top: 0;
   right: 0;
@@ -62,6 +58,7 @@ const Inner = styled.div.attrs((props: { isOpen?: boolean }) => ({
   width: calc(100% - 100px);
   background-color: #fff;
   transition: all 0.3s;
+  transform: ${props => props.isOpen ? 'none' : 'translateX(calc(100% + 10px))'};
   padding: 32px;
   z-index: 5010000;
   ${mq()} {

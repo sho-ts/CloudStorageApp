@@ -14,12 +14,7 @@ const ModalWrapper: React.FC<Props> = ({ isOpen, onClose, children }) => {
   )
 }
 
-const Wrapper = styled.div.attrs((props: { isOpen?: boolean }) => ({
-  style: {
-    opacity: props.isOpen ? 1 : 0,
-    visibility: props.isOpen ? 'visible' : 'hidden',
-  }
-})) <{ isOpen?: boolean }>`
+const Wrapper = styled.div<{ isOpen?: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -34,6 +29,8 @@ const Wrapper = styled.div.attrs((props: { isOpen?: boolean }) => ({
   transition: all 0.3s;
   z-index: 9999999999999;
   overflow: hidden;
+  opacity: ${props => props.isOpen ? 1 : 0};
+  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
 `;
 
 const CloseWrapper = styled.div`
