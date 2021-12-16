@@ -45,6 +45,7 @@ const FileEditModal: React.FC<Props> = ({
         message: 'ファイルの更新に成功しました',
         type: MESSAGE_TYPE.NOTICE
       });
+      onClose();
     } catch (e) {
       flash({
         message: 'ファイルの更新に失敗しました',
