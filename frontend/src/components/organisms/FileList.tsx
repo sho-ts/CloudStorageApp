@@ -4,6 +4,7 @@ import type { KeyedMutator } from 'swr';
 import { useSelector } from '@/hooks';
 import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
+import { ItemTitle } from '@/components/atoms';
 import { Pagination } from '@/components/molecules';
 import { DirEditModal } from '@/components/organisms';
 import { isImage, isMovie, isCompressed, isCode } from '@/utils/checkFileType';
@@ -37,16 +38,9 @@ const FileList: React.FC<Props> = ({
   return (
     <>
       <Header>
-        <DirInfo>
-          <DirName>
-            {dir ? dir.name : '全てのファイル'}
-          </DirName>
-          {dir && (
-            <SettingIcon onClick={handleDirEditModalOpen}>
-              <Image src={settingIcon} />
-            </SettingIcon>
-          )}
-        </DirInfo>
+        <ItemTitle data={dir} onClick={handleDirEditModalOpen}>
+          {dir ? dir.name : '全てのファイル'}
+        </ItemTitle>
         {keyword && (
           <Search>
             <AiOutlineSearch size="14" />
