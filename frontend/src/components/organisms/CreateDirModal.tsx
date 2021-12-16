@@ -18,13 +18,13 @@ const CreateDirModal: React.FC<Props> = ({
       isOpen={isOpen}
       onClose={onClose}
     >
-        <TextField
-          style={{ marginBottom: 16 }}
-          placeholder="ディレクトリ名"
-          value={dirName}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDirName(e.target.value)}
-        />
-        <Button onClick={createDir}>作成</Button>
+      <TextField
+        style={{ marginBottom: 16 }}
+        placeholder="ディレクトリ名"
+        value={dirName}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDirName(e.target.value)}
+      />
+      <Button onClick={createDir}>作成</Button>
     </Modal>
   )
 }

@@ -18,7 +18,7 @@ const Layout: React.FC<Props> = ({ children, isGuest }) => {
   )
 }
 
-const Inner = styled.main`
+const Inner = styled.div`
   min-height: calc(100vh - 60px - 37px);
   padding: 24px 16px;
   ${mq()} {

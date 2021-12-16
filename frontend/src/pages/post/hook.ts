@@ -1,6 +1,7 @@
 import type { PostType } from '@/types/PostType';
 import { useMemo } from 'react';
 import { useRouter } from "next/router";
+import { useModal, useDir } from '@/hooks';
 import useSWR from 'swr';
 import { isImage, isMovie, isCompressed, isCode } from '@/utils/checkFileType';
 import { config } from '@/utils';
@@ -12,7 +13,11 @@ import { BiMoviePlay } from 'react-icons/bi';
 const useLogic = () => {
   const router = useRouter();
 
-  const { data, error } = useSWR<PostType>(`${config.api}/post/?id=${router.query.post_id}`, (url: string) => {
+  const [fileEditModalOpen, handleFileEditModalOpen, handleFileEditModalClose] = useModal();
+
+  const dirs = useDir();
+
+  const post = useSWR<PostType>(`${config.api}/post/?id=${router.query.post_id}`, (url: string) => {
     const token = auth.getIdToken();
 
     return axios.get(url, {
@@ -21,7 +26,7 @@ const useLogic = () => {
   });
 
   const Icon = useMemo(() => {
-    const path = data?.file_path ?? '';
+    const path = post.data?.file_path ?? '';
 
     return (
       isImage(path) ? { Component: BsCardImage, color: '#dc143c' } :
@@ -30,7 +35,7 @@ const useLogic = () => {
             isCompressed(path) ? { Component: BsFileEarmarkZipFill, color: '#888888' } :
               { Component: BsFillFileEarmarkFill, color: '#1e90ff' }
     );
-  }, [data?.file_path]);
+  }, [post.data?.file_path]);
 
   const onClickDownload = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     try {
@@ -39,11 +44,11 @@ const useLogic = () => {
       const target = e.target as HTMLAnchorElement;
 
       if (!user || !token) throw new Error('不正なユーザー');
-      if (target.href || !data) return;
+      if (target.href || !post.data) return;
 
       e.preventDefault();
 
-      const res = await axios.get<string>(`${config.api}/file/download/?key=${data.file_path}`, {
+      const res = await axios.get<string>(`${config.api}/file/download/?key=${post.data.file_path}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -54,7 +59,10 @@ const useLogic = () => {
     }
   }
 
-  return { data, error, Icon, onClickDownload }
+  return {
+    dirs, post, Icon, onClickDownload,
+    fileEditModalOpen, handleFileEditModalOpen, handleFileEditModalClose,
+  }
 }
 
 export default useLogic;

@@ -2,40 +2,50 @@ import useLogic from './hook'
 import styled, { css } from 'styled-components';
 import { mq } from '@mixin';
 import { Button, ItemTitle } from '@/components/atoms'
+import { FileEditModal } from '@/components/organisms';
 import Head from 'next/head';
 import { getFileExtension } from '@/utils';
 import { withUserLayout } from '@layout';
 
 const Post = () => {
-  const { data, error, Icon, onClickDownload } = useLogic();
+  const {
+    dirs, post, Icon, onClickDownload,
+    fileEditModalOpen, handleFileEditModalOpen, handleFileEditModalClose,
+  } = useLogic();
 
   return (
     <>
-      {data && (
+      {post.data && (
         <>
           <Head>
-            <title>{data.description}</title>
+            <title>{post.data.description}</title>
           </Head>
-          <ItemTitle style={{ marginBottom: 24 }} Icon={Icon.Component} IconColor={Icon.color}>
-            {data.description}
+          <ItemTitle
+            style={{ marginBottom: 24 }}
+            Icon={Icon.Component}
+            IconColor={Icon.color}
+            onClick={handleFileEditModalOpen}
+            data={post.data}
+          >
+            {post.data.description}
           </ItemTitle>
           <Table style={{ marginBottom: 24 }}>
             <Tbody>
               <Tr>
                 <Th>アップロード日</Th>
-                <Td>{data.created_at}</Td>
+                <Td>{post.data.created_at}</Td>
               </Tr>
               <Tr>
                 <Th>編集日</Th>
-                <Td>{data.updated_at}</Td>
+                <Td>{post.data.updated_at}</Td>
               </Tr>
               <Tr>
                 <Th>ファイルサイズ</Th>
-                <Td>{data.file_size}</Td>
+                <Td>{post.data.file_size}</Td>
               </Tr>
               <Tr>
                 <Th>ファイル拡張子</Th>
-                <Td>{getFileExtension(data.file_path)}</Td>
+                <Td>{getFileExtension(post.data.file_path)}</Td>
               </Tr>
             </Tbody>
           </Table>
@@ -44,9 +54,15 @@ const Post = () => {
               ダウンロード
             </Button>
           </div>
+          <FileEditModal
+            isOpen={fileEditModalOpen}
+            post={post.data}
+            onClose={handleFileEditModalClose}
+            dirs={dirs.data}
+          />
         </>
       )}
-      {error && <p>データがありません</p>}
+      {post.error && <p>データがありません</p>}
     </>
   )
 }
