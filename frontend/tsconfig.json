@@ -21,7 +21,8 @@
         "paths": {
             "@/*": ["./*"],
             "@imgs/*": ["./assets/imgs/*"],
-            "@mixin": ["./utils/style/mixin"]
+            "@mixin": ["./utils/style/mixin"],
+            "@layout": ["./pages/_layout"]
         }
     },
     "include": [

@@ -44,9 +44,9 @@ const Pagination: React.FC<Props> = ({ pages, page, getNextDatas, getPrevDatas, 
         </PageList>
         <PaginationNumbers listOpen={listOpen}>
           <List
-            height={100}
-            itemCount={pages}
+            itemCount={pages > 1 ? pages : 1}
             itemSize={50}
+            height={100}
             width={100}
             itemData={{
               onClick: (page: number) => {

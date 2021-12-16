@@ -1,4 +1,4 @@
-import { getGuestLayout } from "@/components/hoc/getLayout";
+import { getGuestLayout } from "./getLayout";
 
 const withGuestLayout = (Component: React.FC) => {
   const WrappedComponent = (props: any) => {

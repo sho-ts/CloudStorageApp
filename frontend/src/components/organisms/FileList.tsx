@@ -4,13 +4,12 @@ import type { KeyedMutator } from 'swr';
 import { useSelector } from '@/hooks';
 import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
+import { ItemTitle } from '@/components/atoms';
 import { Pagination } from '@/components/molecules';
 import { DirEditModal } from '@/components/organisms';
 import { isImage, isMovie, isCompressed, isCode } from '@/utils/checkFileType';
-import Image from 'next/image'
 import Link from 'next/link';
-import settingIcon from '@imgs/common/setting-icon.svg';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineSearch, AiTwotoneFolderOpen } from 'react-icons/ai';
 import { BsCardImage, BsFillFileEarmarkCodeFill, BsFileEarmarkZipFill, BsFillFileEarmarkFill } from 'react-icons/bs'
 import { BiMoviePlay } from 'react-icons/bi';
 
@@ -37,16 +36,14 @@ const FileList: React.FC<Props> = ({
   return (
     <>
       <Header>
-        <DirInfo>
-          <DirName>
-            {dir ? dir.name : '全てのファイル'}
-          </DirName>
-          {dir && (
-            <SettingIcon onClick={handleDirEditModalOpen}>
-              <Image src={settingIcon} />
-            </SettingIcon>
-          )}
-        </DirInfo>
+        <ItemTitle
+          Icon={AiTwotoneFolderOpen}
+          IconColor="#5e9df2"
+          data={dir}
+          onClick={handleDirEditModalOpen}
+        >
+          {dir ? dir.name : '全てのファイル'}
+        </ItemTitle>
         {keyword && (
           <Search>
             <AiOutlineSearch size="14" />

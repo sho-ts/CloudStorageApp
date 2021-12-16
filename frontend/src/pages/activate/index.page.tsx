@@ -2,7 +2,7 @@ import useLogic from './hook';
 import { PageTitle, TextField, Button } from '@/components/atoms';
 import { Container } from '@/components/templates';
 import Head from 'next/head'
-import { withGuestLayout } from '@/components/hoc';
+import { withGuestLayout } from '@layout';
 
 const Activate = () => {
   const { code, setCode, activateUser } = useLogic();

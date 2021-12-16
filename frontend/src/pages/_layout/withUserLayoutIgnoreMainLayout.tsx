@@ -1,4 +1,4 @@
-import { getUserLayout } from "@/components/hoc/getLayout";
+import { getUserLayout } from "./getLayout";
 
 const withUserLayoutIgnoreMainLayout = (Component: React.FC) => {
   const WrappedComponent = (props: any) => {

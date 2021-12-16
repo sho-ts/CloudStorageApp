@@ -1,7 +1,7 @@
 import useLogic from './hook';
 import { FileList } from '@/components/organisms';
 import Head from 'next/head';
-import { withUserLayout } from '@/components/hoc';
+import { withUserLayout } from '@layout';
 
 const Directory = () => {
   const {

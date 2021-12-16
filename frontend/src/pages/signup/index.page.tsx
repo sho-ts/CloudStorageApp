@@ -3,7 +3,7 @@ import { TextField, TextLink, Button, PageTitle } from '@/components/atoms';
 import { Container } from '@/components/templates';
 import Link from 'next/link';
 import Head from 'next/head'
-import { withGuestLayout } from '@/components/hoc';
+import { withGuestLayout } from '@layout';
 
 const SignIn = () => {
   const { email, password, setEmail, setPassword, signUp } = useLogic();
