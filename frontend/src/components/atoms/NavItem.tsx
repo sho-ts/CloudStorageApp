@@ -23,7 +23,7 @@ const NavItem: React.FC<NavProps> = ({ onClose, item, href, children }) => (
 
 const Body = styled.li`
   font-size: 18px;
-  border-bottom: 1px solid #ddd;
+  margin-bottom: 1px;
   a {
     position: relative;
     display: block;
@@ -31,10 +31,15 @@ const Body = styled.li`
     transition: all 0.3s;
     letter-spacing: 0.25em;
     background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    will-change: transform;
     ${hover(css`
       background-color: #f2f2f2;
+      border-color: #f2f2f2;
       letter-spacing: 0.4em;
       transform: scale(1.05);
+      position: relative;
+      z-index: 100;
     `)}
     &::before {
       content: '';
