@@ -1,7 +1,7 @@
 import useLogic from './hook';
 import Head from 'next/head'
 import { FileList } from '@/components/organisms';
-import { withUserLayout } from '@/components/hoc';
+import { withUserLayout } from '@layout';
 
 const MyPage = () => {
   const { page, posts, getNextDatas, getPrevDatas, changePage } = useLogic();

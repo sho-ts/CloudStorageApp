@@ -2,7 +2,7 @@ import useLogic from './hook';
 import { PageTitle, Button } from '@/components/atoms';
 import { Container } from '@/components/templates';
 import Head from 'next/head'
-import { withUserLayoutIgnoreMainLayout } from '@/components/hoc';
+import { withUserLayoutIgnoreMainLayout } from '@layout';
 
 const SignOut = () => {
   const { onClickSignout } = useLogic();
