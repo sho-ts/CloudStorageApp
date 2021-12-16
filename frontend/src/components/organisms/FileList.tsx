@@ -8,10 +8,8 @@ import { ItemTitle } from '@/components/atoms';
 import { Pagination } from '@/components/molecules';
 import { DirEditModal } from '@/components/organisms';
 import { isImage, isMovie, isCompressed, isCode } from '@/utils/checkFileType';
-import Image from 'next/image'
 import Link from 'next/link';
-import settingIcon from '@imgs/common/setting-icon.svg';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineSearch, AiTwotoneFolderOpen } from 'react-icons/ai';
 import { BsCardImage, BsFillFileEarmarkCodeFill, BsFileEarmarkZipFill, BsFillFileEarmarkFill } from 'react-icons/bs'
 import { BiMoviePlay } from 'react-icons/bi';
 
@@ -38,7 +36,12 @@ const FileList: React.FC<Props> = ({
   return (
     <>
       <Header>
-        <ItemTitle data={dir} onClick={handleDirEditModalOpen}>
+        <ItemTitle
+          Icon={AiTwotoneFolderOpen}
+          IconColor="#5e9df2"
+          data={dir}
+          onClick={handleDirEditModalOpen}
+        >
           {dir ? dir.name : '全てのファイル'}
         </ItemTitle>
         {keyword && (

@@ -1,15 +1,21 @@
+import type { IconType } from 'react-icons';
 import styled from 'styled-components';
 import { AiFillSetting } from 'react-icons/ai';
 
 type Props = {
   onClick?: any,
   data?: any,
+  Icon?: IconType,
+  IconColor?: string
 }
 
-const ItemTitle: React.FC<Props> = ({ onClick, data, children }) => {
+const ItemTitle: React.FC<Props> = ({ onClick, data, children, Icon, IconColor }) => {
   return (
     <Wrapper>
-      <Text>{children}</Text>
+      <Text>
+        {Icon && <IconWrapper><Icon color={IconColor} size={28} /></IconWrapper>}
+        <h2>{children}</h2>
+      </Text>
       {onClick && data && (
         <Setting onClick={onClick}><AiFillSetting size={28} color="#888" /></Setting>
       )}
@@ -26,8 +32,14 @@ const Wrapper = styled.div`
   height: 45px;
 `;
 
-const Text = styled.h2`
+const IconWrapper = styled.div`
+  margin-right: 0.5em;
+`;
+
+const Text = styled.div`
   font-size: 20px;
+  display: flex;
+  align-items: center;
 `;
 
 const Setting = styled.button`
