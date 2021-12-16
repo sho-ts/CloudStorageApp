@@ -6,3 +6,4 @@ export { default as SiteLogo } from './SiteLogo';
 export { default as TextField } from './TextField';
 export { default as TextLink } from './TextLink';
 export { default as Select } from './Select';
+export { default as NavItem } from './NavItem';

@@ -1,9 +1,9 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import { mq, hover } from '@mixin';
+import styled from 'styled-components';
+import { mq } from '@mixin';
 import { USER_TYPE, NAV_ITEMS } from '@/utils/const';
+import { NavItem } from '@/components/atoms';
 import { ModalWrapper } from '@/components/molecules';
-import Link from 'next/link';
 
 type Props = {
   onClose: any,
@@ -17,32 +17,12 @@ const HeaderNav: React.FC<Props> = ({ onClose, isOpen, isGuest }) => {
       <Inner isOpen={isOpen}>
         {NAV_ITEMS.map((item, key) => (
           <React.Fragment key={key}>
-            {isGuest && item.user === USER_TYPE.GUEST && (
-              <Item>
-                <Link href={item.href}>
-                  <a onClick={onClose}>{item.innerText}</a>
-                </Link>
-              </Item>
-            )}
-            {isGuest || item.user === USER_TYPE.MEMBER && (
-              <Item>
-                <Link href={item.href}>
-                  <a onClick={onClose}>{item.innerText}</a>
-                </Link>
-              </Item>
-            )}
-            {item.user === USER_TYPE.COMMON && (
-              <Item>
-                <Link href={item.href}>
-                  <a onClick={onClose}>{item.innerText}</a>
-                </Link>
-              </Item>
-            )}
+            {isGuest && item.user === USER_TYPE.GUEST && <NavItem item={item} onClose={onClose} />}
+            {isGuest || item.user === USER_TYPE.MEMBER && <NavItem item={item} onClose={onClose} />}
+            {item.user === USER_TYPE.COMMON && <NavItem item={item} onClose={onClose} />}
           </React.Fragment>
         ))}
-        <Item>
-          <a href="https://github.com/frontTSend/CloudStorageApp" target="_blank" rel="noreferrer">GitHub</a>
-        </Item>
+        <NavItem href="https://github.com/frontTSend/CloudStorageApp">GitHub</NavItem>
       </Inner>
     </ModalWrapper>
   )
@@ -62,35 +42,5 @@ const Inner = styled.ul<{ isOpen?: boolean }>`
     width: 300px;
   }
 `;
-
-const Item = styled.li`
-  font-size: 18px;
-  border-bottom: 1px solid #ddd;
-  a {
-    position: relative;
-    display: block;
-    padding: 24px 32px 24px 32px;
-    transition: all 0.3s;
-    ${hover(css`
-      background-color: #f2f2f2;
-      &::before {
-        right: 20px;
-      }
-    `)}
-    &::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: 24px;
-      transform: translateY(-50%) rotate(-45deg);
-      width: 10px;
-      height: 10px;
-      border-right: 2px solid #030303;
-      border-bottom: 2px solid #030303;
-      transition: all 0.3s;
-    }
-  }
-`;
-
 
 export default HeaderNav;
