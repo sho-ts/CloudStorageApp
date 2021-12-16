@@ -6,12 +6,13 @@ type Props = {
   onClick?: any,
   data?: any,
   Icon?: IconType,
-  IconColor?: string
+  IconColor?: string,
+  style?: React.CSSProperties;
 }
 
-const ItemTitle: React.FC<Props> = ({ onClick, data, children, Icon, IconColor }) => {
+const ItemTitle: React.FC<Props> = ({ onClick, data, children, Icon, IconColor, style }) => {
   return (
-    <Wrapper>
+    <Wrapper style={style}>
       <Text>
         {Icon && <IconWrapper><Icon color={IconColor} size={28} /></IconWrapper>}
         <h2>{children}</h2>
