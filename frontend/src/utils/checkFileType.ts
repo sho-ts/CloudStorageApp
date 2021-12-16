@@ -1,4 +1,6 @@
-export const checkFileType = (filePath: string, fileTypes: string[]) => fileTypes.filter(type => filePath.slice(-5).includes(`.${type}`)).length > 0
+import { getFileExtension } from "./";
+
+export const checkFileType = (filePath: string, fileTypes: string[]) => fileTypes.filter(type => getFileExtension(filePath) === type).length > 0
 
 export const isImage = (filePath: string) => checkFileType(filePath, ['jpg', 'jpeg', 'png', 'gif', 'ico', 'svg']);
 
