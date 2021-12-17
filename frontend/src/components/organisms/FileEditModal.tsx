@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { config } from '@/utils';
 import { auth } from '@/utils/aws';
-import { MESSAGE_TYPE } from '@/utils/const';
-import { Select, TextField, Button } from '@/components/atoms';
+import { MESSAGE_TYPE, DISCLOSURE_TYPE } from '@const';
+import { Select, TextField, Button, SubTitle } from '@/components/atoms';
 import { Modal } from '@/components/organisms';
 
 type Props = {
@@ -24,6 +24,7 @@ const FileEditModal: React.FC<Props> = ({
   const flash = useFlash();
   const [fileName, setFileName] = useState<string>(post.description);
   const [dirId, setDirId] = useState<string>('');
+  const [disclosureRange, setDisclosureRange] = useState<DISCLOSURE_TYPE>(post.disclosure_range);
 
   const update = async () => {
     try {
@@ -31,7 +32,8 @@ const FileEditModal: React.FC<Props> = ({
 
       await axios.put(`${config.api}/post?id=${post.id}`, {
         description: fileName,
-        dir: Number(dirId)
+        dir: Number(dirId),
+        disclosureRange: disclosureRange
       }, {
         headers: {
           'Accept': 'application/json',
@@ -61,6 +63,7 @@ const FileEditModal: React.FC<Props> = ({
       title="ファイル編集"
     >
       <Box>
+        <SubTitle>ファイル名変更</SubTitle>
         <TextField
           value={fileName}
           placeholder="ファイル名"
@@ -68,12 +71,23 @@ const FileEditModal: React.FC<Props> = ({
         />
       </Box>
       <Box>
+        <SubTitle>ディレクトリ移動</SubTitle>
         <Select
           value={dirId}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setDirId(e.target.value)}
         >
           <option value="">すべて</option>
           {dirs && dirs.map(dir => <option key={dir.id} value={dir.id}>{dir.name}</option>)}
+        </Select>
+      </Box>
+      <Box>
+        <SubTitle>公開設定</SubTitle>
+        <Select
+          value={`${disclosureRange}`}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setDisclosureRange(Number(e.target.value))}
+        >
+          <option value={DISCLOSURE_TYPE.PUBLIC}>公開</option>
+          <option value={DISCLOSURE_TYPE.PRIVATE}>非公開</option>
         </Select>
       </Box>
       <div style={{ textAlign: 'center' }}>
