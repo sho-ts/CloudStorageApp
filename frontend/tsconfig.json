@@ -22,6 +22,7 @@
             "@/*": ["./*"],
             "@imgs/*": ["./assets/imgs/*"],
             "@mixin": ["./utils/style/mixin"],
+            "@const": ["./utils/const"],
             "@layout": ["./pages/_layout"]
         }
     },
