@@ -16,6 +16,8 @@ module.exports = {
       '@': path.resolve(__dirname, '../src'),
       '@mixin': path.resolve(__dirname, '../src/utils/style/mixin'),
       '@imgs': path.resolve(__dirname, '../src/assets/imgs'),
+      '@layout': path.resolve(__dirname, '../src/pages/_layout'),
+      '@const': path.resolve(__dirname, '../src/utils/const'),
     }
 
     return config
