@@ -79,10 +79,10 @@ export class PostService {
       .execute();
 
     // 投稿件数からページ数を計算
-    const pages = Math.ceil(Number(count[0].count) / 10);
+    const pages = Math.ceil(Number(count[0].count) / limit ?? 10);
 
     // 検索のスタート位置を指定
-    const offset = (page - 1) * 10;
+    const offset = (page - 1) * limit ?? 10;
 
     const posts = await this.postRepository
       .createQueryBuilder()
