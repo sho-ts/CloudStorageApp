@@ -67,7 +67,7 @@ export class PostService {
     }
   }
 
-  async readAll(uid: string, page = 1, s: string = '', directoryId?: number) {
+  async readAll(uid: string, page = 1, s: string = '', directoryId?: number, limit?: number) {
     // 投稿件数の合計を取得
     const count = await this.postRepository
       .createQueryBuilder()
@@ -91,7 +91,7 @@ export class PostService {
       .andWhere('uid = :uid', { uid })
       .andWhere(directoryId ? 'directoryId = :directoryId' : '1 = 1', { directoryId })
       .andWhere(s ? 'description like :description' : '1 = 1', { description: `%${s}%` })
-      .limit(10)
+      .limit(limit ?? 10)
       .offset(offset)
       .execute();
 
@@ -102,13 +102,25 @@ export class PostService {
     };
   }
 
-  async update(uid: string, description: string, dir: number, id: number) {
+  async update(updatePostData: {
+    id: number,
+    uid: string,
+    description: string,
+    dir: number,
+    disclosureRange: number
+  }) {
+
+    const { id, uid, description, disclosureRange, dir } = updatePostData;
     const directory = await this.directoryRepository.findOne({ id: dir });
 
     return await this.postRepository
       .createQueryBuilder()
       .update(Post)
-      .set({ description, directory })
+      .set({
+        description,
+        directory,
+        disclosure_range: disclosureRange
+      })
       .where('id = :id', { id })
       .andWhere('uid = :uid', { uid })
       .andWhere('del_flg = :del_flg', { del_flg: 0 })
