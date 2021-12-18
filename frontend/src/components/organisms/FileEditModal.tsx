@@ -5,7 +5,7 @@ import { useFlash } from '@/hooks';
 import { mutate } from 'swr';
 import styled from 'styled-components';
 import axios from 'axios';
-import { config } from '@/utils';
+import { config, queryBuilder } from '@/utils';
 import { auth } from '@/utils/aws';
 import { MESSAGE_TYPE, DISCLOSURE_TYPE } from '@const';
 import { Select, TextField, Button, SubTitle } from '@/components/atoms';
@@ -25,12 +25,16 @@ const FileEditModal: React.FC<Props> = ({
   const [fileName, setFileName] = useState<string>(post.description);
   const [dirId, setDirId] = useState<string>('');
   const [disclosureRange, setDisclosureRange] = useState<DISCLOSURE_TYPE>(post.disclosure_range);
+  
+  const query = queryBuilder({
+    id: post.id
+  });
 
   const update = async () => {
     try {
       const { token } = await auth.getIdTokenAndUser();
 
-      await axios.put(`${config.api}/post?id=${post.id}`, {
+      await axios.put(`${config.api}/post?${query}`, {
         description: fileName,
         dir: Number(dirId),
         disclosureRange: disclosureRange
@@ -42,7 +46,7 @@ const FileEditModal: React.FC<Props> = ({
         }
       });
 
-      mutate(`${config.api}/post/?id=${post.id}`)
+      mutate(`${config.api}/post/?${query}`)
       flash({
         message: 'ファイルの更新に成功しました',
         type: MESSAGE_TYPE.NOTICE
