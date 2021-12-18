@@ -45,8 +45,8 @@ export class PostController {
   }
 
   @Get('all')
-  readAll(@GuardResponse() user, @Query() { page, s, dir }: { page: number, s: string, dir?: number }) {
-    return this.service.readAll(user.sub, page, s, dir);
+  readAll(@GuardResponse() user, @Query() { page, s, dir, limit }: { page: number, s: string, dir?: number, limit?: number }) {
+    return this.service.readAll(user.sub, page, s, dir, limit);
   }
 
   @Put()
