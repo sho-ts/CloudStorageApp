@@ -45,18 +45,25 @@ export class PostController {
   }
 
   @Get('all')
-  readAll(@GuardResponse() user, @Query() { page, s, dir }: { page: number, s: string, dir?: number }) {
-    return this.service.readAll(user.sub, page, s, dir);
+  readAll(@GuardResponse() user, @Query() { page, s, dir, limit }: { page: number, s: string, dir?: number, limit?: number }) {
+    return this.service.readAll(user.sub, page, s, dir, limit);
   }
 
   @Put()
   update(@GuardResponse() user, @Req() req: Request<{}, {}, {
     description: string,
     dir: number,
+    disclosureRange: number
   }>, @Query() { id }: { id: number }) {
-    const { description, dir } = req.body;
+    const { description, dir, disclosureRange } = req.body;
 
-    return this.service.update(user.sub, description, dir, id);
+    return this.service.update({
+      id,
+      uid: user.sub,
+      description,
+      dir,
+      disclosureRange,
+    });
   }
 
   @Delete()
