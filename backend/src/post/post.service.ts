@@ -102,13 +102,25 @@ export class PostService {
     };
   }
 
-  async update(uid: string, description: string, dir: number, id: number) {
+  async update(updatePostData: {
+    id: number,
+    uid: string,
+    description: string,
+    dir: number,
+    disclosureRange: number
+  }) {
+
+    const { id, uid, description, disclosureRange, dir } = updatePostData;
     const directory = await this.directoryRepository.findOne({ id: dir });
 
     return await this.postRepository
       .createQueryBuilder()
       .update(Post)
-      .set({ description, directory })
+      .set({
+        description,
+        directory,
+        disclosure_range: disclosureRange
+      })
       .where('id = :id', { id })
       .andWhere('uid = :uid', { uid })
       .andWhere('del_flg = :del_flg', { del_flg: 0 })
