@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useFlash } from '@/hooks';
+import { queryBuilder } from '@/utils';
 import { auth } from '@/utils/aws'
 import { MESSAGE_TYPE } from '@/utils/const'
 
@@ -10,10 +11,12 @@ const useLogic = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const query = queryBuilder({ email });
+
   const signUp = async () => {
     try {
       await auth.signup(email, password);
-      router.push(`/activate?email=${email}`);
+      router.push(`/activate?${query}`);
       flash({
         message: '認証コードをメールアドレスに送信しました',
         type: MESSAGE_TYPE.NOTICE

@@ -1,10 +1,10 @@
+import type { S3ReponseType } from '@/types/S3ResponseType';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDropzone } from 'react-dropzone'
 import { useSelector, useFlash } from '@/hooks';
 import { mutate } from 'swr';
-import { config } from '@/utils';
-import { S3ReponseType } from '@/types/S3ResponseType';
+import { config, queryBuilder } from '@/utils';
 import { auth } from '@/utils/aws';
 import { MESSAGE_TYPE } from '@/utils/const'
 import axios from 'axios';
@@ -21,6 +21,12 @@ const useUpload = (onClose: any) => {
   const { keyword } = useSelector(props => props.search);
   const page = Number(router.query.page ?? 1);
   const dir = router.query.dir_id as string;
+  
+  const query = queryBuilder({
+    page,
+    s: keyword,
+    dir,
+  })
 
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
@@ -77,7 +83,7 @@ const useUpload = (onClose: any) => {
       setComplete(true);
       clearFile();
       onClose();
-      mutate(`${config.api}/post/all?page=${page}&s=${keyword}&dir=${dir ?? ''}`);
+      mutate(`${config.api}/post/all?${query}`);
       flash({
         message: 'ファイルのアップロードに成功しました',
         type: MESSAGE_TYPE.NOTICE

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { mutate as globalMutate } from 'swr';
 import { auth } from '@/utils/aws';
-import { config } from '@/utils';
+import { config, queryBuilder } from '@/utils';
 import { MESSAGE_TYPE } from '@/utils/const'
 import { Button, TextField } from '@/components/atoms';
 import { Modal } from '@/components/organisms';
@@ -27,13 +27,17 @@ const DirEditModal: React.FC<Props> = ({
   const currentDir = Number(router.query.dir_id);
   const [dirName, setDirName] = useState<string>('');
 
+  const query = queryBuilder({
+    id: dir?.id
+  });
+
   const editDir = async () => {
     if (!dirName || !dir || !mutate) return;
 
     try {
       const { token } = await auth.getIdTokenAndUser();
 
-      await axios.put(`${config.api}/directory?id=${dir.id}`, {
+      await axios.put(`${config.api}/directory?${query}`, {
         dirName,
       }, {
         headers: { 'Authorization': `Bearer ${token}` }
@@ -62,7 +66,7 @@ const DirEditModal: React.FC<Props> = ({
 
       if (!confirm('ディレクトリ内のファイルも全て削除され、元に戻すことはできません。\n本当に削除しますか？')) return;
 
-      await axios.delete(`${config.api}/directory?id=${dir.id}`, {
+      await axios.delete(`${config.api}/directory?${query}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 

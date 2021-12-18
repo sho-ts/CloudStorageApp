@@ -3,7 +3,7 @@ import { useSelector } from '@/hooks';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { auth } from '@/utils/aws';
-import { config, createPagination } from '@/utils';
+import { config, createPagination, queryBuilder } from '@/utils';
 import axios from 'axios'
 
 const usePosts = (page: number, dirId?: string | null) => {
@@ -11,7 +11,13 @@ const usePosts = (page: number, dirId?: string | null) => {
   const router = useRouter();
   const path = router.asPath.replace(/\?.*$/, ''); // クエリパラメータいらないので削除する
 
-  const posts = useSWR<PostsType>(`${config.api}/post/all?page=${page}&s=${keyword}&dir=${dirId ?? ''}`, async (url: string) => {
+  const query = queryBuilder({
+    page,
+    s: keyword,
+    dir: dirId 
+  })
+
+  const posts = useSWR<PostsType>(`${config.api}/post/all?${query}`, async (url: string) => {
     const { token } = await auth.getIdTokenAndUser();
 
     return axios.get<PostsType>(url, {
