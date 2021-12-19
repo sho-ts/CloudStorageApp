@@ -16,7 +16,8 @@ const useLogic = () => {
   const signUp = async () => {
     try {
       await auth.signup(email, password);
-      router.push(`/activate?${query}`);
+      await router.push(`/activate?${query}`);
+      
       flash({
         message: '認証コードをメールアドレスに送信しました',
         type: MESSAGE_TYPE.NOTICE
