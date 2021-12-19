@@ -1,0 +1,9 @@
+export type Props = {
+  value?: string;
+  type?: string;
+  placeholder?: string;
+  rows?: number;
+  style?: React.CSSProperties;
+  onChange?: any,
+  onClick?: any,
+}
