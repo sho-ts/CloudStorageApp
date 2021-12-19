@@ -60,7 +60,8 @@ const useLogic = (onClose: any, dir: DirType | null, mutate?: KeyedMutator<DirTy
 
       onClose();
       mutate();
-      dir.id === currentDir && router.push('/mypage');
+      dir.id === currentDir && await router.push('/mypage');
+      
       flash({
         message: 'ディレクトリを削除しました',
         type: MESSAGE_TYPE.NOTICE

@@ -16,11 +16,12 @@ const useLogic = () => {
       const activated = await auth.activate(`${router.query.email}`, code);
 
       if (activated) {
+        await router.push('/signin');
+        
         flash({
           message: '認証に成功しました。ログインしてください',
           type: MESSAGE_TYPE.NOTICE
         })
-        router.push('/signin');
       }
     } catch (e) {
       flash({

@@ -14,7 +14,8 @@ const useLogic = () => {
   const signIn = async () => {
     try {
       await dispatch(storeSignIn({ username: email, password })).unwrap();
-      router.push('/mypage');
+      await router.push('/mypage');
+      
       flash({
         message: 'ログインしました',
         type: MESSAGE_TYPE.NOTICE
