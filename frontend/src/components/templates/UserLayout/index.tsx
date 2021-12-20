@@ -51,6 +51,7 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
 }
 
 const Inner = styled.div`
+  padding: 0 16px;
   ${mq()} {
     display: flex;
     flex-direction: row-reverse;
