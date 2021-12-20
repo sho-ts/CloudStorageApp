@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { mq } from '@mixin';
 import { PageTitle } from '@/components/atoms';
 import { Container } from '@/components/templates';
+import Head from 'next/head';
 import { withUserLayoutIgnoreMainLayout } from '@layout';
 
 const FAQ = () => {
@@ -35,6 +36,7 @@ const FAQ = () => {
 
   return (
     <Container size="lg">
+      <Head><title>よくある質問</title></Head>
       <PageTitle>よくある質問</PageTitle>
       <dl>
         {faqs.map((faq, index) => (
