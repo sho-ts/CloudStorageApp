@@ -11,7 +11,7 @@ const Directories: React.FC<Props> = ({ dirs, modalOpen }) => {
     <Wrapper>
       <Heading>
         <HeadingIcon>
-          <Image src={dirIcon} />
+          <Image src={dirIcon} alt="" />
         </HeadingIcon>
         <h3>ディレクトリ</h3>
       </Heading>
@@ -26,7 +26,7 @@ const Directories: React.FC<Props> = ({ dirs, modalOpen }) => {
         ))}
       </List>
       <AddIcon onClick={modalOpen}>
-        <Image src={addIcon} />
+        <Image src={addIcon} alt="" />
       </AddIcon>
     </Wrapper>
   )
