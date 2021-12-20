@@ -10,7 +10,7 @@ const NavItem: React.FC<Props> = ({ onClose, item, href, children }) => (
         <a onClick={onClose}><span>{item.innerText}</span></a>
       </Link>
     ) : (
-      <a href={href} target="_blank" rel="noopener"><span>{children}</span></a>
+      <a href={href} target="_blank" rel="noreferrer"><span>{children}</span></a>
     )}
   </Body>
 )
