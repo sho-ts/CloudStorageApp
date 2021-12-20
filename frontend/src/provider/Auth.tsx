@@ -18,7 +18,7 @@ const Auth: React.FC<Props> = ({ children, notRedirect }) => {
         await dispatch(checkAuth()).unwrap();
         setIsChecked(true);
       } catch (e) {
-        notRedirect || router.replace('/');
+        notRedirect ? setIsChecked(true) : router.replace('/');
       }
     })();
   }, [dispatch, router]);
