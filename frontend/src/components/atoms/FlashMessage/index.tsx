@@ -2,7 +2,7 @@ import useLogic from './hook';
 import styled from 'styled-components';
 import { MESSAGE_TYPE } from '@/utils/const'
 
-const FlashMessage = () => {
+const FlashMessage: React.VFC = () => {
   const { flash, close } = useLogic();
 
   return (

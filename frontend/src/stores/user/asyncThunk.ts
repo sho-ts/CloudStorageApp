@@ -3,7 +3,7 @@ import { auth } from '@/utils/aws';
 
 type User = {
   email: string,
-  isSignIn: boolean
+  isSignIn: boolean,
 }
 
 export const signIn = createAsyncThunk<User, { username: string, password: string }>(
@@ -12,11 +12,27 @@ export const signIn = createAsyncThunk<User, { username: string, password: strin
     try {
       const res = await auth.signin(username, password);
 
-      if (!res) throw new Error();
-
       return {
         isSignIn: true,
         email: username
+      };
+    } catch (e) {
+      return rejectWithValue({
+        errorMessage: 'サインインに失敗しました'
+      })
+    }
+  }
+);
+
+export const guestSignIn = createAsyncThunk<User>(
+  'user/guestSignin',
+  async (_, { rejectWithValue }) => {
+    try {
+      await auth.signin(process.env.NEXT_PUBLIC_GUEST_EMAIL ?? '', process.env.NEXT_PUBLIC_GUEST_PASSWORD ?? '');
+
+      return {
+        isSignIn: true,
+        email: '__guest__',
       };
     } catch (e) {
       return rejectWithValue({
