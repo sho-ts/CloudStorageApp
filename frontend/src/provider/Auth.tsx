@@ -4,10 +4,10 @@ import { useDispatch } from '@/hooks';
 import { checkAuth } from '@/stores/user/asyncThunk';
 
 type Props = {
-  children: React.ReactNode
+  notRedirect?: boolean,
 }
 
-const AuthProvider: React.FC<Props> = ({ children }) => {
+const Auth: React.FC<Props> = ({ children, notRedirect }) => {
   const dispatch = useDispatch();
   const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
@@ -18,7 +18,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         await dispatch(checkAuth()).unwrap();
         setIsChecked(true);
       } catch (e) {
-        router.replace('/');
+        notRedirect ? setIsChecked(true) : router.replace('/');
       }
     })();
   }, [dispatch, router]);
@@ -30,4 +30,4 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   )
 }
 
-export default AuthProvider;
+export default Auth;
