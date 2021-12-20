@@ -1,38 +1,33 @@
 import { UserLayout, GuestLayout } from '@/components/templates';
-import Provider from '@/provider';
-import Auth from '@/provider/AuthProvider';
+import Provider, { AuthProvider } from '@/provider';
 import type { ReactElement } from 'react'
 
 export const getUserLayout = (page: ReactElement) => {
   return (
-    <Provider>
-      <Auth>
-        <UserLayout>
-          {page}
-        </UserLayout>
-      </Auth>
-    </Provider>
+    <AuthProvider>
+      <UserLayout>{page}</UserLayout>
+    </AuthProvider>
   )
 };
 
 getUserLayout.ignoreMainLayout = (page: ReactElement) => {
   return (
-    <Provider>
-      <Auth>
-        <UserLayout ignoreMainLayout={true}>
-          {page}
-        </UserLayout>
-      </Auth>
-    </Provider>
+    <AuthProvider>
+      <UserLayout ignoreMainLayout={true}>{page}</UserLayout>
+    </AuthProvider>
   )
 }
 
 export const getGuestLayout = (page: ReactElement) => {
   return (
     <Provider>
-      <GuestLayout>
-        {page}
-      </GuestLayout>
+      <GuestLayout>{page}</GuestLayout>
     </Provider>
   )
 };
+
+export const getCommonLayout = (page: ReactElement) => (
+  <AuthProvider notRedirect={true}>
+    <GuestLayout>{page}</GuestLayout>
+  </AuthProvider>
+)
