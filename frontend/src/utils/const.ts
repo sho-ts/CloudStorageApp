@@ -9,7 +9,7 @@ export const NAV_ITEMS = [
   { href: '/signin', innerText: 'ログイン', user: USER_TYPE.GUEST },
   { href: '/mypage', innerText: 'マイページ', user: USER_TYPE.MEMBER, },
   { href: '/signout', innerText: 'ログアウト', user: USER_TYPE.MEMBER },
-  { href: '/', innerText: 'よくある質問', user: USER_TYPE.COMMON },
+  { href: '/faq', innerText: 'よくある質問', user: USER_TYPE.COMMON },
   { href: '/', innerText: 'お問い合わせ', user: USER_TYPE.COMMON },
 ]
 
