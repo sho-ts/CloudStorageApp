@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const SiteLogo = () => {
+const SiteLogo: React.VFC = () => {
   return (
     <Logo>CSA</Logo>
   )
