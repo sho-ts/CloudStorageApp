@@ -4,7 +4,6 @@ import type { NextPage } from 'next'
 import Provider from '@/provider';
 import 'destyle.css';
 import '@/assets/css/base.css';
-import Auth from '@/provider/AuthProvider';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
