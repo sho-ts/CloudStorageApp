@@ -6,7 +6,7 @@ import Head from 'next/head'
 import { withGuestLayout } from '@layout';
 
 const SignIn = () => {
-  const { email, password, setEmail, setPassword, signUp } = useLogic();
+  const { email, password, setEmail, setPassword, signUp, guestSignIn } = useLogic();
 
   return (
     <>
@@ -37,9 +37,15 @@ const SignIn = () => {
             <TextLink>ログインはこちら</TextLink>
           </Link>
         </div>
+        <div style={{borderBottom: '1px solid #ddd', margin: '32px 0'}} />
+        <div style={{ marginBottom: 16, textAlign: 'center' }}>
+          <Button onClick={guestSignIn}>ゲストログイン</Button>
+        </div>
       </Container>
     </>
   )
 }
+
+
 
 export default withGuestLayout(SignIn);
