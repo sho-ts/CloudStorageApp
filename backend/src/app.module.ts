@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostModule } from './post/post.module';
 import { FileModule } from './file/file.module';
+import { DirectoryModule } from './directory/directory.module';
+import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { DirectoryModule } from './directory/directory.module';
 
 @Module({
   imports: [
@@ -31,10 +32,11 @@ import { DirectoryModule } from './directory/directory.module';
     }),
     PostModule,
     FileModule,
+    UserModule,
     AuthModule,
     DirectoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
