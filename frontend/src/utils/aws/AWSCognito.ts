@@ -1,14 +1,20 @@
-import AWS from 'aws-sdk'
+import AWS, { CognitoIdentityServiceProvider } from 'aws-sdk'
 import { CognitoUserPool, AuthenticationDetails, CognitoUser, CognitoUserAttribute, ISignUpResult } from 'amazon-cognito-identity-js';
 
 class AWSCognito {
   private userPool: CognitoUserPool;
+  private service: CognitoIdentityServiceProvider;
 
   constructor() {
     this.userPool = new CognitoUserPool({
       UserPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID ?? '',
       ClientId: process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID ?? '',
     });
+    this.service = new CognitoIdentityServiceProvider({
+      accessKeyId: process.env.NEXT_PUBLIC_COGNITO_ACCESS_KEY,
+      secretAccessKey: process.env.NEXT_PUBLIC_COGNITO_SECRET_KEY,
+      region: process.env.NEXT_PUBLIC_COGNITO_REGION,
+    })
 
     AWS.config.region = process.env.NEXT_PUBLIC_COGNITO_REGION;
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -79,6 +85,34 @@ class AWSCognito {
     return new Promise<boolean | Error>((resolve, reject) => cognitoUser.confirmRegistration(code, true, error => error ? reject(error) : resolve(true)));
   }
 
+  /** ユーザー情報の更新（subは変更不可） */
+  updateUserAttributes = async (UserAttributes: {
+    Name: string,
+    Value: string
+  }[]) => {
+    const cognitoUser = this.userPool.getCurrentUser();
+
+    if (cognitoUser) {
+      try {
+        await this.service.adminUpdateUserAttributes({
+          UserPoolId: this.userPool.getUserPoolId(),
+          Username: cognitoUser.getUsername(),
+          UserAttributes
+        }).promise();
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  }
+
+  getSession = (cognitoUser: CognitoUser) => {
+    return new Promise<void>((resolve, reject) => {
+      cognitoUser.getSession((error?: Error) => {
+        error ? reject(error) : resolve();
+      })
+    })
+  }
+
   getToken = (token: string): string | void => {
     const key = Object.keys(localStorage).find(storage => storage.includes(token) && storage.includes('Cognito'))
 
@@ -116,6 +150,7 @@ class AWSCognito {
     const cognitoUser = this.userPool.getCurrentUser();
 
     return new Promise<{
+      attr: CognitoUserAttribute[],
       getCognitoUserAttribute: (attributeName: string) => string | void
     } | void>((resolve) => {
       cognitoUser || resolve();
@@ -127,6 +162,7 @@ class AWSCognito {
           error ? resolve() :
             !result ? resolve() :
               resolve({
+                attr: result,
                 getCognitoUserAttribute: (attributeName: string) => this.getCognitoUserAttribute(result, attributeName)
               });
         });
