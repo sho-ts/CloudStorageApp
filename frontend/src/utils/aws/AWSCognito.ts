@@ -22,9 +22,14 @@ class AWSCognito {
     });
   }
 
-  signup = (username: string, password: string) => {
+  signup = (email: string, password: string, name: string) => {
     return new Promise<ISignUpResult | Error>((resolve, reject) => {
-      this.userPool.signUp(username, password, [], [], (error, result) => {
+      this.userPool.signUp(email, password, [
+        new CognitoUserAttribute({
+          Name: 'name',
+          Value: name
+        })
+      ], [], (error, result) => {
         error ? reject(error) :
           !result ? reject(new Error('result is undefined: signUp')) :
             resolve(result);
@@ -32,15 +37,15 @@ class AWSCognito {
     })
   }
 
-  signin = (username: string, password: string) => {
+  signin = (Username: string, Password: string) => {
     const authenticationDetails = new AuthenticationDetails({
-      Username: username,
-      Password: password
+      Username,
+      Password,
     });
 
     const cognitoUser = new CognitoUser({
-      Username: username,
-      Pool: this.userPool
+      Username,
+      Pool: this.userPool,
     })
 
     return new Promise<{
