@@ -8,7 +8,8 @@ export type Props = {
   download?: boolean,
   outline?: boolean,
   className?: string,
-  target?: string
+  target?: string,
+  type?: string,
 }
 
 export type ButtonStyleProps = {

@@ -1,12 +1,13 @@
 import useLogic from './hook';
 import { TextField, TextLink, Button, PageTitle } from '@/components/atoms';
+import { Box } from '@/components/molecules';
 import { Container } from '@/components/templates';
 import Link from 'next/link';
 import Head from 'next/head'
 import { withGuestLayout } from '@layout';
 
 const SignIn = () => {
-  const { email, password, setEmail, setPassword, signUp, guestSignIn } = useLogic();
+  const { name, email, password, setName, setEmail, setPassword, signUp, guestSignIn } = useLogic();
 
   return (
     <>
@@ -15,32 +16,39 @@ const SignIn = () => {
       </Head>
       <Container size="sm">
         <PageTitle>新規登録</PageTitle>
-        <div style={{ marginBottom: 16 }}>
+        <Box>
+          <TextField
+            placeholder="ニックネーム"
+            type="text" value={name}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setName(e.target.value) }}
+          />
+        </Box>
+        <Box>
           <TextField
             placeholder="メールアドレス"
             type="text" value={email}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEmail(e.target.value) }}
           />
-        </div>
-        <div style={{ marginBottom: 16 }}>
+        </Box>
+        <Box>
           <TextField
             placeholder="パスワード"
             type="password" value={password}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
           />
-        </div>
-        <div style={{ marginBottom: 16, textAlign: 'center' }}>
+        </Box>
+        <Box align="center">
           <Button onClick={signUp}>確認</Button>
-        </div>
-        <div style={{ textAlign: 'right' }}>
+        </Box>
+        <Box align="right">
           <Link href="/signin" passHref>
             <TextLink>ログインはこちら</TextLink>
           </Link>
-        </div>
-        <div style={{borderBottom: '1px solid #ddd', margin: '32px 0'}} />
-        <div style={{ marginBottom: 16, textAlign: 'center' }}>
+        </Box>
+        <div style={{ borderBottom: '1px solid #ddd', margin: '32px 0' }} />
+        <Box align="center">
           <Button onClick={guestSignIn}>ゲストログイン</Button>
-        </div>
+        </Box>
       </Container>
     </>
   )
