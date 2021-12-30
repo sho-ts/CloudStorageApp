@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { auth } from '@/utils/aws';
 
 type User = {
+  name: string,
   email: string,
   isSignIn: boolean,
 }
@@ -10,11 +11,15 @@ export const signIn = createAsyncThunk<User, { username: string, password: strin
   'user/signin',
   async ({ username, password }, { rejectWithValue }) => {
     try {
-      const res = await auth.signin(username, password);
+      await auth.signin(username, password);
+      const user = await auth.getUser();
+
+      if (!user) throw new Error();
 
       return {
         isSignIn: true,
-        email: username
+        email: username,
+        name: user.getCognitoUserAttribute('name') || ''
       };
     } catch (e) {
       return rejectWithValue({
@@ -33,6 +38,7 @@ export const guestSignIn = createAsyncThunk<User>(
       return {
         isSignIn: true,
         email: '__guest__',
+        name: 'ゲスト'
       };
     } catch (e) {
       return rejectWithValue({
@@ -48,11 +54,12 @@ export const checkAuth = createAsyncThunk<User>(
     try {
       const user = await auth.getUser();
 
-      if (!user) throw new Error();
+      if (!user) throw new Error()
 
       return {
         isSignIn: true,
-        email: user.getCognitoUserAttribute('email')!
+        email: user.getCognitoUserAttribute('email') || '',
+        name: user.getCognitoUserAttribute('name') || ''
       }
     } catch (e) {
       return rejectWithValue({
