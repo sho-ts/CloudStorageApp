@@ -1,5 +1,6 @@
 import AWS, { CognitoIdentityServiceProvider } from 'aws-sdk'
 import { CognitoUserPool, AuthenticationDetails, CognitoUser, CognitoUserAttribute, ISignUpResult } from 'amazon-cognito-identity-js';
+import { createCognitoUserAttributes } from '@/utils';
 
 class AWSCognito {
   private userPool: CognitoUserPool;
@@ -25,10 +26,9 @@ class AWSCognito {
   signup = (email: string, password: string, name: string) => {
     return new Promise<ISignUpResult | Error>((resolve, reject) => {
       this.userPool.signUp(email, password, [
-        new CognitoUserAttribute({
-          Name: 'name',
-          Value: name
-        })
+        ...createCognitoUserAttributes({
+          name,
+        }),
       ], [], (error, result) => {
         error ? reject(error) :
           !result ? reject(new Error('result is undefined: signUp')) :
