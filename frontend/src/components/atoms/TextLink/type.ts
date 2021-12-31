@@ -1,6 +1,5 @@
 export type Props = {
   target?: string,
-  href?: string,
+  href: string,
   rel?: string
-  onClick?: any,
 }

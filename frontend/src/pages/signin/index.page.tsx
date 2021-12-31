@@ -33,9 +33,7 @@ const SignIn = () => {
           <Button onClick={signIn}>確認</Button>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <Link href="/signup" passHref>
-            <TextLink>新規登録はこちら</TextLink>
-          </Link>
+          <TextLink href="/signup">新規登録はこちら</TextLink>
         </div>
       </Container>
     </>

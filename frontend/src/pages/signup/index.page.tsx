@@ -41,9 +41,7 @@ const SignIn = () => {
           <Button onClick={signUp}>確認</Button>
         </Box>
         <Box align="right">
-          <Link href="/signin" passHref>
-            <TextLink>ログインはこちら</TextLink>
-          </Link>
+          <TextLink href="/signin">ログインはこちら</TextLink>
         </Box>
         <div style={{ borderBottom: '1px solid #ddd', margin: '32px 0' }} />
         <Box align="center">
