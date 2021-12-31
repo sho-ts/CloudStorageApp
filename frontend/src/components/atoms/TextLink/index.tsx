@@ -1,11 +1,18 @@
 import type { Props } from './type';
-import styled from 'styled-components';
+import React from 'react';
+import styled, { css } from 'styled-components';
 import { mq } from '@mixin';
+import Link from 'next/link';
 
-const TextLink: React.FC<Props> = ({ rel, target, href, children, onClick }) => {
-  return (
+const TextLink: React.FC<Props> = ({ rel, target, href, children }) => {
+  return !target ? (
+    <Wrapper>
+      <Link href={href}>
+        <a>{children}</a>
+      </Link>
+    </Wrapper>
+  ) : (
     <Anchor
-      onClick={onClick}
       target={target}
       href={href}
       rel={rel}
@@ -15,7 +22,7 @@ const TextLink: React.FC<Props> = ({ rel, target, href, children, onClick }) => 
   )
 }
 
-const Anchor = styled.a`
+const BaseStyle = css`
   color: #105cc3;
   ${mq('lg')} {
     transition: all 0.3s;
@@ -26,5 +33,13 @@ const Anchor = styled.a`
     }
   }
 `;
+
+const Wrapper = styled.span`
+  a {
+    ${BaseStyle}
+  }
+`;
+
+const Anchor = styled.a`${BaseStyle}`;
 
 export default TextLink;
