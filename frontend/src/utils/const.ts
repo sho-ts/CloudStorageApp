@@ -4,6 +4,8 @@ export enum MESSAGE_TYPE { NOTICE, ERROR };
 
 export enum DISCLOSURE_TYPE { PUBLIC, PRIVATE };
 
+export enum PLAN_TYPE { FREE, PREMIUM };
+
 export const NAV_ITEMS = [
   { href: '/signup', innerText: '新規登録', user: USER_TYPE.GUEST },
   { href: '/signin', innerText: 'ログイン', user: USER_TYPE.GUEST },
