@@ -5,8 +5,9 @@ const SubTitle: React.FC = ({ children }) => {
 }
 
 const Text = styled.h3`
-  font-size: 16px;
-  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
 `;
 
 export default SubTitle;
