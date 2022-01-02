@@ -1,6 +1,8 @@
+import type { CognitoUserType } from '@/types/CognitoUserType';
 import AWS, { CognitoIdentityServiceProvider } from 'aws-sdk'
 import { CognitoUserPool, AuthenticationDetails, CognitoUser, CognitoUserAttribute, ISignUpResult } from 'amazon-cognito-identity-js';
 import { createCognitoUserAttributes } from '@/utils';
+import { PLAN_TYPE } from '@/utils/const'
 
 class AWSCognito {
   private userPool: CognitoUserPool;
@@ -91,10 +93,7 @@ class AWSCognito {
   }
 
   /** ユーザー情報の更新（subは変更不可） */
-  updateUserAttributes = async (UserAttributes: {
-    Name: string,
-    Value: string
-  }[]) => {
+  updateUserAttributes = async (attributes: { [key: string]: string | number }) => {
     const cognitoUser = this.userPool.getCurrentUser();
 
     if (cognitoUser) {
@@ -102,7 +101,7 @@ class AWSCognito {
         await this.service.adminUpdateUserAttributes({
           UserPoolId: this.userPool.getUserPoolId(),
           Username: cognitoUser.getUsername(),
-          UserAttributes
+          UserAttributes: createCognitoUserAttributes(attributes)
         }).promise();
       } catch (e) {
         console.log(e)
@@ -126,8 +125,31 @@ class AWSCognito {
     return;
   };
 
+  /** 必要なユーザー情報を全て取得、存在しない場合はCognitoAttributeを新規作成もする */
+  getCognitoUserAttributes = async (user: CognitoUserType) => {
+    let plan: PLAN_TYPE = Number(user.getCognitoUserAttribute('custom:plan'));
+    if (!user.getCognitoUserAttribute('custom:plan')) {
+      plan = PLAN_TYPE.FREE;
+      await this.updateUserAttributes({ 'custom:plan': plan });
+    };
+
+    let storage = Number(user.getCognitoUserAttribute('custom:storage'));
+    if (!user.getCognitoUserAttribute('custom:storage')) {
+      storage = 0;
+      await this.updateUserAttributes({ 'custom:storage': storage });
+    }
+
+    let name = user.getCognitoUserAttribute('name');
+    if (!user.getCognitoUserAttribute('name') || !name) {
+      name = '名前なし';
+      await this.updateUserAttributes({ name });
+    }
+
+    return { name, plan, storage, email: user.getCognitoUserAttribute('email')! };
+  }
+
   /** cognitoUserのAttributeを取得する */
-  getCognitoUserAttribute = (cognitoUserAttribute: CognitoUserAttribute[], attributeName: string) => cognitoUserAttribute.find(attribute => attribute.Name === attributeName)?.Value ?? '';
+  getCognitoUserAttribute = (cognitoUserAttribute: CognitoUserAttribute[], attributeName: string) => cognitoUserAttribute.find(attribute => attribute.Name === attributeName)?.Value ?? null;
 
   getAccessToken = () => this.getToken('accessToken');
 
@@ -156,7 +178,7 @@ class AWSCognito {
 
     return new Promise<{
       attr: CognitoUserAttribute[],
-      getCognitoUserAttribute: (attributeName: string) => string | void
+      getCognitoUserAttribute: (attributeName: string) => string | null
     } | void>((resolve) => {
       cognitoUser || resolve();
 
