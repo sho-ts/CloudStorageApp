@@ -21,7 +21,7 @@ const useUpload = (onClose: any) => {
   const { keyword } = useSelector(props => props.search);
   const page = Number(router.query.page ?? 1);
   const dir = router.query.dir_id as string;
-  
+
   const query = queryBuilder({
     page,
     s: keyword,
@@ -61,7 +61,10 @@ const useUpload = (onClose: any) => {
     formData.append('file', file);
 
     try {
-      const token = auth.getIdToken();
+      const { token, user } = await auth.getIdTokenAndUser();
+
+      if(!user) throw new Error;
+
       const s3res = await axios.post<S3ReponseType>(`${config.api}/file/upload`, formData, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -79,6 +82,11 @@ const useUpload = (onClose: any) => {
           'Authorization': `Bearer ${token}`
         }
       })
+
+      // ストレージ情報を更新する
+      auth.updateUserAttributes({
+        'custom:storage': Number(user.getCognitoUserAttribute('custom:storage')) + file.size
+      });
 
       setComplete(true);
       clearFile();
