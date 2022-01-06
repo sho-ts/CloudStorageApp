@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn } from 'typeorm';
+import { Post } from './post.entity';
 
 @Entity()
 export class User {
@@ -12,5 +13,17 @@ export class User {
   plan: number;
 
   @Column({ type: 'int', default: 0 })
-  capacity: number;
+  storage: number;
+
+  @Column('text')
+  name: string;
+
+  @Column('tinyint', { width: 1, default: 0 })
+  del_flg: number;
+
+  @CreateDateColumn()
+  readonly created_at?: Date;
+
+  @UpdateDateColumn()
+  readonly updated_at?: Date;
 }

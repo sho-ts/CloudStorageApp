@@ -13,7 +13,10 @@ export class PostService {
     private readonly directoryRepository: Repository<Directory>,
   ) { }
 
-  async create(postData: {
+  async create({
+    description, fileSize, filePath, dir,
+    allowedEmail, password, disclosureRange, uid
+  }: {
     description: string,
     fileSize: string,
     filePath: string,
@@ -23,37 +26,27 @@ export class PostService {
     password?: string,
     dir?: number,
   }) {
-    const post = new Post();
-    const {
-      description, fileSize, filePath, dir,
-      allowedEmail, password, disclosureRange, uid
-    } = postData;
-
     const directory = await this.directoryRepository.findOne({ id: dir });
 
-    post.description = description;
-    post.file_size = fileSize;
-    post.file_path = filePath;
-    post.uid = uid;
-    post.disclosure_range = disclosureRange;
-    post.allowed_email = allowedEmail;
-    post.password = password;
-    post.directory = directory;
+    const post = this.postRepository.create({
+      description,
+      file_size: fileSize,
+      file_path: filePath,
+      uid,
+      disclosure_range: disclosureRange,
+      allowed_email: allowedEmail,
+      password,
+      directory
+    })
 
-    return this.postRepository.insert(post);
+    return this.postRepository.save(post);
   }
 
   async read(user: any, id: number) {
-    const posts = await this.postRepository.
-      createQueryBuilder()
-      .select('*')
-      .where('del_flg = :del_flg', { del_flg: 0 })
-      .andWhere('id = :id', { id })
-      .execute();
-
-    const post = posts[0] ?? null;
-
-    if (!post) return;
+    const post = await this.postRepository.findOne({
+      id,
+      del_flg: 0
+    })
 
     // 投稿のユーザーIDと一致しているか確認
     if (post.uid === user.sub) {
@@ -102,7 +95,7 @@ export class PostService {
     };
   }
 
-  async update(updatePostData: {
+  async update({ id, uid, description, disclosureRange, dir }: {
     id: number,
     uid: string,
     description: string,
@@ -110,30 +103,20 @@ export class PostService {
     disclosureRange: number
   }) {
 
-    const { id, uid, description, disclosureRange, dir } = updatePostData;
     const directory = await this.directoryRepository.findOne({ id: dir });
 
-    return await this.postRepository
-      .createQueryBuilder()
-      .update(Post)
-      .set({
-        description,
-        directory,
-        disclosure_range: disclosureRange
-      })
-      .where('id = :id', { id })
-      .andWhere('uid = :uid', { uid })
-      .andWhere('del_flg = :del_flg', { del_flg: 0 })
-      .execute();
+    const post = await this.postRepository.findOne({ uid, id, del_flg: 0 });
+    post.description = description;
+    post.directory = directory;
+    post.disclosure_range = disclosureRange;
+
+    return await this.postRepository.save(post);
   }
 
   async delete(uid: string, id: number) {
-    return await this.postRepository
-      .createQueryBuilder()
-      .update(Post)
-      .set({ del_flg: 1 })
-      .where('id = :id', { id })
-      .andWhere('uid = :uid', { uid })
-      .execute();
+    const post = await this.postRepository.findOne({ uid, id });
+    post.del_flg = 1;
+
+    return await this.postRepository.save(post);
   }
 }

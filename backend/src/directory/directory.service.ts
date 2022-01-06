@@ -15,44 +15,29 @@ export class DirectoryService {
     private readonly connection: Connection,
   ) { }
 
-  async create(uid: string, dirName: string) {
-    const dir = new Directory();
-    dir.name = dirName;
-    dir.uid = uid;
+  async create(uid: string, name: string) {
+    const dir = this.directoryRepository.create({ uid, name })
 
-    return await this.directoryRepository.insert(dir);
+    return await this.directoryRepository.save(dir);
   }
 
   async read(uid: string, id: number) {
-    const dir = await this.directoryRepository
-      .createQueryBuilder()
-      .select('*')
-      .where('id = :id', { id })
-      .andWhere('uid = :uid', { uid })
-      .andWhere('del_flg = :del_flg', { del_flg: 0 })
-      .execute();
-
-    return dir[0] ?? null;
+    return await this.directoryRepository.findOne({
+      id, uid, del_flg: 0
+    })
   }
 
   async readAll(uid: string) {
-    return await this.directoryRepository
-      .createQueryBuilder()
-      .select('*')
-      .where('del_flg = :del_flg', { del_flg: 0 })
-      .andWhere('uid = :uid', { uid })
-      .execute();
+    return await this.directoryRepository.find({ uid, del_flg: 0 })
   }
 
   async update(uid: string, name: string, id: number) {
-    return await this.directoryRepository
-      .createQueryBuilder()
-      .update(Directory)
-      .set({ name })
-      .where('id = :id', { id })
-      .andWhere('del_flg = :del_flg', { del_flg: 0 })
-      .andWhere('uid = :uid', { uid })
-      .execute();
+    const dir = await this.directoryRepository.findOne({
+      id, uid, del_flg: 0
+    });
+    dir.name = name;
+
+    return await this.directoryRepository.save(dir)
   }
 
   async delete(uid: string, id: number) {
