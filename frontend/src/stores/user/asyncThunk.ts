@@ -1,6 +1,8 @@
 import type { UserStoreType } from '@/types/UserStoreType';
+import type { ApiUserType } from '@/types/ApiUserType';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { auth } from '@/utils/aws';
+import { createAxiosInstance } from '@/utils';
 
 export const signIn = createAsyncThunk<UserStoreType, { username: string, password: string }>(
   'user/signin',
@@ -11,7 +13,10 @@ export const signIn = createAsyncThunk<UserStoreType, { username: string, passwo
 
       if (!user) throw new Error();
 
-      const { plan, storage, name } = await auth.getCognitoUserAttributes(user);
+      const axiosInstance = await createAxiosInstance();
+      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: ''});
+
+      const { name, plan, storage} = res.data;
 
       return {
         isSignIn: true,
@@ -37,12 +42,15 @@ export const guestSignIn = createAsyncThunk<UserStoreType>(
 
       if (!user) throw new Error();
 
-      const { plan, storage } = await auth.getCognitoUserAttributes(user);
+      const axiosInstance = await createAxiosInstance();
+      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: ''});
+
+      const { name, plan, storage} = res.data;
 
       return {
         isSignIn: true,
         email: '__guest__',
-        name: 'ゲスト',
+        name,
         plan,
         storage
       };
@@ -60,9 +68,14 @@ export const checkAuth = createAsyncThunk<UserStoreType>(
     try {
       const user = await auth.getUser();
 
-      if (!user) throw new Error()
+      if (!user) throw new Error();
 
-      const { plan, storage, name, email } = await auth.getCognitoUserAttributes(user);
+      const axiosInstance = await createAxiosInstance();
+      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: ''});
+
+      const { name, plan, storage} = res.data;
+
+      const { email } = await auth.getCognitoUserAttributes(user);
 
       return {
         isSignIn: true,
