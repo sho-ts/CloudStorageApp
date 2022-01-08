@@ -13,7 +13,7 @@ export class Post {
   description: string;
 
   @Column('text')
-  file_size: string;
+  file_size: number;
 
   @Column('text')
   file_path: string

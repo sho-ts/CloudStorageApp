@@ -3,6 +3,7 @@ import { Post } from './../entities/post.entity';
 import { Directory } from './../entities/directory.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserService } from './../user/user.service';
 
 @Injectable()
 export class PostService {
@@ -11,6 +12,7 @@ export class PostService {
     private readonly postRepository: Repository<Post>,
     @InjectRepository(Directory)
     private readonly directoryRepository: Repository<Directory>,
+    private readonly userService: UserService
   ) { }
 
   async create({
@@ -18,7 +20,7 @@ export class PostService {
     allowedEmail, password, disclosureRange, uid
   }: {
     description: string,
-    fileSize: string,
+    fileSize: number,
     filePath: string,
     uid: string,
     disclosureRange: number,
@@ -37,6 +39,13 @@ export class PostService {
       allowed_email: allowedEmail,
       password,
       directory
+    });
+
+    // ストレージ情報を更新
+    this.userService.updateStorage({
+      cognitoId: uid,
+      fileSize,
+      type: 'inc'
     })
 
     return this.postRepository.save(post);
