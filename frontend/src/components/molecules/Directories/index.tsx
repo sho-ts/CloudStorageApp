@@ -3,15 +3,13 @@ import styled, { css } from 'styled-components';
 import { hover, mq } from '@mixin';
 import Image from 'next/image'
 import Link from 'next/link';
-import addIcon from '@imgs/common/add-icon.svg';
-import dirIcon from '@imgs/common/dir-icon.svg';
 
 const Directories: React.FC<Props> = ({ dirs, modalOpen }) => {
   return (
     <Wrapper>
       <Heading>
         <HeadingIcon>
-          <Image src={dirIcon} alt="" />
+          <Image src="/imgs/common/dir-icon.svg" width="64" height="64" alt="" />
         </HeadingIcon>
         <h3>ディレクトリ</h3>
       </Heading>
@@ -26,7 +24,7 @@ const Directories: React.FC<Props> = ({ dirs, modalOpen }) => {
         ))}
       </List>
       <AddIcon onClick={modalOpen}>
-        <Image src={addIcon} alt="" />
+        <Image src="/imgs/common/add-icon.svg" width="64" height="64" alt="" />
       </AddIcon>
     </Wrapper>
   )

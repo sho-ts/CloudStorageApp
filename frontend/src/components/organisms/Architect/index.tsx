@@ -1,9 +1,6 @@
 import { mq } from '@mixin';
 import styled from 'styled-components';
 import Image from 'next/image'
-import nestLogo from '@imgs/top/nest-logo.svg';
-import nextLogo from '@imgs/top/next-logo.svg';
-import awsLogo from '@imgs/top/aws-logo.svg';
 
 const Architect = () => {
   return (
@@ -18,13 +15,13 @@ const Architect = () => {
       </Sentence>
         <Icons>
           <Icon>
-            <Image src={awsLogo} alt="" />
+            <Image src="/imgs/top/aws-logo.svg" width="304" height="182" alt="AWS" />
           </Icon>
           <Icon>
-            <Image src={nextLogo} alt="" />
+            <Image src="/imgs/top/next-logo.svg" width="512" height="309" alt="Next.js" />
           </Icon>
           <Icon>
-            <Image src={nestLogo} alt="" />
+            <Image src="/imgs/top/nest-logo.svg" width="64" height="64" alt="Nest.js" />
           </Icon>
         </Icons>
       </Inner>
