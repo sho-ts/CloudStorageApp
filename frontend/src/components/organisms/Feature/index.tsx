@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { mq, perce } from '@mixin';
 import Image from 'next/image'
-import figure1 from '@imgs/top/feature__figure1.png';
-import figure2 from '@imgs/top/feature__figure2.png';
 
 const Feature = () => {
   return (
@@ -11,7 +9,7 @@ const Feature = () => {
         <Inner>
           <Heading>簡単にファイルを保存、共有</Heading>
           <Figure position="left" circle="#5e9df2">
-            <Image src={figure1} alt=""></Image>
+            <Image src="/imgs/top/feature__figure1.png" width="219" height="441" alt=""></Image>
           </Figure>
           <Sentence>
             CSAはお使いのデバイスからクラウド上に簡単にファイルを保存することができます。<br />
@@ -24,7 +22,7 @@ const Feature = () => {
         <Inner>
           <Heading>高速なファイル転送</Heading>
           <Figure position="right" circle="#54c288">
-            <Image src={figure2} alt=""></Image>
+            <Image src="/imgs/top/feature__figure2.png" width="353" height="291" alt=""></Image>
           </Figure>
           <Sentence>
             CSAはクラウドに保存したファイルを高速でダウンロードすることができます。<br />
@@ -51,7 +49,7 @@ const Wrapper = styled.section`
 
 const Item = styled.div.attrs((props: { type: 'iphone' | 'mac' }) => ({
   type: props.type
-}))`
+})) `
   ${mq()} {
     position: relative;
     display: flex;
@@ -68,7 +66,7 @@ const Item = styled.div.attrs((props: { type: 'iphone' | 'mac' }) => ({
       display: block;
       width: 0;
       height: 0;
-      padding-top: ${props => props.type === 'iphone' ? '49%' : '38%'}
+      padding-top: ${props => props.type === 'iphone' ? '49%' : '38%'};
     }
   }
 `;
@@ -99,7 +97,7 @@ const Figure = styled.figure.attrs((props: {
 }))<{
   position: 'left' | 'right',
   circle: string,
-}>`
+}> `
   position: relative;
   display: flex;
   align-items: center;

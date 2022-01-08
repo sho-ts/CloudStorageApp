@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { mq, perce } from '@mixin';
 import { Button } from '@/components/atoms';
 import Image from 'next/image'
-import figure from '@imgs/top/mv__figure.png';
 
 const MainVisual: React.FC<Props> = ({ onClick }) => {
   return (
@@ -17,7 +16,7 @@ const MainVisual: React.FC<Props> = ({ onClick }) => {
           <Button onClick={onClick}>使ってみる</Button>
         </Catch>
         <Figure>
-          <Image src={figure} alt="" />
+          <Image src="/imgs/top/mv__figure.png" width="454" height="384" alt="" />
         </Figure>
       </Inner>
     </Wrapper>)
