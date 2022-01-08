@@ -12,8 +12,6 @@ const createAxiosInstance = async (isAuth = true) => {
   return axios.create({
     baseURL: config.api,
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     }
   })
