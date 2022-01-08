@@ -1,4 +1,4 @@
-import { UserLayout, GuestLayout } from '@/components/templates';
+import { UserLayout, GuestLayout } from '@/components/common/templates';
 import Provider, { AuthProvider } from '@/provider';
 import type { ReactElement } from 'react'
 

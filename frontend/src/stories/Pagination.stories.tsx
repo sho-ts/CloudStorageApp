@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Pagination } from '@/components/molecules';
+import { Pagination } from '@/components/common/molecules';
 
 export default {
   title: 'Pagination',

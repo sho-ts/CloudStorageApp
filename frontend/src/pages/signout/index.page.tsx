@@ -1,6 +1,6 @@
 import useLogic from './hook';
-import { PageTitle, Button } from '@/components/atoms';
-import { Container } from '@/components/templates';
+import { PageTitle, Button } from '@/components/common/atoms';
+import { Container } from '@/components/common/templates';
 import Head from 'next/head'
 import { withUserLayoutIgnoreMainLayout } from '@layout';
 

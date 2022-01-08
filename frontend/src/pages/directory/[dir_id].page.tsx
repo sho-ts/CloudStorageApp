@@ -1,5 +1,5 @@
 import useLogic from './hook';
-import { FileList } from '@/components/organisms';
+import { FileList } from '@/components/common/organisms';
 import Head from 'next/head';
 import { withUserLayout } from '@layout';
 

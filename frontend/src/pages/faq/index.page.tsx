@@ -1,8 +1,9 @@
 import { Fragment } from 'react';
 import { useMemo } from 'react';
 import { useSelector } from '@/hooks';
-import { PageTitle, FAQItem } from '@/components/atoms';
-import { Container } from '@/components/templates';
+import { PageTitle } from '@/components/common/atoms';
+import { Container } from '@/components/common/templates';
+import { FAQItem } from '@/components/page/faq';
 import Head from 'next/head';
 import { withCommonLayout } from '@layout';
 
