@@ -1,18 +1,11 @@
 import type { DirType } from '@/types/DirType';
 import useSWR from 'swr';
-import axios from 'axios'
-import { auth } from '@/utils/aws';
-import { config } from '@/utils';
+import { createAxiosInstance } from '@/utils';
 
-const useDir = () => useSWR(`${config.api}/directory/all`, async (url: string) => {
-  await auth.getUser();
-  const token = auth.getIdToken();
+const useDir = () => useSWR(`/directory/all`, async (url: string) => {
+  const axiosInstance = await createAxiosInstance();
 
-  return axios.get<DirType[]>(url, {
-    headers: { Authorization: `Bearer ${token}` }
-  }).then(({ data }) => {
-    return data
-  });
+  return axiosInstance.get<DirType[]>(url).then(({ data }) => data);
 })
 
 export default useDir;

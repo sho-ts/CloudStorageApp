@@ -1,15 +1,9 @@
-import type { DirType } from '@/types/DirType';
 import type { PostType } from '@/types/PostType';
 import { useState } from 'react';
 import { useFlash } from '@/hooks';
 import { mutate } from 'swr';
-import styled from 'styled-components';
-import axios from 'axios';
-import { config, queryBuilder } from '@/utils';
-import { auth } from '@/utils/aws';
+import { config, createAxiosInstance, queryBuilder } from '@/utils';
 import { MESSAGE_TYPE, DISCLOSURE_TYPE } from '@const';
-import { Select, TextField, Button, SubTitle } from '@/components/atoms';
-import { Modal } from '@/components/organisms';
 
 const useLogic = (post: PostType, onClose: any) => {
   const flash = useFlash();
@@ -23,18 +17,12 @@ const useLogic = (post: PostType, onClose: any) => {
 
   const update = async () => {
     try {
-      const { token } = await auth.getIdTokenAndUser();
+      const axiosInstance = await createAxiosInstance();
 
-      await axios.put(`${config.api}/post?${query}`, {
+      await axiosInstance.put(`/post?${query}`, {
         description: fileName,
         dir: Number(dirId),
         disclosureRange: disclosureRange
-      }, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
       });
 
       mutate(`${config.api}/post/?${query}`)

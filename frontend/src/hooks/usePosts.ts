@@ -2,9 +2,7 @@ import type { PostsType } from '@/types/PostsType';
 import { useSelector } from '@/hooks';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
-import { auth } from '@/utils/aws';
-import { config, createPagination, queryBuilder } from '@/utils';
-import axios from 'axios'
+import { createAxiosInstance, createPagination, queryBuilder } from '@/utils';
 
 const usePosts = (page: number, dirId?: string | null) => {
   const { keyword } = useSelector(props => props.search);
@@ -14,17 +12,13 @@ const usePosts = (page: number, dirId?: string | null) => {
   const query = queryBuilder({
     page,
     s: keyword,
-    dir: dirId 
+    dir: dirId
   })
 
-  const posts = useSWR<PostsType>(`${config.api}/post/all?${query}`, async (url: string) => {
-    const { token } = await auth.getIdTokenAndUser();
+  const posts = useSWR<PostsType>(`/post/all?${query}`, async (url: string) => {
+    const axiosInstance = await createAxiosInstance();
 
-    return axios.get<PostsType>(url, {
-      headers: { Authorization: `Bearer ${token} ` }
-    }).then(({ data }) => {
-      return data
-    });
+    return axiosInstance.get<PostsType>(url).then(({ data }) => data);
   });
 
   const [getNextDatas, getPrevDatas, changePage] = createPagination<PostsType>(page, path, router, posts.data);
