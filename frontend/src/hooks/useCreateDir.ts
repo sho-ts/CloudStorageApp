@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { useFlash } from '@/hooks';
-import { auth } from '@/utils/aws';
-import { config } from '@/utils';
+import { config, createAxiosInstance } from '@/utils';
 import { mutate } from 'swr';
 import { MESSAGE_TYPE } from '@/utils/const'
-import axios from 'axios';
 
 const useCreateDir = (
   onClose?: () => void
@@ -16,14 +14,8 @@ const useCreateDir = (
     if (!dirName) return;
 
     try {
-      await auth.getUser();
-      const token = auth.getIdToken();
-
-      await axios.post(`${config.api}/directory`, {
-        dirName
-      }, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const axiosInstance = await createAxiosInstance();
+      await axiosInstance.post('/directory', { dirName });
 
       setDirName('');
       onClose && onClose();

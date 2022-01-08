@@ -3,10 +3,8 @@ import type { KeyedMutator } from 'swr';
 import { useState, useEffect } from 'react';
 import { useFlash } from '@/hooks';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import { mutate as globalMutate } from 'swr';
-import { auth } from '@/utils/aws';
-import { config, queryBuilder } from '@/utils';
+import { config, createAxiosInstance, queryBuilder } from '@/utils';
 import { MESSAGE_TYPE } from '@/utils/const'
 
 const useLogic = (onClose: any, dir: DirType | null, mutate?: KeyedMutator<DirType>) => {
@@ -23,13 +21,8 @@ const useLogic = (onClose: any, dir: DirType | null, mutate?: KeyedMutator<DirTy
     if (!dirName || !dir || !mutate) return;
 
     try {
-      const { token } = await auth.getIdTokenAndUser();
-
-      await axios.put(`${config.api}/directory?${query}`, {
-        dirName,
-      }, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const axiosInstance = await createAxiosInstance();
+      await axiosInstance.put(`/directory?${query}`, { dirName });
 
       onClose();
       mutate();
@@ -50,18 +43,15 @@ const useLogic = (onClose: any, dir: DirType | null, mutate?: KeyedMutator<DirTy
     if (!dir || !mutate) return;
 
     try {
-      const { token } = await auth.getIdTokenAndUser();
-
       if (!confirm('ディレクトリ内のファイルも全て削除され、元に戻すことはできません。\n本当に削除しますか？')) return;
 
-      await axios.delete(`${config.api}/directory?${query}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const axiosInstance = await createAxiosInstance();
+      await axiosInstance.delete(`/directory?${query}`);
 
       onClose();
       mutate();
       dir.id === currentDir && await router.push('/mypage');
-      
+
       flash({
         message: 'ディレクトリを削除しました',
         type: MESSAGE_TYPE.NOTICE

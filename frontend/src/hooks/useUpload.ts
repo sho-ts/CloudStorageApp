@@ -4,10 +4,8 @@ import { useRouter } from 'next/router';
 import { useDropzone } from 'react-dropzone'
 import { useSelector, useFlash } from '@/hooks';
 import { mutate } from 'swr';
-import { config, queryBuilder } from '@/utils';
-import { auth } from '@/utils/aws';
+import { config, createAxiosInstance, queryBuilder } from '@/utils';
 import { MESSAGE_TYPE } from '@/utils/const'
-import axios from 'axios';
 
 const useUpload = (onClose: any) => {
   const router = useRouter();
@@ -61,31 +59,16 @@ const useUpload = (onClose: any) => {
     formData.append('file', file);
 
     try {
-      const { token, user } = await auth.getIdTokenAndUser();
+      const axiosInstance = await createAxiosInstance();
 
-      if(!user) throw new Error;
+      const s3res = await axiosInstance.post<S3ReponseType>('/file/upload', formData);
 
-      const s3res = await axios.post<S3ReponseType>(`${config.api}/file/upload`, formData, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-
-      await axios.post(`${config.api}/post`, {
+      await axiosInstance.post('/post', {
         description: fileName,
         filePath: s3res.data.Key,
         fileSize: file.size,
         disclosureRange,
         dir: uploadDir,
-      }, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      })
-
-      // ストレージ情報を更新する
-      auth.updateUserAttributes({
-        'custom:storage': Number(user.getCognitoUserAttribute('custom:storage')) + file.size
       });
 
       setComplete(true);
