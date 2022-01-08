@@ -10,12 +10,14 @@ import { GuardResponse } from './../utils';
 @Controller('post')
 @UseGuards(AuthGuard)
 export class PostController {
-  constructor(private readonly service: PostService) { }
+  constructor(
+    private readonly service: PostService,
+  ) { }
 
   @Post()
   create(@GuardResponse() user, @Req() req: Request<{}, {}, {
     description: string,
-    fileSize: string,
+    fileSize: number,
     filePath: string,
     allowedEmail?: string,
     password?: string,
