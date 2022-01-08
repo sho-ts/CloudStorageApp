@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 import { useSelector } from '@/hooks';
 import { PLAN_TYPE } from '@/utils/const';
 import { withUserLayoutIgnoreMainLayout } from '@layout';
-import { PageTitle, SubTitle, TextField, TextLink, Button } from '@/components/atoms';
-import { Box } from '@/components/molecules';
-import { Container } from '@/components/templates';
+import { PageTitle, SubTitle, TextField, TextLink, Button } from '@/components/common/atoms';
+import { Box } from '@/components/common/molecules';
+import { Container } from '@/components/common/templates';
 import Head from 'next/head'
 
 const Setting = () => {

@@ -1,6 +1,6 @@
 import useLogic from './hook';
 import Head from 'next/head'
-import { FileList } from '@/components/organisms';
+import { FileList } from '@/components/common/organisms';
 import { withUserLayout } from '@layout';
 
 const MyPage = () => {

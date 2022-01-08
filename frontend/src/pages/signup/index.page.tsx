@@ -1,7 +1,7 @@
 import useLogic from './hook';
-import { TextField, TextLink, Button, PageTitle } from '@/components/atoms';
-import { Box } from '@/components/molecules';
-import { Container } from '@/components/templates';
+import { TextField, TextLink, Button, PageTitle } from '@/components/common/atoms';
+import { Box } from '@/components/common/molecules';
+import { Container } from '@/components/common/templates';
 import Link from 'next/link';
 import Head from 'next/head'
 import { withGuestLayout } from '@layout';

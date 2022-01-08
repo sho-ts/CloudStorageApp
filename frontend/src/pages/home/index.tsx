@@ -2,7 +2,8 @@ import useLogic from './hook';
 import { SITE_NAME } from '@/utils/const';
 import { mq } from '@mixin';
 import styled from 'styled-components';
-import { MainVisual, Feature, Architect, GetStarted, Header, Footer } from '@/components/organisms';
+import { Header, Footer } from '@/components/common/organisms';
+import { MainVisual, Feature, Architect, GetStarted } from '@/components/page/lp';
 import Head from 'next/head';
 
 const Home = () => {

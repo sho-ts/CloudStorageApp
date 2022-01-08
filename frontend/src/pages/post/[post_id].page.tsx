@@ -1,8 +1,8 @@
 import useLogic from './hook'
 import styled, { css } from 'styled-components';
 import { mq } from '@mixin';
-import { Button, ItemTitle } from '@/components/atoms'
-import { FileEditModal } from '@/components/organisms';
+import { Button, ItemTitle } from '@/components/common/atoms'
+import { FileEditModal } from '@/components/common/organisms';
 import Head from 'next/head';
 import { getFileExtension } from '@/utils';
 import { withUserLayout } from '@layout';
