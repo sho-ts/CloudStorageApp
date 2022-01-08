@@ -23,10 +23,11 @@ export class UserController {
   }
 
   @Get()
-  async read(@Req() req: Request<{}, {}, {
-    uid: number
-  }>) {
-    return await this.service.read(req.body.uid);
+  async read(@GuardResponse() user, @Query() { uid }: { uid: number }) {
+    return await this.service.read({
+      cognitoId: user.sub,
+      uid
+    });
   }
 
   @Put()
