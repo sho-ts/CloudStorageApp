@@ -14,6 +14,16 @@ export class UserService {
     cognitoId: string,
     name: string
   }) {
+    const registeredUser = await this.userRepository.findOne({
+      cognito_id: cognitoId,
+      del_flg: 0
+    })
+
+    // 既に登録済みの場合は新規作成せずにユーザー情報を返す
+    if(registeredUser) {
+      return registeredUser;
+    }
+
     const user = this.userRepository.create({
       name,
       cognito_id: cognitoId
@@ -22,11 +32,20 @@ export class UserService {
     return await this.userRepository.save(user);
   }
 
-  async read(uid: number) {
-    return await this.userRepository.findOne({
-      id: uid,
-      del_flg: 0
-    });
+  async read({ cognitoId, uid }: {
+    cognitoId: string,
+    uid?: number
+  }) {
+    // uidを指定した場合は指定ユーザーを、そうでない場合はログイン中のユーザー情報を返す
+    return uid ?
+      await this.userRepository.findOne({
+        id: uid,
+        del_flg: 0
+      }) :
+      await this.userRepository.findOne({
+        cognito_id: cognitoId,
+        del_flg: 0
+      });
   }
 
   async updateProfile({ cognitoId, name }: {
