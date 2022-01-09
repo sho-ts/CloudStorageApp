@@ -1,8 +1,16 @@
 import { getCommonLayout } from "./getLayout";
+import Head from 'next/head'
 
-const withCommonLayout = (Component: React.FC) => {
+const withCommonLayout = (Component: React.FC, title?: string) => {
   const WrappedComponent = (props: any) => {
-    return <Component {...props} />
+    return (
+      <>
+        <Head>
+          <title>{title}</title>
+        </Head>
+        <Component {...props} />
+      </>
+    )
   }
   WrappedComponent.getLayout = getCommonLayout;
 
