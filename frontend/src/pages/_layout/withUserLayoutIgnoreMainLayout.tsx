@@ -5,9 +5,11 @@ const withUserLayoutIgnoreMainLayout = (Component: React.FC, title?: string) => 
   const WrappedComponent = (props: any) => {
     return (
       <>
-        <Head>
-          <title>{title}</title>
-        </Head>
+        {title && (
+          <Head>
+            <title>{title}</title>
+          </Head>
+        )}
         <Component {...props} />
       </>
     )
