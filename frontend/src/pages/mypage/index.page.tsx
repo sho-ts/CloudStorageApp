@@ -7,20 +7,15 @@ const MyPage = () => {
   const { page, posts, getNextDatas, getPrevDatas, changePage } = useLogic();
 
   return (
-    <>
-      <Head>
-        <title>マイページ</title>
-      </Head>
-      <FileList
-        dir={null}
-        page={page}
-        posts={posts.data}
-        getNextDatas={getNextDatas}
-        getPrevDatas={getPrevDatas}
-        changePage={changePage}
-      />
-    </>
+    <FileList
+      dir={null}
+      page={page}
+      posts={posts.data}
+      getNextDatas={getNextDatas}
+      getPrevDatas={getPrevDatas}
+      changePage={changePage}
+    />
   )
 }
 
-export default withUserLayout(MyPage);
+export default withUserLayout(MyPage, 'マイページ');
