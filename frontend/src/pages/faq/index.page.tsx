@@ -7,7 +7,7 @@ import { FAQItem } from '@/components/page/faq';
 import { withCommonLayout } from '@layout';
 
 const FAQ = () => {
-  const user = useSelector(props => props.user);
+  const user = useSelector(state => state.user);
 
   const faqs = useMemo(() => [
     {

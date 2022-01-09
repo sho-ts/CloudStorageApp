@@ -14,7 +14,7 @@ import { RiSearchFill, RiSearchLine } from 'react-icons/ri'
 const BottomNav: React.FC<Props> = ({
   dirs, uploadModalOpen
 }) => {
-  const { isSmallWindowSize } = useSelector(props => props.windowSize);
+  const { isSmallWindowSize } = useSelector(state => state.windowSize);
   const [searchModalisOpen, handleSearchModalOpen, handleSearchModalClose] = useModal();
   const [dirsModalOpen, handleDirsModalOpen, handleDirsModalClose] = useModal();
   const [activeButton, setActiveButton] = useState<number | null>(null);

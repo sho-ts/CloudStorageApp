@@ -4,7 +4,7 @@ import { hidden } from '@/stores/flash';
 
 const useLogic = () => {
   const dispatch = useDispatch();
-  const flash = useSelector(props => props.flash);
+  const flash = useSelector(state => state.flash);
 
   useEffect(() => {
     (async () => {

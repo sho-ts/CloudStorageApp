@@ -16,7 +16,7 @@ const FileList: React.FC<Props> = ({
   handleDirEditModalOpen, handleDirEditModalClose, mutate,
   getNextDatas, getPrevDatas, changePage
 }) => {
-  const { keyword } = useSelector(props => props.search);
+  const { keyword } = useSelector(state => state.search);
 
   return (
     <>

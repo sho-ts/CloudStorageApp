@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import { createAxiosInstance, createPagination, queryBuilder } from '@/utils';
 
 const usePosts = (page: number, dirId?: string | null) => {
-  const { keyword } = useSelector(props => props.search);
+  const { keyword } = useSelector(state => state.search);
   const router = useRouter();
   const path = router.asPath.replace(/\?.*$/, ''); // クエリパラメータいらないので削除する
 

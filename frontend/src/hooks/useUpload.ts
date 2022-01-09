@@ -16,7 +16,7 @@ const useUpload = (onClose: any) => {
   const [disclosureRange, setDisclosureRange] = useState<number>(0);
   const [complete, setComplete] = useState<boolean>(false);
   const [wait, setWait] = useState<boolean>(false);
-  const { keyword } = useSelector(props => props.search);
+  const { keyword } = useSelector(state => state.search);
   const page = Number(router.query.page ?? 1);
   const dir = router.query.dir_id as string;
 
