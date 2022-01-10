@@ -1,9 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { User } from './../entities/user.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import aws = require('aws-sdk');
+import { UserService } from './../user/user.service';
 
 @Injectable()
 export class FileService {
-  s3upload(file: Express.Multer.File): Promise<aws.S3.ManagedUpload.SendData | Error> {
+  constructor(
+    private readonly userService: UserService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
+
+  async s3upload({ file, cognitoId }: {
+    file: Express.Multer.File,
+    cognitoId: string,
+  }): Promise<aws.S3.ManagedUpload.SendData | Error> {
+    const user = await this.userRepository.findOne({cognito_id: cognitoId});
+
     aws.config.update({
       region: 'ap-northeast-1',
       credentials: {
