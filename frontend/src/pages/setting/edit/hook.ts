@@ -13,13 +13,21 @@ const useLogic = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    if (user.email === '__guest__') {
+      router.push('/setting');
+      flash({
+        message: 'ゲストユーザーはプロフィールを編集できません',
+        type: MESSAGE_TYPE.ERROR
+      })
+    }
+
     setName(user.name);
     setIsMounted(true);
 
     return () => {
       setIsMounted(false);
     }
-  }, [user]);
+  }, [user, router, flash]);
 
   const save = async () => {
     if (!name) {

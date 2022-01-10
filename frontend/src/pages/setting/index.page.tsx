@@ -6,7 +6,7 @@ import { Container } from '@/components/common/templates';
 import Link from 'next/link'
 
 const Setting = () => {
-  const [userDatas] = useLogic();
+  const { userDatas, isGuest } = useLogic();
 
   return (
     <Container size="md">
@@ -21,13 +21,15 @@ const Setting = () => {
           ))}
         </dl>
       </Box>
-      <Box align="center">
-        <Link href="/setting/edit">
-          <a>
-            <Button as="div">編集</Button>
-          </a>
-        </Link>
-      </Box>
+      {isGuest || (
+        <Box align="center">
+          <Link href="/setting/edit">
+            <a>
+              <Button as="div">編集</Button>
+            </a>
+          </Link>
+        </Box>
+      )}
     </Container>
   )
 }

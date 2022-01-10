@@ -4,6 +4,7 @@ import { PLAN_TYPE } from '@/utils/const';
 
 const useLogic = () => {
   const user = useSelector(state => state.user);
+  const isGuest = useMemo(() => user.email === '__guest__', [user]);
   const userDatas = useMemo(() => {
     return [
       { heading: 'ユーザー名', value: user.name },
@@ -25,7 +26,10 @@ const useLogic = () => {
     ]
   }, [user])
 
-  return [userDatas];
+  return {
+    userDatas,
+    isGuest
+  };
 }
 
 export default useLogic;
