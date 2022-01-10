@@ -14,9 +14,9 @@ export const signIn = createAsyncThunk<UserStoreType, { username: string, passwo
       if (!user) throw new Error();
 
       const axiosInstance = await createAxiosInstance();
-      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: ''});
+      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: '' });
 
-      const { name, plan, storage} = res.data;
+      const { name, plan, storage } = res.data;
 
       return {
         isSignIn: true,
@@ -43,9 +43,9 @@ export const guestSignIn = createAsyncThunk<UserStoreType>(
       if (!user) throw new Error();
 
       const axiosInstance = await createAxiosInstance();
-      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: ''});
+      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: '' });
 
-      const { name, plan, storage} = res.data;
+      const { name, plan, storage } = res.data;
 
       return {
         isSignIn: true,
@@ -71,9 +71,9 @@ export const checkAuth = createAsyncThunk<UserStoreType>(
       if (!user) throw new Error();
 
       const axiosInstance = await createAxiosInstance();
-      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: ''});
+      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: '' });
 
-      const { name, plan, storage} = res.data;
+      const { name, plan, storage } = res.data;
 
       const { email } = await auth.getCognitoUserAttributes(user);
 
@@ -108,3 +108,21 @@ export const signOut = createAsyncThunk<boolean>(
     }
   }
 );
+
+export const changeUserData = createAsyncThunk<{ name: string }, { name: string }>(
+  'user/change',
+  async ({ name }, { rejectWithValue }) => {
+    try {
+      const axiosInstance = await createAxiosInstance();
+      const res = await axiosInstance.put<ApiUserType>('/user', { name });
+
+      return {
+        name: res.data.name
+      }
+    } catch (e) {
+      return rejectWithValue({
+        errorMessage: 'プロフィールの更新に失敗しました'
+      })
+    }
+  }
+)

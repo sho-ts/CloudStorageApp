@@ -9,8 +9,8 @@ import { auth } from '@/utils/aws';
 import { config } from '@/utils';
 
 const useLogic = () => {
-  const { keyword } = useSelector(props => props.search);
-  const { isSmallWindowSize } = useSelector(props => props.windowSize);
+  const { keyword } = useSelector(state => state.search);
+  const { isSmallWindowSize } = useSelector(state => state.windowSize);
 
   const dispatch = useDispatch();
 

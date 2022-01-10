@@ -11,7 +11,7 @@ const UploadModal: React.FC<Props> = ({ dirs, isOpen, onClose }) => {
     file, fileName, disclosureRange, uploadDir,
     setFileName, setDisclosureRange, setUploadDir,
   } = useUpload(onClose);
-  const { isSmallWindowSize } = useSelector(props => props.windowSize);
+  const { isSmallWindowSize } = useSelector(state => state.windowSize);
 
   return (
     <Modal

@@ -1,6 +1,6 @@
 import type { UserStoreType } from '@/types/UserStoreType';
 import { createSlice } from '@reduxjs/toolkit';
-import { signIn, guestSignIn, signOut, checkAuth } from './asyncThunk';
+import { signIn, guestSignIn, signOut, checkAuth, changeUserData } from './asyncThunk';
 import { PLAN_TYPE } from '@/utils/const'
 
 const slice = createSlice<UserStoreType, {}, 'user'>({
@@ -41,7 +41,10 @@ const slice = createSlice<UserStoreType, {}, 'user'>({
       state.isSignIn = false;
       state.plan = PLAN_TYPE.FREE;
       state.storage = 0;
-    })
+    });
+    builder.addCase(changeUserData.fulfilled, (state, action) => {
+      state.name = action.payload.name;
+    });
   }
 });
 
