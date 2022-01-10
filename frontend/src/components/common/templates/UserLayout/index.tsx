@@ -15,11 +15,11 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
 
   return (
     <Layout>
+      <FlashMessage />
       {ignoreMainLayout ? (
         <>{children}</>
       ) : (
         <>
-          <FlashMessage />
           <Inner>
             <Main>
               {children}
