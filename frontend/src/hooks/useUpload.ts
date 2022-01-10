@@ -32,7 +32,7 @@ const useUpload = (onClose: any) => {
     const axiosInstance = await createAxiosInstance();
     const res = await axiosInstance.get<ApiUserType>('user');
 
-    const nextStorage = translateByte(res.data.storage + file.size, 'mb');
+    const nextStorage = res.data.storage + translateByte(file.size, 'kb');
 
     switch (user.plan) {
       case PLAN_TYPE.GUEST:
@@ -103,7 +103,7 @@ const useUpload = (onClose: any) => {
       await axiosInstance.post('/post', {
         description: fileName,
         filePath: s3res.data.Key,
-        fileSize: file.size,
+        fileSize: translateByte(file.size, 'kb'),
         disclosureRange,
         dir: uploadDir,
       });
