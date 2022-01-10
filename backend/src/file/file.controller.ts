@@ -1,5 +1,5 @@
 import {
-  Controller, Query, Res, UploadedFile, StreamableFile,
+  Controller, Query, Res, UploadedFile,
   Get, Post, UseInterceptors, UseGuards
 } from '@nestjs/common';
 import {
@@ -7,6 +7,7 @@ import {
 } from '@nestjs/platform-express'
 import { AuthGuard } from './../auth/auth.guard';
 import { FileService } from './file.service';
+import { GuardResponse } from './../utils';
 
 @Controller('file')
 @UseGuards(AuthGuard)
@@ -15,9 +16,12 @@ export class FileController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  async fileUpload(@UploadedFile() file: Express.Multer.File) {
+  async fileUpload(@GuardResponse() user, @UploadedFile() file: Express.Multer.File) {
     try {
-      const res = await this.service.s3upload(file);
+      const res = await this.service.s3upload({
+        file,
+        cognitoId: user.sub
+      });
 
       return JSON.stringify(res);
     } catch (e) {

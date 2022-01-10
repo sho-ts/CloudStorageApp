@@ -17,6 +17,7 @@ services:
     working_dir: /api
     volumes:
       - ./backend:/api
+      - ./common:/common
     stdin_open: true
     tty: true
     ports:
@@ -27,6 +28,7 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
+      - ./common:/common
     stdin_open: true
     tty: true
     ports:
