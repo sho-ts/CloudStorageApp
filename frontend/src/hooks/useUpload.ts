@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useDropzone } from 'react-dropzone'
 import { useSelector, useFlash } from '@/hooks';
 import { mutate } from 'swr';
-import { config, createAxiosInstance, queryBuilder } from '@/utils';
+import { createAxiosInstance, queryBuilder } from '@/utils';
 import { MESSAGE_TYPE } from '@/utils/const'
 
 const useUpload = (onClose: any) => {
@@ -74,7 +74,8 @@ const useUpload = (onClose: any) => {
       setComplete(true);
       clearFile();
       onClose();
-      mutate(`${config.api}/post/all?${query}`);
+      mutate(`/post/all?${query}`);
+
       flash({
         message: 'ファイルのアップロードに成功しました',
         type: MESSAGE_TYPE.NOTICE
