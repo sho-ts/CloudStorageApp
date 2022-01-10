@@ -49,8 +49,8 @@ export const guestSignIn = createAsyncThunk<UserStoreType>(
 
       return {
         isSignIn: true,
-        email: '__guest__',
-        name,
+        email: `__guest__${process.env.NEXT_PUBLIC_GUEST_KEY}`,
+        name: 'ゲスト',
         plan,
         storage
       };
@@ -76,11 +76,12 @@ export const checkAuth = createAsyncThunk<UserStoreType>(
       const { name, plan, storage } = res.data;
 
       const { email } = await auth.getCognitoUserAttributes(user);
+      const isGuest = email === process.env.NEXT_PUBLIC_GUEST_EMAIL;
 
       return {
         isSignIn: true,
-        email,
-        name,
+        email: isGuest ? `__guest__${process.env.NEXT_PUBLIC_GUEST_KEY}` : email,
+        name: isGuest ? 'ゲスト' : name,
         plan,
         storage,
       }

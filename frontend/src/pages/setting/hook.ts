@@ -4,11 +4,10 @@ import { PLAN_TYPE } from '@/utils/const';
 
 const useLogic = () => {
   const user = useSelector(state => state.user);
-  const isGuest = useMemo(() => user.email === '__guest__', [user]);
+  const isGuest = useMemo(() => user.email === `__guest__${process.env.NEXT_PUBLIC_GUEST_KEY}`, [user]);
   const userDatas = useMemo(() => {
-    return [
+    const datas = [
       { heading: 'ユーザー名', value: user.name },
-      { heading: 'メールアドレス', value: user.email },
       {
         heading: '現在のプラン',
         value: (() => {
@@ -24,7 +23,11 @@ const useLogic = () => {
       },
       { heading: 'ストレージ', value: user.storage }
     ]
-  }, [user])
+
+    isGuest || datas.splice(0, 0, { heading: 'メールアドレス', value: user.email },)
+
+    return datas
+  }, [user, isGuest])
 
   return {
     userDatas,

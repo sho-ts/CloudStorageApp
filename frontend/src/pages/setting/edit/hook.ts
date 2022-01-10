@@ -13,7 +13,7 @@ const useLogic = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (user.email === '__guest__') {
+    if (user.email === `__guest__${process.env.NEXT_PUBLIC_GUEST_KEY}`) {
       router.push('/setting');
       flash({
         message: 'ゲストユーザーはプロフィールを編集できません',
