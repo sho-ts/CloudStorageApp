@@ -16,4 +16,10 @@ export const NAV_ITEMS = [
   { href: '/', innerText: 'お問い合わせ', user: USER_TYPE.COMMON },
 ]
 
+export const STORAGE_TYPE = {
+  GUEST: 500,
+  FREE: 1000,
+  PREMIUM: 50000
+}
+
 export const SITE_NAME = 'CloudStorageApp';
