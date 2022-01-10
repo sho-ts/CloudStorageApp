@@ -4,7 +4,6 @@ import { useSelector } from '@/hooks';
 import { PageTitle } from '@/components/common/atoms';
 import { Container } from '@/components/common/templates';
 import { FAQItem } from '@/components/page/faq';
-import Head from 'next/head';
 import { withCommonLayout } from '@layout';
 
 const FAQ = () => {
@@ -40,7 +39,6 @@ const FAQ = () => {
 
   return (
     <Container size="lg">
-      <Head><title>よくある質問</title></Head>
       <PageTitle>よくある質問</PageTitle>
       <dl>
         {faqs.map((faq, index) => (
@@ -59,4 +57,4 @@ const FAQ = () => {
   )
 }
 
-export default withCommonLayout(FAQ);
+export default withCommonLayout(FAQ, 'よくある質問');

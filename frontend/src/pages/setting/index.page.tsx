@@ -5,7 +5,6 @@ import { withUserLayoutIgnoreMainLayout } from '@layout';
 import { PageTitle, SubTitle, TextField, TextLink, Button } from '@/components/common/atoms';
 import { Box } from '@/components/common/molecules';
 import { Container } from '@/components/common/templates';
-import Head from 'next/head'
 
 const Setting = () => {
   const user = useSelector(state => state.user);
@@ -31,23 +30,18 @@ const Setting = () => {
   }, [user])
 
   return (
-    <>
-      <Head>
-        <title>会員情報</title>
-      </Head>
-      <Container size="md">
-        <PageTitle>会員情報</PageTitle>
-        <dl>
-          {userDatas.map(({heading, value}) => (
-            <Box key={heading}>
-              <SubTitle as="dt">{heading}</SubTitle>
-              <dd>{value}</dd>
-            </Box>
-          ))}
-        </dl>
-      </Container>
-    </>
+    <Container size="md">
+      <PageTitle>会員情報</PageTitle>
+      <dl>
+        {userDatas.map(({ heading, value }) => (
+          <Box key={heading}>
+            <SubTitle as="dt">{heading}</SubTitle>
+            <dd>{value}</dd>
+          </Box>
+        ))}
+      </dl>
+    </Container>
   )
 }
 
-export default withUserLayoutIgnoreMainLayout(Setting);
+export default withUserLayoutIgnoreMainLayout(Setting, '会員情報');
