@@ -17,9 +17,9 @@ export const NAV_ITEMS = [
 ]
 
 export const STORAGE_TYPE = {
-  GUEST: 500,
-  FREE: 1000,
-  PREMIUM: 50000
+  GUEST: 512000,
+  FREE: 1024000,
+  PREMIUM: 51200000
 }
 
 export const SITE_NAME = 'CloudStorageApp';
