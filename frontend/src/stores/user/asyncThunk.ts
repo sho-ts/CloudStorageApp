@@ -3,6 +3,7 @@ import type { ApiUserType } from '@/types/ApiUserType';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { auth } from '@/utils/aws';
 import { createAxiosInstance } from '@/utils';
+import { PLAN_TYPE } from '@/utils/const';
 
 export const signIn = createAsyncThunk<UserStoreType, { username: string, password: string }>(
   'user/signin',
@@ -45,13 +46,13 @@ export const guestSignIn = createAsyncThunk<UserStoreType>(
       const axiosInstance = await createAxiosInstance();
       const res = await axiosInstance.post<ApiUserType>(`/user`, { name: '' });
 
-      const { name, plan, storage } = res.data;
+      const { storage } = res.data;
 
       return {
         isSignIn: true,
         email: `__guest__${process.env.NEXT_PUBLIC_GUEST_KEY}`,
         name: 'ゲスト',
-        plan,
+        plan: PLAN_TYPE.GUEST,
         storage
       };
     } catch (e) {
@@ -82,7 +83,7 @@ export const checkAuth = createAsyncThunk<UserStoreType>(
         isSignIn: true,
         email: isGuest ? `__guest__${process.env.NEXT_PUBLIC_GUEST_KEY}` : email,
         name: isGuest ? 'ゲスト' : name,
-        plan,
+        plan: isGuest ? PLAN_TYPE.GUEST : plan,
         storage,
       }
     } catch (e) {
