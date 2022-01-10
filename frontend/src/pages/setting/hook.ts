@@ -7,16 +7,18 @@ const useLogic = () => {
   const user = useSelector(state => state.user);
   const isGuest = useMemo(() => user.email === `__guest__${process.env.NEXT_PUBLIC_GUEST_KEY}`, [user]);
   const storage = useMemo(() => {
-    switch (user.plan) {
-      case PLAN_TYPE.GUEST:
-        return STORAGE_TYPE.GUEST;
-      case PLAN_TYPE.FREE:
-        return STORAGE_TYPE.FREE;
-      case PLAN_TYPE.PREMIUM:
-        return STORAGE_TYPE.PREMIUM;
-      default:
-        return STORAGE_TYPE.FREE;
-    }
+    return (() => {
+      switch (user.plan) {
+        case PLAN_TYPE.GUEST:
+          return STORAGE_TYPE.GUEST;
+        case PLAN_TYPE.FREE:
+          return STORAGE_TYPE.FREE;
+        case PLAN_TYPE.PREMIUM:
+          return STORAGE_TYPE.PREMIUM;
+        default:
+          return STORAGE_TYPE.FREE;
+      }
+    })() / 1024;
   }, [user])
 
   const userDatas = useMemo(() => {
