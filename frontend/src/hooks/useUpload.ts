@@ -1,10 +1,11 @@
+import type { ApiUserType } from '@/types/ApiUserType';
 import type { S3ReponseType } from '@/types/S3ResponseType';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDropzone } from 'react-dropzone'
 import { useSelector, useFlash } from '@/hooks';
 import { mutate } from 'swr';
-import { createAxiosInstance, queryBuilder } from '@/utils';
+import { createAxiosInstance, queryBuilder, translateByte } from '@/utils';
 import { MESSAGE_TYPE, PLAN_TYPE, STORAGE_TYPE } from '@/utils/const'
 
 const useUpload = (onClose: any) => {
@@ -27,8 +28,11 @@ const useUpload = (onClose: any) => {
     dir,
   })
 
-  const checkStorage = (file: File) => {
-    const nextStorage = user.storage + file.size;
+  const checkStorage = async (file: File) => {
+    const axiosInstance = await createAxiosInstance();
+    const res = await axiosInstance.get<ApiUserType>('user');
+
+    const nextStorage = translateByte(res.data.storage + file.size, 'mb');
 
     switch (user.plan) {
       case PLAN_TYPE.GUEST:
@@ -43,12 +47,13 @@ const useUpload = (onClose: any) => {
   }
 
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
-    onDrop: (acceptedFiles: File[]) => {
+    onDrop: async (acceptedFiles: File[]) => {
       const [file] = acceptedFiles;
       setFileName(file.name);
       setDisclosureRange(0);
 
-      if (!checkStorage(file)) {
+      const checkedStorage = await checkStorage(file);
+      if (!checkedStorage) {
         flash({
           message: 'ストレージの容量が制限に達しています',
           type: MESSAGE_TYPE.ERROR
@@ -88,7 +93,8 @@ const useUpload = (onClose: any) => {
     try {
       const axiosInstance = await createAxiosInstance();
 
-      if (!checkStorage(file)) {
+      const checkedStorage = await checkStorage(file);
+      if (!checkedStorage) {
         throw new Error();
       }
 
