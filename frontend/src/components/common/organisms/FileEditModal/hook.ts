@@ -1,11 +1,11 @@
-import type { PostType } from '@/types/PostType';
+import type { ApiPostType } from '@/types/ApiPostType';
 import { useState } from 'react';
 import { useFlash } from '@/hooks';
 import { mutate } from 'swr';
 import { config, createAxiosInstance, queryBuilder } from '@/utils';
 import { MESSAGE_TYPE, DISCLOSURE_TYPE } from '@const';
 
-const useLogic = (post: PostType, onClose: any) => {
+const useLogic = (post: ApiPostType, onClose: any) => {
   const flash = useFlash();
   const [fileName, setFileName] = useState<string>(post.description);
   const [dirId, setDirId] = useState<string>('');

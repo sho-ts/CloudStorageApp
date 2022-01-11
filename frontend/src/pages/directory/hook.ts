@@ -1,4 +1,4 @@
-import type { DirType } from '@/types/DirType';
+import type { ApiDirType } from '@common/types/ApiDirType';
 import { useRouter } from "next/router";
 import useSWR from 'swr';
 import { useModal, usePosts } from '@/hooks';

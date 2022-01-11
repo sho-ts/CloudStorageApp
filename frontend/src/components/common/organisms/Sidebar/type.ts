@@ -1,9 +1,9 @@
-import type { DirType } from '@/types/DirType';
+import type { ApiDirType } from '@common/types/ApiDirType';
 
 export type Props = {
   handleUploadModalOpen: () => void,
   handleDirModalOpen: () => void,
   keyword: string,
   onChangeSearch: any,
-  dirs?: DirType[],
+  dirs?: ApiDirType[],
 }

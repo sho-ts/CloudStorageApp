@@ -1,7 +1,7 @@
-import { PostType } from './PostType';
+import { ApiPostType } from '@common/types/ApiPostType';
 
 export type PostsType = {
-  posts: PostType[],
+  posts: ApiPostType[],
   pages: number,
   current: number,
 }

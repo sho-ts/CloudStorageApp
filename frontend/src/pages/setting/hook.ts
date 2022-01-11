@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useSelector } from '@/hooks';
 import { PLAN_TYPE, STORAGE_TYPE } from '@/utils/const';
-import { translateByte } from '@/utils';
+import { translateByte } from '@common/utils';
 
 const useLogic = () => {
   const user = useSelector(state => state.user);

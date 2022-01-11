@@ -1,4 +1,4 @@
-export type DirType = {
+export type ApiDirType = {
   created_at: string,
   updated_at: string,
   del_flg: 0 | 1,
