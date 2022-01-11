@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { PostController } from './post.controller';
-import { Post } from './../entities/post.entity';
-import { User } from './../entities/user.entity';
-import { Directory } from './../entities/directory.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostService } from './post.service';
-import { UserService } from './../user/user.service';
-import { AuthService } from './../auth/auth.service'
+import { Post } from '@entity/post.entity';
+import { User } from '@entity/user.entity';
+import { Directory } from '@entity/directory.entity';
+import { PostController } from '@/post/post.controller';
+import { PostService } from '@/post/post.service';
+import { UserService } from '@/user/user.service';
+import { AuthService } from '@/auth/auth.service'
 
 @Module({
   controllers: [PostController],

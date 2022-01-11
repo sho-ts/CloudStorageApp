@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn } from 'typeorm';
-import { Post } from './post.entity';
+import { Post } from '@entity/post.entity';
 
 @Entity()
 export class Directory {

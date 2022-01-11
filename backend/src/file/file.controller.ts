@@ -5,9 +5,9 @@ import {
 import {
   FileInterceptor
 } from '@nestjs/platform-express'
-import { AuthGuard } from './../auth/auth.guard';
-import { FileService } from './file.service';
-import { GuardResponse } from './../utils';
+import { AuthGuard } from '@/auth/auth.guard';
+import { FileService } from '@/file/file.service';
+import { GuardResponse } from '@/utils';
 
 @Controller('file')
 @UseGuards(AuthGuard)
