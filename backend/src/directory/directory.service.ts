@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { Directory } from './../entities/directory.entity';
-import { Post } from './../entities/post.entity';
 import { Repository, Connection } from 'typeorm';
 import { InjectRepository, InjectConnection } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
+import { Directory } from '@entity/directory.entity';
+import { Post } from '@entity/post.entity';
 
 @Injectable()
 export class DirectoryService {

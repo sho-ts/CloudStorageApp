@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import aws = require('aws-sdk');
 import jwt, { JwtHeader, SigningKeyCallback } from "jsonwebtoken";
 import jwksClient from "jwks-rsa";
 

@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { User } from './../entities/user.entity';
 import { Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import aws = require('aws-sdk');
-import { UserService } from './../user/user.service';
+import { User } from '@entity/user.entity';
+import { UserService } from '@/user/user.service';
 
 @Injectable()
 export class FileService {

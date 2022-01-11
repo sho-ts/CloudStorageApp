@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { Post } from './../entities/post.entity';
-import { Directory } from './../entities/directory.entity';
 import { Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserService } from './../user/user.service';
+import { Post } from '@entity/post.entity';
+import { Directory } from '@entity/directory.entity';
+import { UserService } from '@/user/user.service';
 
 @Injectable()
 export class PostService {

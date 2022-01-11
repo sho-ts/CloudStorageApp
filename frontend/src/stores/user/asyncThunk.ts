@@ -1,5 +1,5 @@
 import type { UserStoreType } from '@/types/UserStoreType';
-import type { ApiUserType } from '@common/types/ApiUserType';
+import type { ApiUserType } from '@/types/ApiUserType';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { auth } from '@/utils/aws';
 import { createAxiosInstance } from '@/utils';

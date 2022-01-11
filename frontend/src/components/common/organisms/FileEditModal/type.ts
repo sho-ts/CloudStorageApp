@@ -1,4 +1,4 @@
-import type { ApiDirType } from '@common/types/ApiDirType';
+import type { ApiDirType } from '@/types/ApiDirType';
 import type { ApiPostType } from '@/types/ApiPostType';
 
 export type Props = {

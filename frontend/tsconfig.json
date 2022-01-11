@@ -22,15 +22,15 @@
             "@/*": ["./*"],
             "@imgs/*": ["./assets/imgs/*"],
             "@mixin": ["./utils/style/mixin"],
-            "@const": ["./../../common/utils/const"],
+            "@const": ["./utils/const"],
             "@layout": ["./pages/_layout"],
-            "@common/*": ["./../../common/*"]
         }
     },
     "include": [
         "next-env.d.ts",
         "**/*.ts",
-        "**/*.tsx"
+        "**/*.tsx",
+        "./../**/*.ts"
     ],
     "exclude": [
         "node_modules"

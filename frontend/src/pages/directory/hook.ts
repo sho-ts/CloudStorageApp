@@ -1,4 +1,4 @@
-import type { ApiDirType } from '@common/types/ApiDirType';
+import type { ApiDirType } from '@/types/ApiDirType';
 import { useRouter } from "next/router";
 import useSWR from 'swr';
 import { useModal, usePosts } from '@/hooks';
@@ -17,7 +17,7 @@ const useLogic = () => {
     await auth.getUser();
     const token = auth.getIdToken();
 
-    return axios.get<DirType>(url, {
+    return axios.get<ApiDirType>(url, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(({ data }) => {
       return data

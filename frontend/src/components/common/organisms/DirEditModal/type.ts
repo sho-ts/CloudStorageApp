@@ -1,9 +1,9 @@
-import type { ApiDirType } from '@common/types/ApiDirType';
+import type { ApiDirType } from '@/types/ApiDirType';
 import type { KeyedMutator } from 'swr';
 
 export type Props = {
-  dir: DirType | null,
+  dir: ApiDirType | null,
   isOpen: boolean,
   onClose: any,
-  mutate?: KeyedMutator<DirType>
+  mutate?: KeyedMutator<ApiDirType>
 }

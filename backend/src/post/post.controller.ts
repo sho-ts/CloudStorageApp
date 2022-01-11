@@ -3,9 +3,9 @@ import {
   Get, Post, Put, Delete, UseGuards
 } from '@nestjs/common';
 import { Request } from 'express';
-import { PostService } from './post.service';
-import { AuthGuard } from './../auth/auth.guard';
-import { GuardResponse } from './../utils';
+import { PostService } from '@/post/post.service';
+import { AuthGuard } from '@/auth/auth.guard';
+import { GuardResponse } from '@/utils';
 
 @Controller('post')
 @UseGuards(AuthGuard)

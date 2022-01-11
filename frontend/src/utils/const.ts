@@ -1,3 +1,5 @@
+// common
+
 export enum USER_TYPE { GUEST, MEMBER, COMMON }
 
 export enum MESSAGE_TYPE { NOTICE, ERROR };

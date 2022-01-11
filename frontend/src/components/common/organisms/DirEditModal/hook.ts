@@ -1,4 +1,4 @@
-import type { ApiDirType } from '@common/types/ApiDirType';
+import type { ApiDirType } from '@/types/ApiDirType';
 import type { KeyedMutator } from 'swr';
 import { useState, useEffect } from 'react';
 import { useFlash } from '@/hooks';
@@ -7,7 +7,7 @@ import { mutate as globalMutate } from 'swr';
 import { config, createAxiosInstance, queryBuilder } from '@/utils';
 import { MESSAGE_TYPE } from '@/utils/const'
 
-const useLogic = (onClose: any, dir: DirType | null, mutate?: KeyedMutator<DirType>) => {
+const useLogic = (onClose: any, dir: ApiDirType | null, mutate?: KeyedMutator<ApiDirType>) => {
   const flash = useFlash();
   const router = useRouter();
   const currentDir = Number(router.query.dir_id);

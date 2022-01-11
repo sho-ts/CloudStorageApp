@@ -1,0 +1,24 @@
+{
+  "name": "cloudstorageapp",
+  "version": "1.0.0",
+  "description": "クラウド上にファイルを保存することができるアプリケーションです",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gulp": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontTSend/CloudStrageApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontTSend/CloudStrageApp/issues"
+  },
+  "homepage": "https://github.com/frontTSend/CloudStrageApp#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
+}
