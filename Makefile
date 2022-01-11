@@ -14,6 +14,12 @@ ps:
 logs:
 	docker-compose logs
 
+yarn:
+	yarn && cd frontend && yarn && cd ../backend && yarn
+
+cp:
+	yarn gulp
+
 build:
 	docker-compose build -f docker-compose.local.yml --no-cache
 
