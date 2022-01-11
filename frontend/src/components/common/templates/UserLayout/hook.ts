@@ -1,4 +1,4 @@
-import type { DirType } from '@/types/DirType';
+import type { ApiDirType } from '@common/types/ApiDirType';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import { useSelector, useDispatch } from '@/hooks';
@@ -31,7 +31,7 @@ const useLogic = () => {
     await auth.getUser();
     const token = auth.getIdToken();
 
-    return axios.get<DirType[]>(url, {
+    return axios.get<ApiDirType[]>(url, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(({ data }) => {
       return data

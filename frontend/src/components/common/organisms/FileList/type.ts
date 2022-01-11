@@ -1,4 +1,4 @@
-import type { DirType } from '@/types/DirType';
+import type { ApiDirType } from '@common/types/ApiDirType';
 import type { PostsType } from '@/types/PostsType';
 import type { KeyedMutator } from 'swr';
 

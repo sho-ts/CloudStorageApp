@@ -1,12 +1,13 @@
-import type { ApiUserType } from '@/types/ApiUserType';
-import type { S3ReponseType } from '@/types/S3ResponseType';
+import type { ApiUserType } from '@common/types/ApiUserType';
+import type { S3ReponseType } from '@common/types/S3ResponseType';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDropzone } from 'react-dropzone'
 import { useSelector, useFlash } from '@/hooks';
 import { mutate } from 'swr';
-import { createAxiosInstance, queryBuilder, translateByte } from '@/utils';
+import { createAxiosInstance, queryBuilder } from '@/utils';
 import { MESSAGE_TYPE, PLAN_TYPE, STORAGE_TYPE } from '@/utils/const'
+import { translateByte } from '@common/utils'
 
 const useUpload = (onClose: any) => {
   const router = useRouter();

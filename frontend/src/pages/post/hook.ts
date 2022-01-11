@@ -1,4 +1,4 @@
-import type { PostType } from '@/types/PostType';
+import type { ApiPostType } from '@/types/ApiPostType';
 import { useMemo } from 'react';
 import { useRouter } from "next/router";
 import { useModal, useDir } from '@/hooks';
@@ -17,7 +17,7 @@ const useLogic = () => {
 
   const dirs = useDir();
 
-  const post = useSWR<PostType>(`${config.api}/post/?id=${router.query.post_id}`, (url: string) => {
+  const post = useSWR<ApiPostType>(`${config.api}/post/?id=${router.query.post_id}`, (url: string) => {
     const token = auth.getIdToken();
 
     return axios.get(url, {

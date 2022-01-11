@@ -1,4 +1,4 @@
-import type { DirType } from '@/types/DirType';
+import type { ApiDirType } from '@common/types/ApiDirType';
 import { useRouter } from 'next/router';
 import { useCreateDir } from '@/hooks';
 import styled from 'styled-components';
@@ -8,7 +8,7 @@ import { Modal } from '@/components/common/organisms';
 type Props = {
   isOpen: boolean,
   onClose: any,
-  dirs?: DirType[]
+  dirs?: ApiDirType[]
 }
 
 const DirsModal: React.FC<Props> = ({

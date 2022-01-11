@@ -1,6 +1,6 @@
-import { DISCLOSURE_TYPE } from '@/utils/const';
+import { DISCLOSURE_TYPE } from '../utils/const';
 
-export type PostType = {
+export type ApiPostType = {
   id: number,
   uid: string,
   directoryId: number | null, // nullの場合は「すべて」からのみ参照できる

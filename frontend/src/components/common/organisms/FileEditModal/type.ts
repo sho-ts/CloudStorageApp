@@ -1,9 +1,9 @@
-import type { DirType } from '@/types/DirType';
-import type { PostType } from '@/types/PostType';
+import type { ApiDirType } from '@common/types/ApiDirType';
+import type { ApiPostType } from '@/types/ApiPostType';
 
 export type Props = {
   isOpen: boolean,
   onClose: any,
-  post: PostType
-  dirs?: DirType[]
+  post: ApiPostType
+  dirs?: ApiDirType[]
 }

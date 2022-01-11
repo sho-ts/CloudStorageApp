@@ -1,6 +1,6 @@
-import type { DirType } from '@/types/DirType';
+import type { ApiDirType } from '@common/types/ApiDirType';
 
 export type Props = {
-  dirs?: DirType[]
+  dirs?: ApiDirType[]
   uploadModalOpen: () => void
 }
