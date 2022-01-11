@@ -1,4 +1,4 @@
-import type { ApiDirType } from '@common/types/ApiDirType';
+import type { ApiDirType } from '@/types/ApiDirType';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import { useSelector, useDispatch } from '@/hooks';

@@ -1,4 +1,4 @@
-import type { ApiDirType } from '@common/types/ApiDirType';
+import type { ApiDirType } from '@/types/ApiDirType';
 import { useRouter } from 'next/router';
 import { useCreateDir } from '@/hooks';
 import styled from 'styled-components';
