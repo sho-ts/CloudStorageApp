@@ -20,8 +20,9 @@
     "esModuleInterop": true,
     "paths": {
         "@/*": ["./*"],
-        "@entity": ["./entites/*"],
-        "@common/*": ["./../../common/*"]
+        "@entity/*": ["./entities/*"],
+        "@common/*": ["./../../common/*"],
+        "@const": ["./../../common/utils/const"]
     }
   }
 }
