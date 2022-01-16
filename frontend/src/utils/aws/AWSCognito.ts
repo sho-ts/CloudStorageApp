@@ -127,25 +127,13 @@ class AWSCognito {
 
   /** 必要なユーザー情報を全て取得、存在しない場合はCognitoAttributeを新規作成もする */
   getCognitoUserAttributes = async (user: CognitoUserType) => {
-    let plan: PLAN_TYPE = Number(user.getCognitoUserAttribute('custom:plan'));
-    if (!user.getCognitoUserAttribute('custom:plan')) {
-      plan = PLAN_TYPE.FREE;
-      await this.updateUserAttributes({ 'custom:plan': plan });
-    };
-
-    let storage = Number(user.getCognitoUserAttribute('custom:storage'));
-    if (!user.getCognitoUserAttribute('custom:storage')) {
-      storage = 0;
-      await this.updateUserAttributes({ 'custom:storage': storage });
-    }
-
     let name = user.getCognitoUserAttribute('name');
     if (!user.getCognitoUserAttribute('name') || !name) {
       name = '名前なし';
       await this.updateUserAttributes({ name });
     }
 
-    return { name, plan, storage, email: user.getCognitoUserAttribute('email')! };
+    return { name, email: user.getCognitoUserAttribute('email')! };
   }
 
   /** cognitoUserのAttributeを取得する */
