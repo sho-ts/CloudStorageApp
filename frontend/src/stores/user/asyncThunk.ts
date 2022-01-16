@@ -14,8 +14,10 @@ export const signIn = createAsyncThunk<UserStoreType, { username: string, passwo
 
       if (!user) throw new Error();
 
+      const cognitoUserData = await auth.getCognitoUserAttributes(user);
+
       const axiosInstance = await createAxiosInstance();
-      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: '' });
+      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: cognitoUserData.name });
 
       const { name, plan, storage } = res.data;
 
@@ -71,17 +73,18 @@ export const checkAuth = createAsyncThunk<UserStoreType>(
 
       if (!user) throw new Error();
 
+      const cognitoUserData = await auth.getCognitoUserAttributes(user);
+
       const axiosInstance = await createAxiosInstance();
-      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: '' });
+      const res = await axiosInstance.post<ApiUserType>(`/user`, { name: cognitoUserData.name });
 
       const { name, plan, storage } = res.data;
 
-      const { email } = await auth.getCognitoUserAttributes(user);
-      const isGuest = email === process.env.NEXT_PUBLIC_GUEST_EMAIL;
+      const isGuest = cognitoUserData.email === process.env.NEXT_PUBLIC_GUEST_EMAIL;
 
       return {
         isSignIn: true,
-        email: isGuest ? `__guest__${process.env.NEXT_PUBLIC_GUEST_KEY}` : email,
+        email: isGuest ? `__guest__${process.env.NEXT_PUBLIC_GUEST_KEY}` : cognitoUserData.email,
         name: isGuest ? 'ゲスト' : name,
         plan: isGuest ? PLAN_TYPE.GUEST : plan,
         storage,
