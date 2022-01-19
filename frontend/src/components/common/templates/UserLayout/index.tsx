@@ -5,13 +5,14 @@ import styled from 'styled-components';
 import { mq } from '@mixin';
 import { FlashMessage } from '@/components/common/atoms';
 import { BottomNav } from '@/components/common/molecules';
-import { CreateDirModal, UploadModal, Sidebar } from '@/components/common/organisms';
+import { CreateDirModal, UploadModal, SearchOptionModal, Sidebar } from '@/components/common/organisms';
 import { Layout } from '@/components/common/templates';
 
 const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
   const { keyword, isSmallWindowSize, dirs, onChangeDispatchKeyword } = useLogic();
   const [uploadModalOpen, handleUploadModalOpen, handleUploadModalClose] = useModal();
   const [dirModalOpen, handleDirModalOpen, handleDirModalClose] = useModal();
+  const [searchOptionModalOpen, handleSearchOptionModalOpen, handleSearchOptionModalClose] = useModal();
 
   return (
     <Layout>
@@ -28,6 +29,7 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
               <Sidebar
                 handleDirModalOpen={handleDirModalOpen}
                 handleUploadModalOpen={handleUploadModalOpen}
+                handleSearchOptionModalOpen={handleSearchOptionModalOpen}
                 keyword={keyword}
                 dirs={dirs.data}
                 onChangeSearch={(e: React.ChangeEvent<HTMLInputElement>) => onChangeDispatchKeyword(e.target.value)}
@@ -38,6 +40,10 @@ const UserLayout: React.FC<Props> = ({ children, ignoreMainLayout }) => {
             isOpen={uploadModalOpen}
             dirs={dirs.data ?? []}
             onClose={handleUploadModalClose}
+          />
+          <SearchOptionModal
+            isOpen={searchOptionModalOpen}
+            onClose={handleSearchOptionModalClose}
           />
           <CreateDirModal
             isOpen={dirModalOpen}
