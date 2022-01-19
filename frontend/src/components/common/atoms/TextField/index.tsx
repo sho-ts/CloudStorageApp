@@ -1,20 +1,24 @@
 import type { Props } from './type';
+import type { IconType } from 'react-icons';
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 const TextField: React.FC<Props> = ({
-  rows, value, type, placeholder, onChange, onClick, style
+  rows, value, type, placeholder, onChange, onClick, style, Icon
 }) => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
   return (
-    <Wrapper
-      onClick={onClick}
-      style={style}
-    >
+    <Wrapper style={style} >
+      {Icon && (
+        <IconButton onClick={onClick}>
+          <Icon size={24} />
+        </IconButton>
+      )}
       {placeholder && <Placeholder isActive={isFocus || value}>{placeholder}</Placeholder>}
       {rows ? (
         <TextareaBody
+          icon={Icon}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={onChange}
@@ -24,6 +28,7 @@ const TextField: React.FC<Props> = ({
         </TextareaBody>
       ) : (
         <InputBody
+          icon={Icon}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           value={value}
@@ -61,11 +66,23 @@ const TextFieldBodyStyle = css`
   border: 1px solid #a3a3a3;
   background-color: #fff;
   border-radius: 8px;
-  `
+`
 
-const InputBody = styled.input`${TextFieldBodyStyle};`;
+const InputBody = styled.input<{icon?: IconType}>`
+  ${TextFieldBodyStyle}
+  padding-right: ${props => props.icon ? '36px' : '16px'};
+`;
 
-const TextareaBody = styled.textarea`${TextFieldBodyStyle}`;
+const TextareaBody = styled.textarea<{icon?: IconType}>`
+  ${TextFieldBodyStyle}
+  padding-right: ${props => props.icon ? '36px' : '16px'};
+`;
 
+const IconButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+`;
 
 export default TextField;

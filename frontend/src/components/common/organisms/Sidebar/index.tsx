@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { mq } from '@mixin';
 import { Button, TextField } from '@/components/common/atoms';
 import { Directories } from '@/components/common/molecules';
+import { IoOptionsSharp } from 'react-icons/io5';
 
 const Sidebar: React.FC<Props> = ({
-  handleUploadModalOpen, handleDirModalOpen,
+  handleUploadModalOpen, handleDirModalOpen, handleSearchOptionModalOpen,
   keyword, onChangeSearch, dirs,
 }) => {
   return (
@@ -18,6 +19,8 @@ const Sidebar: React.FC<Props> = ({
           placeholder="検索"
           value={keyword}
           onChange={onChangeSearch}
+          onClick={handleSearchOptionModalOpen}
+          Icon={IoOptionsSharp}
         />
       </div>
       {dirs &&
