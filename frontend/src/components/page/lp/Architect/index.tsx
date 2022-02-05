@@ -3,6 +3,27 @@ import styled from 'styled-components';
 import Image from 'next/image'
 
 const Architect = () => {
+  const icons = [
+    {
+      src: '/imgs/top/aws-logo.svg',
+      width: 304,
+      height: 182,
+      alt: 'AWS'
+    },
+    {
+      src: '/imgs/top/next-logo.svg',
+      width: 512,
+      height: 309,
+      alt: 'Next.js'
+    },
+    {
+      src: '/imgs/top/nest-logo.svg',
+      width: 64,
+      height: 64,
+      alt: 'Next.js'
+    }
+  ]
+
   return (
     <Wrapper>
       <Inner>
@@ -14,15 +35,11 @@ const Architect = () => {
         以下はCSAで使用している技術の一例です。
       </Sentence>
         <Icons>
-          <Icon>
-            <Image src="/imgs/top/aws-logo.svg" width="304" height="182" alt="AWS" />
-          </Icon>
-          <Icon>
-            <Image src="/imgs/top/next-logo.svg" width="512" height="309" alt="Next.js" />
-          </Icon>
-          <Icon>
-            <Image src="/imgs/top/nest-logo.svg" width="64" height="64" alt="Nest.js" />
-          </Icon>
+          {icons.map(({ src, width, height, alt }) => (
+            <Icon>
+              <Image src={src} width={width} height={height} alt={alt} />
+            </Icon>
+          ))}
         </Icons>
       </Inner>
     </Wrapper>
