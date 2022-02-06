@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from '@entity/post.entity';
 import { Directory } from '@entity/directory.entity';
 import { UserService } from '@/user/user.service';
+import { SORT_TYPE, ORDER_BY } from '@/utils/const';
 
 @Injectable()
 export class PostService {
@@ -69,7 +70,7 @@ export class PostService {
     }
   }
 
-  async readAll(uid: string, page = 1, s: string = '', directoryId?: number, limit?: number) {
+  async readAll(uid: string, page = 1, s: string = '', directoryId?: number, limit?: number, sort?: SORT_TYPE, order?: ORDER_BY) {
     // 投稿件数の合計を取得
     const count = await this.postRepository
       .createQueryBuilder()
@@ -78,6 +79,7 @@ export class PostService {
       .andWhere('uid = :uid', { uid })
       .andWhere(directoryId ? 'directoryId = :directoryId' : '1 = 1', { directoryId })
       .andWhere(s ? 'description like :description' : '1 = 1', { description: `%${s}%` })
+      .orderBy(sort, order)
       .execute();
 
     // 投稿件数からページ数を計算
@@ -95,6 +97,7 @@ export class PostService {
       .andWhere(s ? 'description like :description' : '1 = 1', { description: `%${s}%` })
       .limit(limit ?? 10)
       .offset(offset)
+      .orderBy(sort, order)
       .execute();
 
     return {
