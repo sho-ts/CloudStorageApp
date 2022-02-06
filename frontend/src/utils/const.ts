@@ -8,6 +8,8 @@ export enum DISCLOSURE_TYPE { PUBLIC, PRIVATE };
 
 export enum PLAN_TYPE { GUEST, FREE, PREMIUM };
 
+export enum SORT_TYPE { DATE, NAME }
+
 export const NAV_ITEMS = [
   { href: '/signup', innerText: '新規登録', user: USER_TYPE.GUEST },
   { href: '/signin', innerText: 'ログイン', user: USER_TYPE.GUEST },
