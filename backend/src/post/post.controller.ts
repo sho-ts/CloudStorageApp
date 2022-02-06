@@ -6,6 +6,7 @@ import { Request } from 'express';
 import { PostService } from '@/post/post.service';
 import { AuthGuard } from '@/auth/auth.guard';
 import { GuardResponse } from '@/utils';
+import { SORT_TYPE, ORDER_BY } from '@/utils/const';
 
 @Controller('post')
 @UseGuards(AuthGuard)
@@ -47,7 +48,14 @@ export class PostController {
   }
 
   @Get('all')
-  readAll(@GuardResponse() user, @Query() { page, s, dir, limit }: { page: number, s: string, dir?: number, limit?: number }) {
+  readAll(@GuardResponse() user, @Query() { page, s, dir, limit, sort, order }: {
+    page: number,
+    s: string,
+    dir?: number,
+    limit?: number,
+    sort?: SORT_TYPE,
+    order?: ORDER_BY
+  }) {
     return this.service.readAll(user.sub, page, s, dir, limit);
   }
 

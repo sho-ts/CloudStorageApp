@@ -8,7 +8,17 @@ export enum DISCLOSURE_TYPE { PUBLIC, PRIVATE };
 
 export enum PLAN_TYPE { GUEST, FREE, PREMIUM };
 
-export enum SORT_TYPE { DATE, NAME }
+export enum SORT_TYPE { 
+  CREATED_AT = 'created_at',
+  UPDATED_AT = 'updated_at',
+  FILE_SIZE = 'file_size',
+  NAME = 'description',
+}
+
+export enum ORDER_BY {
+  DESC = 'DESC',
+  ACS = 'ASC'
+}
 
 export const NAV_ITEMS = [
   { href: '/signup', innerText: '新規登録', user: USER_TYPE.GUEST },
