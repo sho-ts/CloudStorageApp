@@ -17,7 +17,7 @@ export enum SORT_TYPE {
 
 export enum ORDER_BY {
   DESC = 'DESC',
-  ACS = 'ASC'
+  ASC = 'ASC'
 }
 
 export const NAV_ITEMS = [
