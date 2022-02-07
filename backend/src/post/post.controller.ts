@@ -56,7 +56,7 @@ export class PostController {
     sort?: SORT_TYPE,
     order?: ORDER_BY
   }) {
-    return this.service.readAll(user.sub, page, s, dir, limit);
+    return this.service.readAll(user.sub, page, s, dir, limit, sort, order);
   }
 
   @Put()
