@@ -10,6 +10,8 @@ import Link from 'next/link';
 import { AiOutlineSearch, AiTwotoneFolderOpen } from 'react-icons/ai';
 import { BsCardImage, BsFillFileEarmarkCodeFill, BsFileEarmarkZipFill, BsFillFileEarmarkFill } from 'react-icons/bs'
 import { BiMoviePlay } from 'react-icons/bi';
+import { SORT_TYPE, ORDER_BY } from '@/utils/const';
+import { useRouter } from 'next/router';
 
 const FileList: React.FC<Props> = ({
   isModalOpen, posts, dir, page,
@@ -17,6 +19,22 @@ const FileList: React.FC<Props> = ({
   getNextDatas, getPrevDatas, changePage
 }) => {
   const { keyword } = useSelector(state => state.search);
+
+  const router = useRouter();
+  const nextOrder = (() => {
+    switch (router.query.order as ORDER_BY) {
+      case ORDER_BY.DESC:
+        return ORDER_BY.ASC;
+      case ORDER_BY.ASC:
+        return ORDER_BY.DESC;
+      default:
+        return ORDER_BY.DESC
+    }
+  })();
+  const queryString = '?' + (router.asPath.split('?')[1] ?? '');
+  const sortBasePath = queryString.split('&').reduce((acc, cur) => {
+    return (!cur.includes('sort') && !cur.includes('order')) ? acc + cur : acc;
+  }, '');
 
   return (
     <>
@@ -40,8 +58,20 @@ const FileList: React.FC<Props> = ({
         <>
           <Table>
             <Tr className="head">
-              <Th>ファイル名</Th>
-              <Th className="created-at">アップロード日</Th>
+              <Th>
+                <Link href={`${sortBasePath}&sort=${SORT_TYPE.NAME}&order=${nextOrder}`}>
+                  <a>
+                    ファイル名
+                </a>
+                </Link>
+              </Th>
+              <Th className="created-at">
+                <Link href={`${sortBasePath}&sort=${SORT_TYPE.CREATED_AT}&order=${nextOrder}`}>
+                  <a>
+                    アップロード日
+                </a>
+                </Link>
+              </Th>
             </Tr>
             {posts.posts.length > 0 ? posts.posts.map((post, index) => (
               <Tr key={index}>
@@ -169,8 +199,12 @@ const Th = styled.div`
   font-size: 14px;
   font-weight: bold;
   border-bottom: 1px solid #a3a3a3;
-  padding: 16px;
   width: 100%;
+  a {
+    display: block;
+    padding: 16px;
+    width: 100%;
+  }
   &.created-at {
     ${mq()} {
       width: 250px;
