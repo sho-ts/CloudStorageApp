@@ -1,4 +1,5 @@
 import type { Props } from './type';
+import useLogic from './hook';
 import { useSelector } from '@/hooks';
 import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
@@ -10,8 +11,7 @@ import Link from 'next/link';
 import { AiOutlineSearch, AiTwotoneFolderOpen } from 'react-icons/ai';
 import { BsCardImage, BsFillFileEarmarkCodeFill, BsFileEarmarkZipFill, BsFillFileEarmarkFill } from 'react-icons/bs'
 import { BiMoviePlay } from 'react-icons/bi';
-import { SORT_TYPE, ORDER_BY } from '@/utils/const';
-import { useRouter } from 'next/router';
+import { SORT_TYPE } from '@/utils/const';
 
 const FileList: React.FC<Props> = ({
   isModalOpen, posts, dir, page,
@@ -19,22 +19,7 @@ const FileList: React.FC<Props> = ({
   getNextDatas, getPrevDatas, changePage
 }) => {
   const { keyword } = useSelector(state => state.search);
-
-  const router = useRouter();
-  const nextOrder = (() => {
-    switch (router.query.order as ORDER_BY) {
-      case ORDER_BY.DESC:
-        return ORDER_BY.ASC;
-      case ORDER_BY.ASC:
-        return ORDER_BY.DESC;
-      default:
-        return ORDER_BY.DESC
-    }
-  })();
-  const queryString = (router.asPath.split('?')[1] ?? '');
-  const basePath = queryString.split('&').filter(v => (!v.includes('sort') && !v.includes('order') && v));
-  const subQuery = basePath.map(v => '&' + v).join('');
-  const path = router.asPath.replace(/\?.*$/, ''); // クエリパラメータなしのパス
+  const { nextOrder, subQuery, path } = useLogic();
 
   return (
     <>
