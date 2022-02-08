@@ -31,10 +31,10 @@ const FileList: React.FC<Props> = ({
         return ORDER_BY.DESC
     }
   })();
-  const queryString = '?' + (router.asPath.split('?')[1] ?? '');
-  const sortBasePath = queryString.split('&').reduce((acc, cur) => {
-    return (!cur.includes('sort') && !cur.includes('order')) ? acc + cur : acc;
-  }, '');
+  const queryString = (router.asPath.split('?')[1] ?? '');
+  const basePath = queryString.split('&').filter(v => (!v.includes('sort') && !v.includes('order') && v));
+  const subQuery = basePath.map(v => '&' + v).join('');
+  const path = router.asPath.replace(/\?.*$/, ''); // クエリパラメータなしのパス
 
   return (
     <>
@@ -59,14 +59,14 @@ const FileList: React.FC<Props> = ({
           <Table>
             <Tr className="head">
               <Th>
-                <Link href={`${sortBasePath}&sort=${SORT_TYPE.NAME}&order=${nextOrder}`}>
+                <Link href={`${path}?sort=${SORT_TYPE.NAME}&order=${nextOrder}${subQuery}`}>
                   <a>
                     ファイル名
                 </a>
                 </Link>
               </Th>
               <Th className="created-at">
-                <Link href={`${sortBasePath}&sort=${SORT_TYPE.CREATED_AT}&order=${nextOrder}`}>
+                <Link href={`${path}?sort=${SORT_TYPE.CREATED_AT}&order=${nextOrder}${subQuery}`}>
                   <a>
                     アップロード日
                 </a>
