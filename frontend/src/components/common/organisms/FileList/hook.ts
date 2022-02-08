@@ -13,14 +13,18 @@ const useLogic = () => {
         return ORDER_BY.DESC
     }
   })();
-  
+
   const subQuery = (router.asPath.split('?')[1] ?? '').
     split('&')
     .filter(v => (!v.includes('sort') && !v.includes('order') && v))
     .map(v => '&' + v).join('');
   const path = router.asPath.replace(/\?.*$/, ''); // クエリパラメータなしのパス
 
-  return { subQuery, path, nextOrder};
+  const onChangeSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    router.push(e.target.value);
+  }
+
+  return { subQuery, path, nextOrder, onChangeSort };
 }
 
 export default useLogic;
