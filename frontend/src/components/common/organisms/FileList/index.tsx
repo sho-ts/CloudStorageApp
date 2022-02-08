@@ -3,8 +3,9 @@ import useLogic from './hook';
 import { useSelector } from '@/hooks';
 import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
-import { SORT_TYPE } from '@/utils/const';
-import { ItemTitle, Select } from '@/components/common/atoms';
+import { getAlias } from '@/utils';
+import { SORT_TYPE, JP_ALIAS } from '@/utils/const';
+import { ItemTitle, Select, OrderIcon } from '@/components/common/atoms';
 import { Pagination } from '@/components/common/molecules';
 import { DirEditModal } from '@/components/common/organisms';
 import { isImage, isMovie, isCompressed, isCode } from '@/utils/checkFileType';
@@ -19,7 +20,7 @@ const FileList: React.FC<Props> = ({
   getNextDatas, getPrevDatas, changePage
 }) => {
   const { keyword } = useSelector(state => state.search);
-  const { nextOrder, subQuery, path, onChangeSort } = useLogic();
+  const { nextOrder, subQuery, path, sort, order, onChangeSort } = useLogic();
 
   return (
     <>
@@ -33,10 +34,16 @@ const FileList: React.FC<Props> = ({
           {dir ? dir.name : '全てのファイル'}
         </ItemTitle>
         {keyword && (
-          <Search>
+          <Query>
             <AiOutlineSearch size="14" />
-            <Keyword>検索ワード : {keyword}</Keyword>
-          </Search>
+            <QueryText>検索ワード : {keyword}</QueryText>
+          </Query>
+        )}
+        {(sort && order) && (
+          <Query>
+            <OrderIcon order={order} />
+            <QueryText>{JP_ALIAS[sort]} : {getAlias(order)}</QueryText>
+          </Query>
         )}
       </Header>
       {posts && (
@@ -45,24 +52,20 @@ const FileList: React.FC<Props> = ({
             <Tr className="head">
               <Th>
                 <Link href={`${path}?sort=${SORT_TYPE.NAME}&order=${nextOrder}${subQuery}`}>
-                  <a>
-                    ファイル名
-                </a>
+                  <a>ファイル名</a>
                 </Link>
               </Th>
               <Th className="created-at">
                 <Link href={`${path}?sort=${SORT_TYPE.CREATED_AT}&order=${nextOrder}${subQuery}`}>
-                  <a>
-                    アップロード日
-                </a>
+                  <a>アップロード日</a>
                 </Link>
               </Th>
             </Tr>
             <SPSort>
               <Select onChange={onChangeSort}>
                 <option value="" style={{ display: 'none' }}>並び替え</option>
-                <option value={`${path}?sort=${SORT_TYPE.NAME}&order=${nextOrder}${subQuery}`}>ファイル名</option>
-                <option value={`${path}?sort=${SORT_TYPE.CREATED_AT}&order=${nextOrder}${subQuery}`}>アップロード日</option>
+                <option value={`${path}?sort=${SORT_TYPE.NAME}&order=DESC${subQuery}`}>ファイル名</option>
+                <option value={`${path}?sort=${SORT_TYPE.CREATED_AT}&order=DESC${subQuery}`}>アップロード日</option>
               </Select>
             </SPSort>
             {posts.posts.length > 0 ? posts.posts.map((post, index) => (
@@ -135,13 +138,13 @@ const DirName = styled.h2`
   font-size: 20px;
 `;
 
-const Search = styled.div`
+const Query = styled.div`
   display: flex;
   align-items: center;
   margin-top: 10px;
 `;
 
-const Keyword = styled.div`
+const QueryText = styled.div`
   font-size: 12px;
   margin-left: 4px;
 `;
