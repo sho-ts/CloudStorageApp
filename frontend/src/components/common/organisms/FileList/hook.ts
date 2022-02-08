@@ -1,4 +1,4 @@
-import { ORDER_BY } from '@/utils/const';
+import { ORDER_BY, SORT_TYPE } from '@/utils/const';
 import { useRouter } from 'next/router';
 
 const useLogic = () => {
@@ -24,7 +24,10 @@ const useLogic = () => {
     router.push(e.target.value);
   }
 
-  return { subQuery, path, nextOrder, onChangeSort };
+  const sort = router.query.sort as SORT_TYPE | undefined;
+  const order = router.query.order as ORDER_BY | undefined;
+
+  return { subQuery, path, nextOrder, sort, order, onChangeSort };
 }
 
 export default useLogic;

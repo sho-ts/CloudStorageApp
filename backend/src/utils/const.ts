@@ -8,7 +8,7 @@ export enum DISCLOSURE_TYPE { PUBLIC, PRIVATE };
 
 export enum PLAN_TYPE { GUEST, FREE, PREMIUM };
 
-export enum SORT_TYPE { 
+export enum SORT_TYPE {
   CREATED_AT = 'created_at',
   UPDATED_AT = 'updated_at',
   FILE_SIZE = 'file_size',
@@ -18,6 +18,13 @@ export enum SORT_TYPE {
 export enum ORDER_BY {
   DESC = 'DESC',
   ASC = 'ASC'
+}
+
+export const JP_ALIAS: { [key: string]: string } = {
+  asc: '昇順',
+  desc: '降順',
+  created_at: '投稿日',
+  description: 'ファイル名'
 }
 
 export const NAV_ITEMS = [
