@@ -3,7 +3,8 @@ import useLogic from './hook';
 import { useSelector } from '@/hooks';
 import styled, { css } from 'styled-components';
 import { mq, hover } from '@mixin';
-import { ItemTitle } from '@/components/common/atoms';
+import { SORT_TYPE } from '@/utils/const';
+import { ItemTitle, Select } from '@/components/common/atoms';
 import { Pagination } from '@/components/common/molecules';
 import { DirEditModal } from '@/components/common/organisms';
 import { isImage, isMovie, isCompressed, isCode } from '@/utils/checkFileType';
@@ -11,7 +12,6 @@ import Link from 'next/link';
 import { AiOutlineSearch, AiTwotoneFolderOpen } from 'react-icons/ai';
 import { BsCardImage, BsFillFileEarmarkCodeFill, BsFileEarmarkZipFill, BsFillFileEarmarkFill } from 'react-icons/bs'
 import { BiMoviePlay } from 'react-icons/bi';
-import { SORT_TYPE } from '@/utils/const';
 
 const FileList: React.FC<Props> = ({
   isModalOpen, posts, dir, page,
@@ -19,7 +19,7 @@ const FileList: React.FC<Props> = ({
   getNextDatas, getPrevDatas, changePage
 }) => {
   const { keyword } = useSelector(state => state.search);
-  const { nextOrder, subQuery, path } = useLogic();
+  const { nextOrder, subQuery, path, onChangeSort } = useLogic();
 
   return (
     <>
@@ -58,6 +58,13 @@ const FileList: React.FC<Props> = ({
                 </Link>
               </Th>
             </Tr>
+            <SPSort>
+              <Select onChange={onChangeSort}>
+                <option value="" style={{ display: 'none' }}>並び替え</option>
+                <option value={`${path}?sort=${SORT_TYPE.NAME}&order=${nextOrder}${subQuery}`}>ファイル名</option>
+                <option value={`${path}?sort=${SORT_TYPE.CREATED_AT}&order=${nextOrder}${subQuery}`}>アップロード日</option>
+              </Select>
+            </SPSort>
             {posts.posts.length > 0 ? posts.posts.map((post, index) => (
               <Tr key={index}>
                 <Link href={`/post/${post.id}`}>
@@ -151,6 +158,12 @@ const FileIcon = styled.div`
 const Table = styled.div`
   width: 100%;
   margin-bottom: 32px;
+`;
+
+const SPSort = styled.div`
+  ${mq()} {
+    display: none;
+  }
 `;
 
 const Tr = styled.div`
