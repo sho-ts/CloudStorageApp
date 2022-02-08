@@ -12,6 +12,11 @@ const usePosts = (page: number, dirId?: string | null) => {
   const order = router.query.order as ORDER_BY;
   const path = router.asPath.replace(/\?.*$/, ''); // クエリパラメータいらないので削除する
 
+  const subQuery = (router.asPath.split('?')[1] ?? '')
+    .split('&')
+    .filter(v => (!v.includes('page') && v))
+    .map(v => '&' + v).join('')
+
   const query = queryBuilder({
     page,
     s: keyword,
@@ -26,7 +31,7 @@ const usePosts = (page: number, dirId?: string | null) => {
     return axiosInstance.get<PostsType>(url).then(({ data }) => data);
   });
 
-  const [getNextDatas, getPrevDatas, changePage] = createPagination<PostsType>(page, path, router, posts.data);
+  const [getNextDatas, getPrevDatas, changePage] = createPagination<PostsType>(page, path, router, subQuery, posts.data);
 
   return {
     posts,
