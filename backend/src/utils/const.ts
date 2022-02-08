@@ -20,6 +20,13 @@ export enum ORDER_BY {
   ASC = 'ASC'
 }
 
+export const JP_ALIAS = {
+  asc: '昇順',
+  desc: '降順',
+  created_at: '投稿日',
+  description: 'ファイル名'
+}
+
 export const NAV_ITEMS = [
   { href: '/signup', innerText: '新規登録', user: USER_TYPE.GUEST },
   { href: '/signin', innerText: 'ログイン', user: USER_TYPE.GUEST },
